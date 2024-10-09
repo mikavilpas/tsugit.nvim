@@ -1,0 +1,26 @@
+name: Linting
+
+on: [pull_request]
+
+jobs:
+  selene:
+    name: selene
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4.2.0
+      - uses: NTBBloodbath/selene-action@v1.0.0
+        with:
+          # Github secret token
+          token: ${{ secrets.GITHUB_TOKEN }}
+          # selene arguments, should be the same as in ../../Makefile
+          args:
+            --display-style=quiet ./lua/ ./spec/
+            ./integration-tests/test-environment/config-modifications
+          # selene version
+          version: 0.26.1
+
+  markdownlint:
+    name: markdownlint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: DavidAnson/markdownlint-cli2-action@v17.0.0
