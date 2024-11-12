@@ -65,7 +65,6 @@ function M.toggle(args, options)
     lazygit:hide()
   end, { buffer = lazygit.buf })
 
-  _G.lastLazyGit = lazygit
   return lazygit
 end
 
