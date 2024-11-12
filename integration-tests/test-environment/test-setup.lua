@@ -46,36 +46,9 @@ local plugins = {
     -- for tests, always use the code from this repository
     dir = "../..",
     event = "VeryLazy",
-    keys = {
-      { "<up>", "<cmd>Yazi<cr>" },
-      { "<c-up>", "<cmd>Yazi toggle<cr>" },
-    },
-    ---@type YaziConfig
-    opts = {
-      open_for_directories = true,
-      -- use different register than the system clipboard for yanking, so that
-      -- the developers can work on the code while the tests run without any
-      -- disturbances
-      clipboard_register = '"',
-      -- allows logging debug data, which can be shown in CI when cypress tests fail
-      log_level = vim.log.levels.DEBUG,
-      integrations = {
-        grep_in_directory = function(directory)
-          require("telescope.builtin").live_grep({
-            -- disable previewer to be able to see the full directory name. The
-            -- tests can make assertions on this path.
-            previewer = false,
-            search = "",
-            prompt_title = "Grep in " .. directory,
-            cwd = directory,
-          })
-        end,
-      },
-    },
+    opts = {},
   },
-  { "nvim-telescope/telescope.nvim", lazy = true },
   { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
-  { "https://github.com/MagicDuck/grug-far.nvim", opts = {} },
 }
 require("lazy").setup({ spec = plugins })
 
