@@ -33,7 +33,7 @@ jobs:
           cache: "pnpm"
       - run: pnpm install
       - name: Install lazygit
-        run: apt install lazygit
+        run: sudo apt install lazygit
 
       - name: Install dependencies
         uses: cypress-io/github-action@v6
