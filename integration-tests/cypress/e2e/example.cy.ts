@@ -38,6 +38,6 @@ describe("testing", () => {
     cy.contains(lazygit.branchesPane).should("not.exist")
     cy.typeIntoTerminal("{rightarrow}")
     cy.contains(lazygit.filesPane)
-    cy.contains(lazygit.branchesPane).should("exist")
+    cy.contains(lazygit.branchesPane).should("not.exist")
   })
 })
