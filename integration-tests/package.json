@@ -6,15 +6,14 @@
   "scripts": {
     "build": "tsc && vite build",
     "cy:open": "cypress open --e2e",
-    "cy:run": "pnpm run cy:run:ci",
-    "cy:run:ci": "concurrently --success command-cypress --kill-others --names 'client,server,cypress' --prefix-colors 'blue,green,yellow' 'pnpm dev:client' 'pnpm dev:server' 'wait-on --timeout 60000 http://127.0.0.1:5173 && npx cypress run'",
-    "dev": "concurrently --kill-others --names 'client,server,cypress' --prefix-colors 'blue,green,yellow' 'pnpm dev:client' 'pnpm dev:server' 'pnpm cy:open'",
+    "cy:run": "concurrently --success command-cypress --kill-others --names 'app,cypress' --prefix-colors 'blue,yellow' 'pnpm tui start' 'pnpm dev:server' 'wait-on --timeout 60000 http://127.0.0.1:3000 && npx cypress run'",
+    "dev": "concurrently --kill-others --names 'app,cypress' --prefix-colors 'blue,yellow' 'pnpm tui start' 'pnpm cy:open'",
     "dev:client": "vite",
     "dev:server": "nodemon --watch server --ext '*' --exec 'npx tsx ./server/server.ts'",
     "eslint": "eslint --max-warnings=0 ."
   },
   "devDependencies": {
-    "@tui-sandbox/library": "3.0.0",
+    "@tui-sandbox/library": "4.0.0",
     "@typescript-eslint/eslint-plugin": "8.13.0",
     "@typescript-eslint/parser": "8.13.0",
     "concurrently": "9.1.0",
@@ -22,11 +21,9 @@
     "eslint": "9.14.0",
     "eslint-config-prettier": "9.1.0",
     "eslint-plugin-no-only-tests": "3.3.0",
-    "nodemon": "3.1.7",
     "prettier-plugin-organize-imports": "4.1.0",
     "tsx": "4.19.2",
     "typescript": "5.6.3",
-    "vite": "5.4.11",
     "wait-on": "8.0.1",
     "zod": "3.23.8"
   }
