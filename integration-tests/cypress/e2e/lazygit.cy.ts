@@ -12,6 +12,8 @@ describe("testing", () => {
     cy.contains("If you see this text, Neovim is ready!")
 
     cy.typeIntoTerminal("{rightarrow}")
+    // close any introduction popup. TODO this should be done automatically
+    cy.typeIntoTerminal("{esc}")
 
     // The files pane is selected by default (the text is displayed at the
     // bottom of the screen)
