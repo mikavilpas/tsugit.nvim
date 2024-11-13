@@ -15,6 +15,9 @@ describe("testing", () => {
     // close any introduction popup. TODO this should be done automatically
     cy.typeIntoTerminal("{esc}")
 
+    // wait until lazygit has initialized and the main branch name is visible
+    cy.contains("main")
+
     // The files pane is selected by default (the text is displayed at the
     // bottom of the screen)
     cy.contains(lazygit.filesPane)
