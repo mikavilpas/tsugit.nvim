@@ -44,6 +44,18 @@ export const MyTestDirectorySchema = z.object({
         }),
       }),
     }),
+    fakegitrepo: z.object({
+      name: z.literal("fakegitrepo/"),
+      type: z.literal("directory"),
+      contents: z.object({
+        "file.txt": z.object({
+          name: z.literal("file.txt"),
+          type: z.literal("file"),
+          extension: z.literal("txt"),
+          stem: z.literal("file."),
+        }),
+      }),
+    }),
     "file.txt": z.object({
       name: z.literal("file.txt"),
       type: z.literal("file"),
@@ -121,6 +133,8 @@ export const testDirectoryFiles = z.enum([
   "dir with spaces/file1.txt",
   "dir with spaces/file2.txt",
   "dir with spaces",
+  "fakegitrepo/file.txt",
+  "fakegitrepo",
   "file.txt",
   "initial-file.txt",
   "other-subdirectory/other-sub-file.txt",

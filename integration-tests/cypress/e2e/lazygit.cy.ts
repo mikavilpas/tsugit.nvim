@@ -1,6 +1,7 @@
 const lazygit = {
   filesPane: "Stash:",
   branchesPane: "Checkout:",
+  donateMessage: "Donate",
 } as const
 
 describe("testing", () => {
@@ -44,5 +45,22 @@ describe("testing", () => {
     cy.typeIntoTerminal("{rightarrow}")
     cy.contains(lazygit.filesPane)
     cy.contains(lazygit.branchesPane).should("not.exist")
+  })
+
+  it("can open lazygit after COMMIT_EDITMSG is closed", () => {
+    cy.visit("/")
+
+    cy.startNeovim({ filename: "fakegitrepo/file.txt" }).then((dir) => {
+      cy.contains("fake-git-repository-file-contents-71f64aabd056")
+      cy.exec(
+        // TODO this is very slow - takes about 2s
+        `cd '${dir.rootPathAbsolute}/${dir.contents.fakegitrepo.name}' && git init`,
+      )
+      cy.typeIntoTerminal(":e %:h/.git/COMMIT_EDITMSG{enter}", { delay: 0 })
+      cy.typeIntoTerminal("itest commit message{esc}", { delay: 0 })
+      cy.typeIntoTerminal(":write | bdelete{enter}", { delay: 0 })
+
+      cy.contains(lazygit.donateMessage)
+    })
   })
 })
