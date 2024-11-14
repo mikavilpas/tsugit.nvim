@@ -14,6 +14,24 @@ export const MyTestDirectorySchema = z.object({
   name: z.literal("test-environment/"),
   type: z.literal("directory"),
   contents: z.object({
+    ".config": z.object({
+      name: z.literal(".config/"),
+      type: z.literal("directory"),
+      contents: z.object({
+        nvim: z.object({
+          name: z.literal("nvim/"),
+          type: z.literal("directory"),
+          contents: z.object({
+            "init.lua": z.object({
+              name: z.literal("init.lua"),
+              type: z.literal("file"),
+              extension: z.literal("lua"),
+              stem: z.literal("init."),
+            }),
+          }),
+        }),
+      }),
+    }),
     "config-modifications": z.object({
       name: z.literal("config-modifications/"),
       type: z.literal("directory"),
@@ -110,12 +128,6 @@ export const MyTestDirectorySchema = z.object({
         }),
       }),
     }),
-    "test-setup.lua": z.object({
-      name: z.literal("test-setup.lua"),
-      type: z.literal("file"),
-      extension: z.literal("lua"),
-      stem: z.literal("test-setup."),
-    }),
   }),
 })
 
@@ -128,6 +140,9 @@ export type MyTestDirectoryContentsSchemaType = z.infer<
 export type MyTestDirectory = MyTestDirectoryContentsSchemaType["contents"]
 
 export const testDirectoryFiles = z.enum([
+  ".config/nvim/init.lua",
+  ".config/nvim",
+  ".config",
   "config-modifications/use_light_neovim_colorscheme.lua",
   "config-modifications",
   "dir with spaces/file1.txt",
@@ -144,7 +159,6 @@ export const testDirectoryFiles = z.enum([
   "routes",
   "subdirectory/subdirectory-file.txt",
   "subdirectory",
-  "test-setup.lua",
   ".",
 ])
 export type MyTestDirectoryFile = z.infer<typeof testDirectoryFiles>

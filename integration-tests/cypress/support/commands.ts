@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/no-namespace */
 /// <reference types="cypress" />
 
+import type { StartNeovimGenericArguments } from "@tui-sandbox/library/dist/src/server/neovim/NeovimApplication"
+import type { OverrideProperties } from "type-fest"
 import type {
   MyTestDirectory,
   MyTestDirectoryFile,
@@ -19,11 +21,14 @@ declare global {
   }
 }
 
-type MyStartNeovimServerArguments = {
-  filename?:
-    | MyTestDirectoryFile
-    | { openInVerticalSplits: MyTestDirectoryFile[] }
-}
+type MyStartNeovimServerArguments = OverrideProperties<
+  StartNeovimGenericArguments,
+  {
+    filename?:
+      | MyTestDirectoryFile
+      | { openInVerticalSplits: MyTestDirectoryFile[] }
+  }
+>
 
 Cypress.Commands.add(
   "startNeovim",
