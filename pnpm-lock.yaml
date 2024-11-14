@@ -28,8 +28,8 @@ importers:
         version: 1.7.1
     devDependencies:
       '@tui-sandbox/library':
-        specifier: 4.1.0
-        version: 4.1.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        specifier: 4.2.0
+        version: 4.2.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@typescript-eslint/eslint-plugin':
         specifier: 8.14.0
         version: 8.14.0(@typescript-eslint/parser@8.14.0(eslint@9.14.0)(typescript@5.6.3))(eslint@9.14.0)(typescript@5.6.3)
@@ -532,16 +532,16 @@ packages:
   '@tootallnate/quickjs-emscripten@0.23.0':
     resolution: {integrity: sha512-C5Mc6rdnsaJDjO3UpGW/CQTHtCKaYlScZTly4JIu97Jxo/odCiH0ITnDXSJPTOrEKk/ycSZ0AOgTmkDtkOsvIA==}
 
-  '@trpc/client@11.0.0-rc.630':
-    resolution: {integrity: sha512-kHs2pa6oGiHRgF+hzLerGP4Vqm16t9KUrjunijIXPVco6oiYQ6IYy2vWOEgZk21/KjrwxBIv3Q7bqAZCQ7T3PA==}
+  '@trpc/client@11.0.0-rc.633':
+    resolution: {integrity: sha512-fha4Mix/birOFNMIutHXAhkJuZ8Zob0PGZ5s0NVyt4VbIGIpuvx2DYjFQG9lmyt+LEGZklsi1G0QfY+7rNaSmg==}
     peerDependencies:
-      '@trpc/server': 11.0.0-rc.630+73639524c
+      '@trpc/server': 11.0.0-rc.633+55512768a
 
-  '@trpc/server@11.0.0-rc.630':
-    resolution: {integrity: sha512-4zmlqbLscjJNIsj8VuY38vdaDFxukdmqOOO4y3CoXQBNSLLtcpeecoRUHISpEcImtfvqEAW+gikxAxpoicUNkQ==}
+  '@trpc/server@11.0.0-rc.633':
+    resolution: {integrity: sha512-R26i5aP7/DvgIp3YbU+0u0nbggqItMLYvPmVBOyTP8rD5+wrifZ9ZKp8p+KMzhQEGeBv5mJ48TjJ2URcKwxg6g==}
 
-  '@tui-sandbox/library@4.1.0':
-    resolution: {integrity: sha512-iCxsuNVO4GsOqaRLN9uSq6DGiPYt0gTnuh/lV7f4iyiEIxk3nlde148+/TaRUk3XDmuJ64NphORDfL/o4cXGhw==}
+  '@tui-sandbox/library@4.2.0':
+    resolution: {integrity: sha512-W/ZEeAmCdKSDdIn9BYnsbo92z954a43i4Rp79qzLG++XncJN7l0ldCVpqGwzYwKuW7iRzt6MaJAwx3VcfyYdCw==}
     hasBin: true
 
   '@types/aws-lambda@8.10.145':
@@ -1747,10 +1747,6 @@ packages:
     resolution: {integrity: sha512-9fkkDevMefjg0mmzWFBW8YkFP91OrizzkW3diF7CpG+S2EYdy4+TVfGwz1zeF8x7hCx1ovSPTOE9Ngib74qqUg==}
     engines: {node: '>=10'}
 
-  logform@2.6.1:
-    resolution: {integrity: sha512-CdaO738xRapbKIMVn2m4F6KTj4j7ooJ8POVnebSgKo3KBz5axNXRAL7ZdRjIV6NOr2Uf4vjtRkxrFETOioCqSA==}
-    engines: {node: '>= 12.0.0'}
-
   logform@2.7.0:
     resolution: {integrity: sha512-TFYA4jnP7PVbmlBIfhlSe+WKxs9dklXMTEGcBCIvLhE/Tn3H6Gk1norupVW7m5Cnd4bLcr08AytbyV/xj7f/kQ==}
     engines: {node: '>= 12.0.0'}
@@ -2727,10 +2723,6 @@ packages:
     engines: {node: '>= 8'}
     hasBin: true
 
-  winston-transport@4.7.1:
-    resolution: {integrity: sha512-wQCXXVgfv/wUPOfb2x0ruxzwkcZfxcktz6JIMUaPLmcNhO4bZTwA/WtDWK74xV3F2dKu8YadrFv0qhwYjVEwhA==}
-    engines: {node: '>= 12.0.0'}
-
   winston-transport@4.9.0:
     resolution: {integrity: sha512-8drMJ4rkgaPo1Me4zD/3WLfI/zPdA9o2IipKODunnGDcuqbHwjsbB79ylv04LCGGzU0xQ6vTznOMpQGaLhhm6A==}
     engines: {node: '>= 12.0.0'}
@@ -3174,11 +3166,11 @@ snapshots:
 
   '@tootallnate/quickjs-emscripten@0.23.0': {}
 
-  '@trpc/client@11.0.0-rc.630(@trpc/server@11.0.0-rc.630(react-dom@18.3.1(react@18.3.1))(react@18.3.1))':
+  '@trpc/client@11.0.0-rc.633(@trpc/server@11.0.0-rc.633(react-dom@18.3.1(react@18.3.1))(react@18.3.1))':
     dependencies:
-      '@trpc/server': 11.0.0-rc.630(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@trpc/server': 11.0.0-rc.633(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
 
-  '@trpc/server@11.0.0-rc.630(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+  '@trpc/server@11.0.0-rc.633(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     optionalDependencies:
       '@types/aws-lambda': 8.10.145
       express: 4.21.1
@@ -3198,11 +3190,11 @@ snapshots:
       - supports-color
       - utf-8-validate
 
-  '@tui-sandbox/library@4.1.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+  '@tui-sandbox/library@4.2.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
       '@catppuccin/palette': 1.7.1
-      '@trpc/client': 11.0.0-rc.630(@trpc/server@11.0.0-rc.630(react-dom@18.3.1(react@18.3.1))(react@18.3.1))
-      '@trpc/server': 11.0.0-rc.630(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@trpc/client': 11.0.0-rc.633(@trpc/server@11.0.0-rc.633(react-dom@18.3.1(react@18.3.1))(react@18.3.1))
+      '@trpc/server': 11.0.0-rc.633(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@xterm/addon-attach': 0.11.0(@xterm/xterm@5.5.0)
       '@xterm/addon-fit': 0.10.0(@xterm/xterm@5.5.0)
       '@xterm/xterm': 5.5.0
@@ -4585,15 +4577,6 @@ snapshots:
       slice-ansi: 4.0.0
       wrap-ansi: 6.2.0
 
-  logform@2.6.1:
-    dependencies:
-      '@colors/colors': 1.6.0
-      '@types/triple-beam': 1.3.5
-      fecha: 4.2.3
-      ms: 2.1.3
-      safe-stable-stringify: 2.5.0
-      triple-beam: 1.4.1
-
   logform@2.7.0:
     dependencies:
       '@colors/colors': 1.6.0
@@ -5820,12 +5803,6 @@ snapshots:
     dependencies:
       isexe: 2.0.0
 
-  winston-transport@4.7.1:
-    dependencies:
-      logform: 2.6.1
-      readable-stream: 3.6.2
-      triple-beam: 1.4.1
-
   winston-transport@4.9.0:
     dependencies:
       logform: 2.7.0
@@ -5838,13 +5815,13 @@ snapshots:
       '@dabh/diagnostics': 2.0.3
       async: 3.2.6
       is-stream: 2.0.1
-      logform: 2.6.1
+      logform: 2.7.0
       one-time: 1.0.0
       readable-stream: 3.6.2
       safe-stable-stringify: 2.5.0
       stack-trace: 0.0.10
       triple-beam: 1.4.1
-      winston-transport: 4.7.1
+      winston-transport: 4.9.0
 
   winston@3.17.0:
     dependencies:
