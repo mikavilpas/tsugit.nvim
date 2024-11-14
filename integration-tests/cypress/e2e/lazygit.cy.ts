@@ -50,12 +50,9 @@ describe("testing", () => {
   it("can open lazygit after COMMIT_EDITMSG is closed", () => {
     cy.visit("/")
 
-    cy.startNeovim({ filename: "fakegitrepo/file.txt" }).then((dir) => {
+    cy.startNeovim({ filename: "fakegitrepo/file.txt" }).then(() => {
       cy.contains("fake-git-repository-file-contents-71f64aabd056")
-      cy.exec(
-        // TODO this is very slow - takes about 2s
-        `cd '${dir.rootPathAbsolute}/${dir.contents.fakegitrepo.name}' && git init`,
-      )
+      initializeGitRepositoryInCurrentDirectory()
       cy.typeIntoTerminal(":e %:h/.git/COMMIT_EDITMSG{enter}", { delay: 0 })
       cy.typeIntoTerminal("itest commit message{esc}", { delay: 0 })
       cy.typeIntoTerminal(":write | bdelete{enter}", { delay: 0 })
@@ -64,3 +61,10 @@ describe("testing", () => {
     })
   })
 })
+
+function initializeGitRepositoryInCurrentDirectory() {
+  // this is massively more performant than using cy.exec()
+  cy.typeIntoTerminal(":!cd %:h/ && git init{enter}", { delay: 0 })
+  cy.contains("Initialized empty Git repository")
+  cy.typeIntoTerminal("{enter}")
+}
