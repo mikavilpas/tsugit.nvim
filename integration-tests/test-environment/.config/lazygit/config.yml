@@ -1,0 +1,9 @@
+# # yaml-language-server: $schema=https://raw.githubusercontent.com/jesseduffield/lazygit/master/schema/config.json
+#
+# https://github.com/jesseduffield/lazygit/blob/master/docs/Config.md
+
+disableStartupPopups: true
+os:
+  edit: "nvim {{filename}}"
+  editAtLine: "nvim +{{line}} {{filename}}"
+  editAtLineAndWait: "nvim +{{line}} {{filename}}"
