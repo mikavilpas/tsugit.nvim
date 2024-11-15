@@ -18,6 +18,30 @@ export const MyTestDirectorySchema = z.object({
       name: z.literal(".config/"),
       type: z.literal("directory"),
       contents: z.object({
+        git: z.object({
+          name: z.literal("git/"),
+          type: z.literal("directory"),
+          contents: z.object({
+            config: z.object({
+              name: z.literal("config"),
+              type: z.literal("file"),
+              extension: z.literal(""),
+              stem: z.literal("config"),
+            }),
+          }),
+        }),
+        lazygit: z.object({
+          name: z.literal("lazygit/"),
+          type: z.literal("directory"),
+          contents: z.object({
+            "config.yml": z.object({
+              name: z.literal("config.yml"),
+              type: z.literal("file"),
+              extension: z.literal("yml"),
+              stem: z.literal("config."),
+            }),
+          }),
+        }),
         nvim: z.object({
           name: z.literal("nvim/"),
           type: z.literal("directory"),
@@ -140,6 +164,10 @@ export type MyTestDirectoryContentsSchemaType = z.infer<
 export type MyTestDirectory = MyTestDirectoryContentsSchemaType["contents"]
 
 export const testDirectoryFiles = z.enum([
+  ".config/git/config",
+  ".config/git",
+  ".config/lazygit/config.yml",
+  ".config/lazygit",
   ".config/nvim/init.lua",
   ".config/nvim",
   ".config",
