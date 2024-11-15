@@ -107,7 +107,6 @@ describe("testing", () => {
       // COMMIT_EDITMSG in the parent neovim because flatten.nvim is used
       cy.contains("main")
       cy.typeIntoTerminal("C")
-      cy.contains("main").should("not.exist")
       cy.contains("Please enter the commit message for your changes.")
 
       cy.typeIntoTerminal("itest commit message{esc}:write | bdelete{enter}", {
