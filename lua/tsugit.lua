@@ -70,7 +70,6 @@ function M.toggle(args, options)
   ---@type snacks.terminal.Opts
   local default_opts = {
     cwd = cwd,
-    env = { TSUGIT = "1" },
     win = {
       backdrop = false,
       border = "none",

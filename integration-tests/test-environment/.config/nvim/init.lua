@@ -36,6 +36,9 @@ local plugins = {
     "mikavilpas/tsugit.nvim",
     -- for tests, always use the code from this repository
     dir = "../..",
+    -- loading on VeryLazy is required so that lazygit can be shown when
+    -- COMMIT_EDITMSG is closed. If setup() is not called, the autocmd for
+    -- opening lazygit will not be registered at all.
     event = "VeryLazy",
     opts = {},
   },
