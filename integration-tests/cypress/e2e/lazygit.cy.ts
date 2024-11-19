@@ -108,14 +108,54 @@ describe("testing", () => {
       // COMMIT_EDITMSG in the parent neovim because flatten.nvim is used
       cy.contains("main")
       cy.typeIntoTerminal("C")
-      cy.contains("Please enter the commit message for your changes.")
+      cy.contains("# Please enter the commit message for your changes.")
 
       cy.typeIntoTerminal("itest commit message{esc}:write | bdelete{enter}", {
         delay: 0,
       })
 
       // lazygit should have been brought back
-      cy.contains("Press enter to return to lazygit")
+      cy.contains("Donate")
+    })
+  })
+
+  it("can open a file in neovim from lazygit", () => {
+    cy.visit("/")
+
+    cy.startNeovim({
+      filename: "fakegitrepo/file.txt",
+      additionalEnvironmentVariables: {
+        EDITOR: "nvim",
+        VISUAL: "nvim",
+      },
+    }).then(() => {
+      initializeGitRepositoryInDirectory()
+      cy.contains("fake-git-repository-file-contents-71f64aabd056")
+      cy.runBlockingShellCommand({
+        command: "git add file.txt && git commit -a -m 'initial commit'",
+        cwd: "$HOME/fakegitrepo/",
+      })
+      cy.runBlockingShellCommand({
+        command: "cd $HOME/fakegitrepo && echo 'file2-contents' > file2.txt",
+      })
+
+      cy.typeIntoTerminal("{rightarrow}")
+      cy.contains("Donate")
+
+      cy.contains("??").should(
+        "have.css",
+        "background-color",
+        colors.selectedItem,
+      )
+
+      // edit the file. This should call neovim to open the file.
+      cy.typeIntoTerminal("e")
+
+      // lazygit should have been hidden
+      cy.contains("Donate").should("not.exist")
+
+      // the file should have been opened in neovim
+      cy.contains("fake-git-repository-file-contents-71f64aabd056")
     })
   })
 })
