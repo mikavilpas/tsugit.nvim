@@ -1,5 +1,6 @@
 import { flavors } from "@catppuccin/palette"
 import { rgbify } from "@tui-sandbox/library/dist/src/client/color-utilities"
+import assert from "assert"
 
 const colors = {
   selectedItem: rgbify(flavors.macchiato.colors.blue.rgb),
@@ -17,7 +18,7 @@ describe("testing", () => {
     cy.startNeovim({ filename: "fakegitrepo/file.txt" }).then(() => {
       // wait until text on the start screen is visible
       cy.contains("fake-git-repository-file-contents-71f64aabd056")
-      initializeGitRepositoryInCurrentDirectory()
+      initializeGitRepositoryInDirectory()
 
       cy.typeIntoTerminal("{rightarrow}")
       // close any introduction popup. TODO this should be done automatically
@@ -60,7 +61,7 @@ describe("testing", () => {
 
     cy.startNeovim({ filename: "fakegitrepo/file.txt" }).then(() => {
       cy.contains("fake-git-repository-file-contents-71f64aabd056")
-      initializeGitRepositoryInCurrentDirectory()
+      initializeGitRepositoryInDirectory()
       cy.typeIntoTerminal(":e %:h/.git/COMMIT_EDITMSG{enter}", { delay: 0 })
       cy.typeIntoTerminal("itest commit message{esc}", { delay: 0 })
       cy.typeIntoTerminal(":write | bdelete{enter}", { delay: 0 })
@@ -80,7 +81,7 @@ describe("testing", () => {
       },
     }).then(() => {
       cy.contains("fake-git-repository-file-contents-71f64aabd056")
-      initializeGitRepositoryInCurrentDirectory()
+      initializeGitRepositoryInDirectory()
 
       cy.typeIntoTerminal("{rightarrow}")
       cy.contains("main")
@@ -119,9 +120,12 @@ describe("testing", () => {
   })
 })
 
-function initializeGitRepositoryInCurrentDirectory() {
-  // this is massively more performant than using cy.exec()
-  cy.typeIntoTerminal(":!cd %:h/ && git init{enter}", { delay: 0 })
-  cy.contains("Initialized empty Git repository")
-  cy.typeIntoTerminal("{enter}")
+function initializeGitRepositoryInDirectory(
+  relativePath: string = "fakegitrepo",
+) {
+  cy.runBlockingShellCommand({
+    command: `cd $HOME/${relativePath} && git init`,
+  }).and((result) => {
+    assert(result.type === "success", "Failed to initialize git repository")
+  })
 }

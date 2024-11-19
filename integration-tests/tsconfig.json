@@ -16,6 +16,7 @@
     "lib": ["ES2023", "ESNext.Disposable", "dom"],
     "baseUrl": "./",
 
+    "types": ["node"],
     /* Linting */
     "strict": true,
     "noUnusedLocals": false,
