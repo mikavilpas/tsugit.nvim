@@ -132,8 +132,8 @@ describe("testing", () => {
       initializeGitRepositoryInDirectory()
       cy.contains("fake-git-repository-file-contents-71f64aabd056")
       cy.runBlockingShellCommand({
-        command: "git add file.txt && git commit -a -m 'initial commit'",
-        cwd: "$HOME/fakegitrepo/",
+        command:
+          "cd fakegitrepo && git add file.txt && git commit -a -m 'initial commit'",
       })
       cy.runBlockingShellCommand({
         command: "cd $HOME/fakegitrepo && echo 'file2-contents' > file2.txt",
