@@ -28,8 +28,8 @@ importers:
         version: 1.7.1
     devDependencies:
       '@tui-sandbox/library':
-        specifier: 6.1.0
-        version: 6.1.0(cypress@13.15.2)(prettier@3.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(type-fest@4.27.0)(typescript@5.6.3)
+        specifier: 7.0.0
+        version: 7.0.0(cypress@13.15.2)(prettier@3.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(type-fest@4.27.0)(typescript@5.6.3)
       '@typescript-eslint/eslint-plugin':
         specifier: 8.15.0
         version: 8.15.0(@typescript-eslint/parser@8.15.0(eslint@9.15.0)(typescript@5.6.3))(eslint@9.15.0)(typescript@5.6.3)
@@ -543,8 +543,8 @@ packages:
   '@trpc/server@11.0.0-rc.638':
     resolution: {integrity: sha512-ho3sRx66UuncKTtuy7UKbYP8IB4qaPj2gmdDIIdQOftta1oYzEsQuYiBozQAIAmX9TbV5FaqAdBUl2alFBSbdg==}
 
-  '@tui-sandbox/library@6.1.0':
-    resolution: {integrity: sha512-MeB1OXJ2owQVFuH+Kx0tFiq1ZI6kj/4inRgfMM0SPZmwTgDyQe2S5C/5eIFYdG45h0KA8noDYLcL5X1UsUp4BQ==}
+  '@tui-sandbox/library@7.0.0':
+    resolution: {integrity: sha512-hmrdrrWbWQlzSXuj2a+890mSXYAter11UJqyGnB1EvDfZ3kM6oX1rP48RIuBrEt3N93PE+JpEIqaK+Gu2mQNgg==}
     hasBin: true
     peerDependencies:
       cypress: ^13
@@ -3204,7 +3204,7 @@ snapshots:
       - supports-color
       - utf-8-validate
 
-  '@tui-sandbox/library@6.1.0(cypress@13.15.2)(prettier@3.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(type-fest@4.27.0)(typescript@5.6.3)':
+  '@tui-sandbox/library@7.0.0(cypress@13.15.2)(prettier@3.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(type-fest@4.27.0)(typescript@5.6.3)':
     dependencies:
       '@catppuccin/palette': 1.7.1
       '@trpc/client': 11.0.0-rc.638(@trpc/server@11.0.0-rc.638(react-dom@18.3.1(react@18.3.1))(react@18.3.1))
