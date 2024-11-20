@@ -15,7 +15,7 @@
     "@catppuccin/palette": "1.7.1"
   },
   "devDependencies": {
-    "@tui-sandbox/library": "6.1.0",
+    "@tui-sandbox/library": "7.0.0",
     "@typescript-eslint/eslint-plugin": "8.15.0",
     "@typescript-eslint/parser": "8.15.0",
     "concurrently": "9.1.0",
