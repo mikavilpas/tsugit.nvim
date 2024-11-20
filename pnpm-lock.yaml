@@ -28,8 +28,8 @@ importers:
         version: 1.7.1
     devDependencies:
       '@tui-sandbox/library':
-        specifier: 7.0.0
-        version: 7.0.0(cypress@13.15.2)(prettier@3.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(type-fest@4.27.0)(typescript@5.6.3)
+        specifier: 7.0.1
+        version: 7.0.1(cypress@13.16.0)(prettier@3.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(type-fest@4.27.0)(typescript@5.6.3)
       '@typescript-eslint/eslint-plugin':
         specifier: 8.15.0
         version: 8.15.0(@typescript-eslint/parser@8.15.0(eslint@9.15.0)(typescript@5.6.3))(eslint@9.15.0)(typescript@5.6.3)
@@ -40,8 +40,8 @@ importers:
         specifier: 9.1.0
         version: 9.1.0
       cypress:
-        specifier: 13.15.2
-        version: 13.15.2
+        specifier: 13.16.0
+        version: 13.16.0
       eslint:
         specifier: 9.15.0
         version: 9.15.0
@@ -543,8 +543,8 @@ packages:
   '@trpc/server@11.0.0-rc.638':
     resolution: {integrity: sha512-ho3sRx66UuncKTtuy7UKbYP8IB4qaPj2gmdDIIdQOftta1oYzEsQuYiBozQAIAmX9TbV5FaqAdBUl2alFBSbdg==}
 
-  '@tui-sandbox/library@7.0.0':
-    resolution: {integrity: sha512-hmrdrrWbWQlzSXuj2a+890mSXYAter11UJqyGnB1EvDfZ3kM6oX1rP48RIuBrEt3N93PE+JpEIqaK+Gu2mQNgg==}
+  '@tui-sandbox/library@7.0.1':
+    resolution: {integrity: sha512-7Al+9PBegUCR6ZGo+09HVoBMyz8WUdt5u7bT6IhBUy17jIPmNh1kg1rxwBm2ME0kMkZAyo6e+bJM4KN7i2RNtA==}
     hasBin: true
     peerDependencies:
       cypress: ^13
@@ -1026,16 +1026,12 @@ packages:
       typescript:
         optional: true
 
-  cross-spawn@7.0.3:
-    resolution: {integrity: sha512-iRDPJKUPVEND7dHPO8rkbOnPpyDygcDFtWjpeWNCgy8WP2rXcxXL8TskReQl6OrB2G7+UJrags1q15Fudc7G6w==}
-    engines: {node: '>= 8'}
-
   cross-spawn@7.0.6:
     resolution: {integrity: sha512-uV2QOWP2nWzsy2aMp8aRibhi9dlzF5Hgh5SHaB9OiTGEyDTiJJyx0uy51QXdyWbtAHNua4XJzUKca3OzKUd3vA==}
     engines: {node: '>= 8'}
 
-  cypress@13.15.2:
-    resolution: {integrity: sha512-ARbnUorjcCM3XiPwgHKuqsyr5W9Qn+pIIBPaoilnoBkLdSC2oLQjV1BUpnmc7KR+b7Avah3Ly2RMFnfxr96E/A==}
+  cypress@13.16.0:
+    resolution: {integrity: sha512-g6XcwqnvzXrqiBQR/5gN+QsyRmKRhls1y5E42fyOvsmU7JuY+wM6uHJWj4ZPttjabzbnRvxcik2WemR8+xT6FA==}
     engines: {node: ^16.0.0 || ^18.0.0 || >=20.0.0}
     hasBin: true
 
@@ -3204,7 +3200,7 @@ snapshots:
       - supports-color
       - utf-8-validate
 
-  '@tui-sandbox/library@7.0.0(cypress@13.15.2)(prettier@3.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(type-fest@4.27.0)(typescript@5.6.3)':
+  '@tui-sandbox/library@7.0.1(cypress@13.16.0)(prettier@3.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(type-fest@4.27.0)(typescript@5.6.3)':
     dependencies:
       '@catppuccin/palette': 1.7.1
       '@trpc/client': 11.0.0-rc.638(@trpc/server@11.0.0-rc.638(react-dom@18.3.1(react@18.3.1))(react@18.3.1))
@@ -3215,7 +3211,7 @@ snapshots:
       command-exists: 1.2.9
       core-js: 3.39.0
       cors: 2.8.5
-      cypress: 13.15.2
+      cypress: 13.16.0
       dree: 5.1.5
       express: 4.21.1
       neovim: 5.3.0
@@ -3750,19 +3746,13 @@ snapshots:
     optionalDependencies:
       typescript: 5.6.3
 
-  cross-spawn@7.0.3:
-    dependencies:
-      path-key: 3.1.1
-      shebang-command: 2.0.0
-      which: 2.0.2
-
   cross-spawn@7.0.6:
     dependencies:
       path-key: 3.1.1
       shebang-command: 2.0.0
       which: 2.0.2
 
-  cypress@13.15.2:
+  cypress@13.16.0:
     dependencies:
       '@cypress/request': 3.0.6
       '@cypress/xvfb': 1.2.4(supports-color@8.1.1)
@@ -4049,7 +4039,7 @@ snapshots:
 
   execa@4.1.0:
     dependencies:
-      cross-spawn: 7.0.3
+      cross-spawn: 7.0.6
       get-stream: 5.2.0
       human-signals: 1.1.1
       is-stream: 2.0.1
