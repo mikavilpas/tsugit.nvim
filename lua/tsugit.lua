@@ -119,4 +119,16 @@ function M.toggle(args, options)
   return lazygit
 end
 
+--- Open lazygit for the current file path
+---@param path string
+---@param options? {retry_count?: number, term_opts?: snacks.terminal.Opts}
+function M.toggle_for_file(path, options)
+  if not path then
+    vim.notify("tsugit.nvim: No file path provided", vim.log.levels.ERROR)
+    return
+  end
+
+  return M.toggle({ "--filter", path }, options)
+end
+
 return M

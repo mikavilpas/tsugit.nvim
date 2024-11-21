@@ -36,6 +36,15 @@ return {
         end,
         { silent = true },
       },
+      {
+        "<leader>gl",
+        function()
+          -- open lazygit history for the current file
+          local absolutePath = vim.api.nvim_buf_get_name(0)
+          require("tsugit").toggle_for_file(absolutePath)
+        end,
+        { silent = true },
+      },
     },
     opts = {},
   },
