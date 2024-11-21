@@ -158,6 +158,55 @@ describe("testing", () => {
       cy.contains("fake-git-repository-file-contents-71f64aabd056")
     })
   })
+
+  it("can display the history for a single file", () => {
+    cy.visit("/")
+
+    cy.startNeovim({
+      filename: "fakegitrepo/file.txt",
+      additionalEnvironmentVariables: {
+        EDITOR: "nvim",
+        VISUAL: "nvim",
+      },
+    }).then(() => {
+      initializeGitRepositoryInDirectory()
+      cy.contains("fake-git-repository-file-contents-71f64aabd056")
+      cy.runBlockingShellCommand({
+        command:
+          "cd fakegitrepo && git add file.txt && git commit -a -m 'initial commit'",
+      })
+      cy.runBlockingShellCommand({
+        command: "cd $HOME/fakegitrepo && echo 'file2-contents' > file2.txt",
+      })
+      cy.typeIntoTerminal(":edit %:h/file2.txt{enter}", { delay: 0 })
+      cy.contains("file2-contents")
+
+      cy.typeIntoTerminal("{rightarrow}")
+      cy.contains("Donate")
+
+      // the commit for the first file should be visible
+      cy.contains("initial commit")
+
+      cy.typeIntoTerminal("{rightarrow}")
+      cy.contains("initial commit").should("not.exist")
+
+      // bring up the file history
+      cy.typeIntoTerminal(" gl")
+
+      // the Commits/Reflog pane should be visible
+      cy.contains("Reflog")
+
+      // by default we are not looking at the full view in file mode
+      cy.contains("Status").should("not.exist")
+
+      // goto the next screen mode (the full view) so that we get a good
+      // overall view for tests
+      cy.typeIntoTerminal("+")
+      cy.contains("Status")
+      cy.contains("Filtering by")
+      cy.contains("initial commit").should("not.exist")
+    })
+  })
 })
 
 function initializeGitRepositoryInDirectory(
