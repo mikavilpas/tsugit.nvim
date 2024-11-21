@@ -23,7 +23,28 @@ Requires [lazy.nvim](https://lazy.folke.io/).
 ```lua
 ---@module "lazy"
 ---@type LazySpec
-return { "mikavilpas/tsugit.nvim" }
+return {
+  "mikavilpas/tsugit.nvim",
+  keys = {
+    {
+      "<right>",
+      function()
+        require("tsugit").toggle()
+      end,
+      { silent = true, desc = "toggle lazygit" },
+    },
+    {
+      "<leader>gl",
+      function()
+        local absolutePath = vim.api.nvim_buf_get_name(0)
+        require("tsugit").toggle_for_file(absolutePath)
+      end,
+      { silent = true, desc = "lazygit file commits" },
+    },
+  },
+  opts = {},
+}
+
 ```
 
 See
