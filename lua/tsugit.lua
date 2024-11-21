@@ -2,13 +2,13 @@
 
 local M = {}
 
----@class tsugit.Config
+---@class(exact) tsugit.Config
 ---@field keys tsugit.Keys
 
----@class tsugit.UserConfig
+---@class(exact) tsugit.UserConfig
 ---@field keys? tsugit.Keys # key mappings that are active when lazygit is open. They are completely unusable by lazygit, so set the to rare keys.
 
----@class tsugit.Keys
+---@class(exact) tsugit.Keys
 ---@field toggle? string # toggle lazygit on/off without closing it
 
 ---@class snacks.win | nil
