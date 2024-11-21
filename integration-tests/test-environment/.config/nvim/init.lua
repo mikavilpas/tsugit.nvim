@@ -40,6 +40,25 @@ local plugins = {
     -- COMMIT_EDITMSG is closed. If setup() is not called, the autocmd for
     -- opening lazygit will not be registered at all.
     event = "VeryLazy",
+    keys = {
+      {
+        "<right>",
+        function()
+          require("tsugit").toggle()
+        end,
+        { silent = true },
+      },
+      {
+        "<leader>gl",
+        function()
+          -- open lazygit history for the current file
+          local absolutePath = vim.api.nvim_buf_get_name(0)
+          require("tsugit").toggle_for_file(absolutePath)
+        end,
+        { silent = true },
+      },
+    },
+    -- NOTE: opts is required so that setup() is called
     opts = {},
   },
   { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
