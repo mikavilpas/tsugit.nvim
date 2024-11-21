@@ -42,7 +42,15 @@ return {
       { silent = true, desc = "lazygit file commits" },
     },
   },
-  opts = {},
+  -- NOTE: opts is required in lazy.nvim so that setup() is called
+  ---@type tsugit.UserConfig
+  opts = {
+    -- The key mappings that are active when lazygit is open. They are
+    -- completely unusable by lazygit, so set the to rare keys.
+    keys = {
+      toggle = "<right>",
+    }
+  },
 }
 
 ```

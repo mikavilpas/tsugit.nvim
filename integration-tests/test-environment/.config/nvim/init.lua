@@ -59,6 +59,7 @@ local plugins = {
       },
     },
     -- NOTE: opts is required so that setup() is called
+    ---@type tsugit.UserConfig
     opts = {},
   },
   { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
