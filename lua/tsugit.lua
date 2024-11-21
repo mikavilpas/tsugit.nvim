@@ -2,12 +2,30 @@
 
 local M = {}
 
+---@class tsugit.Config
+---@field keys tsugit.Keys
+
+---@class tsugit.UserConfig
+---@field keys? tsugit.Keys # key mappings that are active when lazygit is open. They are completely unusable by lazygit, so set the to rare keys.
+
+---@class tsugit.Keys
+---@field toggle? string # toggle lazygit on/off without closing it
+
 ---@class snacks.win | nil
 local lastLazyGit = nil
 
 M.version = "1.0.0" -- x-release-please-version
 
-M.setup = function()
+---@type tsugit.Config
+M.config = {
+  keys = {
+    toggle = "<right>",
+  },
+}
+
+---@param config tsugit.Config
+M.setup = function(config)
+  M.config = vim.tbl_deep_extend("force", M.config, config or {})
   vim.api.nvim_create_autocmd("BufDelete", {
     -- if the git COMMIT_EDITMSG file is closed, automatically display lazygit
     callback = function()
@@ -59,11 +77,13 @@ end
 -- open lazygit in the current git directory
 ---@module "snacks.terminal"
 ---@param args? string[]
----@param options? {retry_count?: number, term_opts?: snacks.terminal.Opts}
+---@param options? {retry_count?: number, term_opts?: snacks.terminal.Opts, config?: tsugit.Config}
 ---@return snacks.win
 function M.toggle(args, options)
   local cmd = vim.list_extend({ "lazygit" }, args or {})
   options = options or {}
+  local config = vim.tbl_deep_extend("force", M.config, options.config or {})
+  assert(config.keys.toggle, "tsugit.nvim: missing the toggle key")
 
   local cwd = vim.fn.fnameescape(vim.fs.root(0, ".git") or vim.fn.getcwd())
   local terminal = require("snacks.terminal")
@@ -110,7 +130,7 @@ function M.toggle(args, options)
     end,
   })
 
-  vim.keymap.set({ "t" }, "<right>", function()
+  vim.keymap.set({ "t" }, config.keys.toggle, function()
     -- this prevents using the key in lazygit, but is very performant
     lazygit:hide()
   end, { buffer = lazygit.buf })
@@ -121,7 +141,7 @@ end
 
 --- Open lazygit for the current file path
 ---@param path string
----@param options? {retry_count?: number, term_opts?: snacks.terminal.Opts}
+---@param options? {retry_count?: number, term_opts?: snacks.terminal.Opts, config?: tsugit.Config}
 function M.toggle_for_file(path, options)
   if not path then
     vim.notify("tsugit.nvim: No file path provided", vim.log.levels.ERROR)
