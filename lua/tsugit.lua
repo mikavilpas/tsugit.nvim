@@ -10,6 +10,7 @@ local M = {}
 
 ---@class(exact) tsugit.Keys
 ---@field toggle? string # toggle lazygit on/off without closing it
+---@field force_quit? string # force quit lazygit (e.g. when it's stuck)
 
 ---@class snacks.win | nil
 local lastLazyGit = nil
@@ -20,6 +21,7 @@ M.version = "1.0.0" -- x-release-please-version
 M.config = {
   keys = {
     toggle = "<right>",
+    force_quit = "<c-c>",
   },
 }
 
@@ -133,6 +135,10 @@ function M.toggle(args, options)
   vim.keymap.set({ "t" }, config.keys.toggle, function()
     -- this prevents using the key in lazygit, but is very performant
     lazygit:hide()
+  end, { buffer = lazygit.buf })
+
+  vim.keymap.set({ "t" }, config.keys.force_quit, function()
+    lazygit:close({ buf = true })
   end, { buffer = lazygit.buf })
 
   lastLazyGit = lazygit

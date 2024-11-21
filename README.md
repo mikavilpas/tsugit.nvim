@@ -49,6 +49,7 @@ return {
     -- completely unusable by lazygit, so set the to rare keys.
     keys = {
       toggle = "<right>",
+      force_quit = "<c-c>",
     }
   },
 }

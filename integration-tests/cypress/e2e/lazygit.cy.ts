@@ -210,6 +210,43 @@ describe("testing", () => {
       cy.contains("initial commit").should("not.exist")
     })
   })
+
+  it("can force_quit lazygit", () => {
+    cy.visit("/")
+    cy.startNeovim({ filename: "fakegitrepo/file.txt" }).then(() => {
+      // wait until text on the start screen is visible
+      cy.contains("fake-git-repository-file-contents-71f64aabd056")
+      initializeGitRepositoryInDirectory()
+
+      cy.typeIntoTerminal("{rightarrow}")
+      // close any introduction popup. TODO this should be done automatically
+      cy.typeIntoTerminal("{esc}")
+
+      // wait until lazygit has initialized and the main branch name is visible
+      cy.contains("main")
+
+      // The files pane is selected by default (the text is displayed at the
+      // bottom of the screen)
+      cy.contains(lazygit.filesPane)
+      cy.contains(lazygit.branchesPane).should("not.exist")
+
+      // switch to the Local branches pane
+      cy.typeIntoTerminal("3")
+      cy.contains(lazygit.filesPane).should("not.exist")
+      cy.contains(lazygit.branchesPane)
+
+      // lazygit is now in a non-default state. Let's force_quit it
+      cy.typeIntoTerminal("{control+c}")
+      // lazygit should have disappeared
+      cy.contains(lazygit.branchesPane).should("not.exist")
+
+      // bring lazygit back. The pane should be reset to the initial state
+      cy.contains(lazygit.branchesPane).should("not.exist")
+      cy.typeIntoTerminal("{rightarrow}")
+      cy.contains(lazygit.filesPane)
+      cy.contains(lazygit.branchesPane).should("not.exist")
+    })
+  })
 })
 
 function initializeGitRepositoryInDirectory(
