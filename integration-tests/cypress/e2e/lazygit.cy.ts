@@ -155,7 +155,10 @@ describe("testing", () => {
       cy.contains("Donate").should("not.exist")
 
       // the file should have been opened in neovim
-      cy.contains("fake-git-repository-file-contents-71f64aabd056")
+      cy.contains("fake-git-repository-file-contents-71f64aabd056").should(
+        "not.exist",
+      )
+      cy.contains("file2-contents")
     })
   })
 
