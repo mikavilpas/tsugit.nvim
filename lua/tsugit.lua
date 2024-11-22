@@ -79,7 +79,7 @@ end
 -- open lazygit in the current git directory
 ---@module "snacks.terminal"
 ---@param args? string[]
----@param options? {retry_count?: number, term_opts?: snacks.terminal.Opts, config?: tsugit.Config}
+---@param options? {tries_remaining?: number, term_opts?: snacks.terminal.Opts, config?: tsugit.Config}
 ---@return snacks.win
 function M.toggle(args, options)
   local cmd = vim.list_extend({ "lazygit" }, args or {})
@@ -111,9 +111,8 @@ function M.toggle(args, options)
     once = true,
     callback = function()
       lazygit:hide()
-      local tries_remaining = (options.retry_count or 0) < 2
+      local tries_remaining = (options.tries_remaining or 0) <= 0
       if not tries_remaining then
-        vim.notify("Unable to warm up the next lazygit", vim.log.levels.INFO)
         return
       end
 
@@ -124,7 +123,7 @@ function M.toggle(args, options)
       vim.schedule(function()
         -- warm up the next instance
         local newLazyGit = M.toggle(args, {
-          try_count = (options.retry_count or 0) + 1,
+          tries_remaining = (options.tries_remaining or 0) - 1,
           term_opts = {},
         })
         newLazyGit:hide()
@@ -147,12 +146,16 @@ end
 
 --- Open lazygit for the current file path
 ---@param path string
----@param options? {retry_count?: number, term_opts?: snacks.terminal.Opts, config?: tsugit.Config}
+---@param options? {tries_remaining?: number, term_opts?: snacks.terminal.Opts, config?: tsugit.Config}
 function M.toggle_for_file(path, options)
   if not path then
     vim.notify("tsugit.nvim: No file path provided", vim.log.levels.ERROR)
     return
   end
+
+  -- don't warm up the next lazygit for a single file path to save some resources
+  options = options or {}
+  options.tries_remaining = 999
 
   return M.toggle({ "--filter", path }, options)
 end
