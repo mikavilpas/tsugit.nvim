@@ -62,9 +62,9 @@ describe("testing", () => {
     cy.startNeovim({ filename: "fakegitrepo/file.txt" }).then(() => {
       cy.contains("fake-git-repository-file-contents-71f64aabd056")
       initializeGitRepositoryInDirectory()
-      cy.typeIntoTerminal(":e %:h/.git/COMMIT_EDITMSG{enter}", { delay: 0 })
+      cy.runExCommand({ command: "e %:h/.git/COMMIT_EDITMSG" })
       cy.typeIntoTerminal("itest commit message{esc}", { delay: 0 })
-      cy.typeIntoTerminal(":write | bdelete{enter}", { delay: 0 })
+      cy.runExCommand({ command: "write | bdelete" })
 
       cy.contains(lazygit.donateMessage)
     })
@@ -110,9 +110,8 @@ describe("testing", () => {
       cy.typeIntoTerminal("C")
       cy.contains("# Please enter the commit message for your changes.")
 
-      cy.typeIntoTerminal("itest commit message{esc}:write | bdelete{enter}", {
-        delay: 0,
-      })
+      cy.typeIntoTerminal("itest commit message{esc}", { delay: 0 })
+      cy.runExCommand({ command: "write | bdelete" })
 
       // lazygit should have been brought back
       cy.contains("Donate")
@@ -181,7 +180,7 @@ describe("testing", () => {
       cy.runBlockingShellCommand({
         command: "cd $HOME/fakegitrepo && echo 'file2-contents' > file2.txt",
       })
-      cy.typeIntoTerminal(":edit %:h/file2.txt{enter}", { delay: 0 })
+      cy.runExCommand({ command: "edit %:h/file2.txt" })
       cy.contains("file2-contents")
 
       cy.typeIntoTerminal("{rightarrow}")
