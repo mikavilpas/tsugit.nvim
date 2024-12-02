@@ -3,6 +3,10 @@
 Lazygit is a powerful terminal UI for git. This is a Neovim plugin I built for
 myself to make it even more powerful.
 
+> _tsugit_ is a blend of the words tsugi (次 Japanese for "next") and git
+
+![fast git in the forest 🙂)](https://raw.githubusercontent.com/mikavilpas/tsugit.nvim/refs/heads/assets/.github/images/logo.jpeg)
+
 ## ✨ Features
 
 - **Blazingly fast**: No more waiting for lazygit to start up. After starting it
