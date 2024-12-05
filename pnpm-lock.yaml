@@ -28,8 +28,8 @@ importers:
         version: 1.7.1
     devDependencies:
       '@tui-sandbox/library':
-        specifier: 7.3.0
-        version: 7.3.0(cypress@13.16.0)(prettier@3.4.2)(type-fest@4.27.0)(typescript@5.7.2)
+        specifier: 7.4.0
+        version: 7.4.0(cypress@13.16.1)(prettier@3.4.2)(type-fest@4.27.0)(typescript@5.7.2)
       '@typescript-eslint/eslint-plugin':
         specifier: 8.17.0
         version: 8.17.0(@typescript-eslint/parser@8.17.0(eslint@9.16.0)(typescript@5.7.2))(eslint@9.16.0)(typescript@5.7.2)
@@ -40,8 +40,8 @@ importers:
         specifier: 9.1.0
         version: 9.1.0
       cypress:
-        specifier: 13.16.0
-        version: 13.16.0
+        specifier: 13.16.1
+        version: 13.16.1
       eslint:
         specifier: 9.16.0
         version: 9.16.0
@@ -369,8 +369,8 @@ packages:
     peerDependencies:
       typescript: '>=5.6.2'
 
-  '@tui-sandbox/library@7.3.0':
-    resolution: {integrity: sha512-RFwAPoea0X9pMAFxl91weSK17RJ05qg4wW0LQuEJcy4u8TBUeWjUvUIGYe/K97RrztGaR8+U53KRFUM+tiTJMQ==}
+  '@tui-sandbox/library@7.4.0':
+    resolution: {integrity: sha512-BmTSm15riA3ASnHnSqQcgXr4jJOAiRMoYw2o7YccIRZaQL+1orKjDAenMRoozfuIB2Zz5UXw5eblmELIw7xP4w==}
     hasBin: true
     peerDependencies:
       cypress: ^13
@@ -814,8 +814,8 @@ packages:
     resolution: {integrity: sha512-uV2QOWP2nWzsy2aMp8aRibhi9dlzF5Hgh5SHaB9OiTGEyDTiJJyx0uy51QXdyWbtAHNua4XJzUKca3OzKUd3vA==}
     engines: {node: '>= 8'}
 
-  cypress@13.16.0:
-    resolution: {integrity: sha512-g6XcwqnvzXrqiBQR/5gN+QsyRmKRhls1y5E42fyOvsmU7JuY+wM6uHJWj4ZPttjabzbnRvxcik2WemR8+xT6FA==}
+  cypress@13.16.1:
+    resolution: {integrity: sha512-17FtCaz0cx7ssWYKXzGB0Vub8xHwpVPr+iPt2fHhLMDhVAPVrplD+rTQsZUsfb19LVBn5iwkEUFjQ1yVVJXsLA==}
     engines: {node: ^16.0.0 || ^18.0.0 || >=20.0.0}
     hasBin: true
 
@@ -2672,7 +2672,7 @@ snapshots:
     dependencies:
       typescript: 5.7.2
 
-  '@tui-sandbox/library@7.3.0(cypress@13.16.0)(prettier@3.4.2)(type-fest@4.27.0)(typescript@5.7.2)':
+  '@tui-sandbox/library@7.4.0(cypress@13.16.1)(prettier@3.4.2)(type-fest@4.27.0)(typescript@5.7.2)':
     dependencies:
       '@catppuccin/palette': 1.7.1
       '@trpc/client': 11.0.0-rc.648(@trpc/server@11.0.0-rc.648(typescript@5.7.2))(typescript@5.7.2)
@@ -2683,7 +2683,7 @@ snapshots:
       command-exists: 1.2.9
       core-js: 3.39.0
       cors: 2.8.5
-      cypress: 13.16.0
+      cypress: 13.16.1
       dree: 5.1.5
       express: 4.21.1
       neovim: 5.3.0
@@ -3166,7 +3166,7 @@ snapshots:
       shebang-command: 2.0.0
       which: 2.0.2
 
-  cypress@13.16.0:
+  cypress@13.16.1:
     dependencies:
       '@cypress/request': 3.0.6
       '@cypress/xvfb': 1.2.4(supports-color@8.1.1)
