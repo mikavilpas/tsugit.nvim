@@ -94,6 +94,7 @@ function M.toggle(args, options)
     cwd = cwd,
     win = {
       backdrop = false,
+      relative = "editor",
       border = "none",
       width = 0.95,
       height = 0.97,
