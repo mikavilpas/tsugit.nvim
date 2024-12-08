@@ -8,7 +8,7 @@ myself to make it even more powerful.
 <a href="https://dotfyle.com/plugins/mikavilpas/tsugit.nvim">
   <img src="https://dotfyle.com/plugins/mikavilpas/tsugit.nvim/shield?style=flat-square" alt="shield image for plugin usage" /> </a>
 
-![fast git in the forest 🙂)](https://raw.githubusercontent.com/mikavilpas/tsugit.nvim/refs/heads/assets/.github/images/logo.jpeg)
+![tsugit.nvim displaying lazygit with a diff](https://raw.githubusercontent.com/mikavilpas/tsugit.nvim/refs/heads/assets/.github/images/tsugit.webp)
 
 ## ✨ Features
 
