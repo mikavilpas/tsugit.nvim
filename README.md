@@ -3,7 +3,7 @@
 Lazygit is a powerful terminal UI for git. This is a Neovim plugin I built for
 myself to make it even more powerful.
 
-> _tsugit_ is a blend of the words tsugi (次 Japanese for "next") and git
+> _tsugit_ is a blend of the words tsugi (次, Japanese for "next") and git
 
 <a href="https://dotfyle.com/plugins/mikavilpas/tsugit.nvim">
   <img src="https://dotfyle.com/plugins/mikavilpas/tsugit.nvim/shield?style=flat-square" alt="shield image for plugin usage" /> </a>
@@ -14,10 +14,11 @@ myself to make it even more powerful.
 
 - **Blazingly fast**: No more waiting for lazygit to start up. After starting it
   once, it's always running in the background.
-  - Restart lazygit with `q`. It's automatically restarted in the background
-    when you quit it.
+  - When you quit lazygit (default: `q`), it's automatically restarted in the
+    background.
   - Alternatively, toggle lazygit on/off. Instantly bring it back with the same
     key.
+  - Kill lazygit (in case it gets stuck) with `<c-c>`.
 - **Seamless integration**: Use lazygit as if it's a part of Neovim. No extra
   applications are required.
   - You can edit files in Neovim while lazygit is open.
