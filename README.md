@@ -22,8 +22,7 @@ https://github.com/user-attachments/assets/46c8b582-6b4f-4418-8fe4-e63f0d8766cf
 - **Seamless integration**: Use lazygit as if it's a part of Neovim. No extra
   applications are required.
   - You can edit files in Neovim while lazygit is open.
-  - See below for [[#🎁 Goodies]]
-  - yeah, that's it for now 😄
+  - See below for 🎁 Goodies on how to write commit messages in Neovim.
 
 ## 📦 Installation
 
@@ -98,7 +97,7 @@ os:
 
 If you use an AI assistant that can complete text in Neovim, you can use it to
 write commit messages. It should get activated automatically when you follow
-[[#Write commit messages in Neovim]].
+[the previous step](#write-commit-messages-in-neovim).
 
 I also recommend giving the assistant more context by providing the full diff of
 the change as text. This feature is built-in to git, but it's not enabled by
@@ -122,6 +121,7 @@ The documentation for this feature can be found in the git docs
 - Themes available on Github:
   <https://github.com/search?q=lazygit%20theme&type=repositories>
 - My personal favorite: <https://github.com/catppuccin/lazygit>
+  ![lazygit colorscheme preview](https://raw.githubusercontent.com/catppuccin/lazygit/refs/heads/main/assets/preview.webp)
 
 ### Nerd font icons (💤 lazygit feature)
 
@@ -129,8 +129,14 @@ The documentation for this feature can be found in the git docs
 
 ### Better diff syntax highlighting (💤 lazygit feature)
 
-This is such a nice feature that I don't even know what to say.
+This feature improves lazygit's diff syntax highlighting by providing
 
-<https://github.com/dandavison/delta>
+- nice colors for your files based on the file type
+- improved syntax highlighting for diffs
 
-<https://github.com/jesseduffield/lazygit/blob/master/docs/Custom_Pagers.md#delta>
+You can see it being used in the main demo.
+
+- Delta documentation: <https://github.com/dandavison/delta>
+- Lazygit documentation for Custom_Pagers:
+  <https://github.com/jesseduffield/lazygit/blob/master/docs/Custom_Pagers.md#delta>
+- Catppuccin delta colorscheme: <https://github.com/catppuccin/delta>
