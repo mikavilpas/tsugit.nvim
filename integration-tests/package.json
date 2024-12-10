@@ -16,8 +16,8 @@
   },
   "devDependencies": {
     "@tui-sandbox/library": "7.4.0",
-    "@typescript-eslint/eslint-plugin": "8.17.0",
-    "@typescript-eslint/parser": "8.17.0",
+    "@typescript-eslint/eslint-plugin": "8.18.0",
+    "@typescript-eslint/parser": "8.18.0",
     "concurrently": "9.1.0",
     "cypress": "13.16.1",
     "eslint": "9.16.0",
@@ -28,6 +28,6 @@
     "type-fest": "^4",
     "typescript": "5.7.2",
     "wait-on": "8.0.1",
-    "zod": "3.23.8"
+    "zod": "3.24.0"
   }
 }
