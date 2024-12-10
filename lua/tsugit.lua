@@ -2,15 +2,15 @@
 
 local M = {}
 
----@class(exact) tsugit.Config
----@field keys tsugit.Keys
-
 ---@class(exact) tsugit.UserConfig
----@field keys? tsugit.Keys # key mappings that are active when lazygit is open. They are completely unusable by lazygit, so set the to rare keys.
+---@field keys? tsugit.Keys | false # key mappings that are active when lazygit is open. They are completely unusable by lazygit, so set the to rare keys.
+
+---@class(exact) tsugit.Config # the internal configuration for tsugit. Use tsugit.UserConfig for your personal configuration.
+---@field keys tsugit.Keys | false
 
 ---@class(exact) tsugit.Keys
----@field toggle? string # toggle lazygit on/off without closing it
----@field force_quit? string # force quit lazygit (e.g. when it's stuck)
+---@field toggle? string | false # toggle lazygit on/off without closing it
+---@field force_quit? string | false # force quit lazygit (e.g. when it's stuck)
 
 ---@class snacks.win | nil
 local lastLazyGit = nil
@@ -132,14 +132,7 @@ function M.toggle(args, options)
     end,
   })
 
-  vim.keymap.set({ "t" }, config.keys.toggle, function()
-    -- this prevents using the key in lazygit, but is very performant
-    lazygit:hide()
-  end, { buffer = lazygit.buf })
-
-  vim.keymap.set({ "t" }, config.keys.force_quit, function()
-    lazygit:close({ buf = true })
-  end, { buffer = lazygit.buf })
+  require("tsugit.keymaps").create_keymaps(config, lazygit)
 
   lastLazyGit = lazygit
   return lazygit

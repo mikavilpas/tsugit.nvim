@@ -55,6 +55,9 @@ return {
   opts = {
     -- The key mappings that are active when lazygit is open. They are
     -- completely unusable by lazygit, so set the to rare keys.
+    --
+    -- If you want to completely disable keys, you can set them to `false`.
+    -- You can also set `keys = false` to disable automatically creating keymaps.
     keys = {
       toggle = "<right>",
       force_quit = "<c-c>",
