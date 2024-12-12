@@ -12,8 +12,7 @@ local M = {}
 ---@field toggle? string | false # toggle lazygit on/off without closing it
 ---@field force_quit? string | false # force quit lazygit (e.g. when it's stuck)
 
----@class snacks.win | nil
-local lastLazyGit = nil
+M.last_lazygits = vim.ringbuf(5)
 
 M.version = "1.0.0" -- x-release-please-version
 
@@ -66,6 +65,8 @@ M.setup = function(config)
       backup_file:close()
 
       vim.schedule(function()
+        ---@type snacks.win | nil
+        local lastLazyGit = M.last_lazygits:peek()
         if lastLazyGit then
           lastLazyGit:show()
         else
@@ -101,6 +102,17 @@ function M.toggle(args, options)
       style = "minimal",
     },
   }
+
+  -- sometimes when editing a commit message, the terminal is left open. In
+  -- this case, toggling tsugit should close the terminal so that only one can
+  -- be open at a time.
+  for _, lg in ipairs(M.last_lazygits) do
+    ---@cast lg snacks.win
+    if lg:valid() or lg:buf_valid() then
+      lg:hide()
+    end
+  end
+
   local lazygit = terminal.toggle(
     cmd,
     vim.tbl_deep_extend("force", default_opts, options.term_opts or {})
@@ -109,7 +121,6 @@ function M.toggle(args, options)
 
   vim.api.nvim_create_autocmd({ "WinLeave" }, {
     buffer = lazygit.buf,
-    once = true,
     callback = function()
       lazygit:hide()
       local tries_remaining = (options.tries_remaining or 0) <= 0
@@ -134,7 +145,14 @@ function M.toggle(args, options)
 
   require("tsugit.keymaps").create_keymaps(config, lazygit)
 
-  lastLazyGit = lazygit
+  -- avoid copies for clarity, not a performance issue
+  if not M.last_lazygits:peek() then
+    M.last_lazygits:push(lazygit)
+  elseif M.last_lazygits:peek().id ~= lazygit.id then
+    -- selene: allow(if_same_then_else)
+    M.last_lazygits:push(lazygit)
+  end
+
   return lazygit
 end
 
