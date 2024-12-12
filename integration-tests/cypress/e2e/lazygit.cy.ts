@@ -56,6 +56,21 @@ describe("testing", () => {
     })
   })
 
+  it("hides lazygit when clicked outside of the floating window", () => {
+    cy.visit("/")
+
+    cy.startNeovim({ filename: "fakegitrepo/file.txt" }).then(() => {
+      cy.contains("fake-git-repository-file-contents-71f64aabd056")
+      initializeGitRepositoryInDirectory()
+
+      cy.typeIntoTerminal("{rightarrow}")
+      cy.contains(lazygit.donateMessage)
+
+      cy.contains("fake-git-repository-file-contents-71f64aabd056").click()
+      cy.contains(lazygit.donateMessage).should("not.exist")
+    })
+  })
+
   it("can open lazygit after COMMIT_EDITMSG is closed", () => {
     cy.visit("/")
 
