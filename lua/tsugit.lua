@@ -121,6 +121,7 @@ function M.toggle(args, options)
 
   vim.api.nvim_create_autocmd({ "WinLeave" }, {
     buffer = lazygit.buf,
+    once = true,
     callback = function()
       lazygit:hide()
       local tries_remaining = (options.tries_remaining or 0) <= 0
