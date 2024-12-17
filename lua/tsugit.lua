@@ -121,36 +121,54 @@ function M.toggle(args, options)
     end
   end
 
-  local lazygit = terminal.toggle(
+  local lazygit, created = terminal.get(
     cmd,
-    vim.tbl_deep_extend("force", default_opts, options.term_opts or {})
+    vim.tbl_deep_extend(
+      "force",
+      default_opts,
+      options.term_opts or {},
+      { create = true }
+    )
   )
+
+  assert(lazygit, "tsugit.nvim: failed to create lazygit terminal")
   vim.api.nvim_buf_set_var(lazygit.buf, "minicursorword_disable", true)
+  lazygit:show()
 
-  vim.api.nvim_create_autocmd({ "WinLeave" }, {
-    buffer = lazygit.buf,
-    once = true,
-    callback = function()
-      lazygit:hide()
-      local tries_remaining = (options.tries_remaining or 0) <= 0
-      if not tries_remaining then
-        return
-      end
+  if created then
+    vim.api.nvim_create_autocmd({ "BufEnter" }, {
+      buffer = lazygit.buf,
+      callback = function()
+        -- Sometimes when a new buffer is opened behind tsugit, it is not
+        -- automatically hidden. Force it to hide.
+        lazygit:hide()
+      end,
+    })
 
-      if lazygit:buf_valid() then
-        return -- nothing to do
-      end
+    vim.api.nvim_create_autocmd({ "WinLeave" }, {
+      buffer = lazygit.buf,
+      callback = function()
+        lazygit:hide()
+        local tries_remaining = (options.tries_remaining or 0) <= 0
+        if not tries_remaining then
+          return
+        end
 
-      vim.schedule(function()
-        -- warm up the next instance
-        local newLazyGit = M.toggle(args, {
-          tries_remaining = (options.tries_remaining or 0) - 1,
-          term_opts = {},
-        })
-        newLazyGit:hide()
-      end)
-    end,
-  })
+        if lazygit:buf_valid() then
+          return -- nothing to do
+        end
+
+        vim.schedule(function()
+          -- warm up the next instance
+          local newLazyGit = M.toggle(args, {
+            tries_remaining = (options.tries_remaining or 0) - 1,
+            term_opts = {},
+          })
+          newLazyGit:hide()
+        end)
+      end,
+    })
+  end
 
   require("tsugit.keymaps").create_keymaps(config, lazygit)
 
