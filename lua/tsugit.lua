@@ -65,11 +65,19 @@ M.setup = function(config)
       backup_file:close()
 
       vim.schedule(function()
+        for _, lg in ipairs(M.last_lazygits) do
+          ---@cast lg snacks.win
+          if lg:valid() or lg:buf_valid() then
+            lg:hide()
+          end
+        end
+
         ---@type snacks.win | nil
         local lastLazyGit = M.last_lazygits:peek()
         if lastLazyGit then
           lastLazyGit:show()
         else
+          -- tsugit has not been opened yet
           M.toggle()
         end
       end)
