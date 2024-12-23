@@ -72,14 +72,8 @@ M.setup = function(config)
           end
         end
 
-        ---@type snacks.win | nil
-        local lastLazyGit = M.last_lazygits:peek()
-        if lastLazyGit then
-          lastLazyGit:show()
-        else
-          -- tsugit has not been opened yet
-          M.toggle()
-        end
+        -- tsugit has not been opened yet
+        M.toggle()
       end)
     end,
   })
