@@ -26,6 +26,15 @@ M.config = {
 
 ---@param config tsugit.Config
 M.setup = function(config)
+  require("flatten").setup(
+    ---@diagnostic disable-next-line: missing-fields
+    {
+      window = {
+        open = "alternate",
+      },
+    }
+  )
+
   M.config = vim.tbl_deep_extend("force", M.config, config or {})
   vim.api.nvim_create_autocmd("BufDelete", {
     -- if the git COMMIT_EDITMSG file is closed, automatically display lazygit
