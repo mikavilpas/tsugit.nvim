@@ -21,10 +21,7 @@ return {
     lazy = false,
     priority = 1001,
     enabled = true,
-
-    opts = {
-      window = { open = "alternate" },
-    },
+    config = true,
   },
   {
     "mikavilpas/tsugit.nvim",
