@@ -110,6 +110,12 @@ export const MyTestDirectorySchema = z.object({
       extension: z.literal("txt"),
       stem: z.literal("initial-file."),
     }),
+    "integration-tests.log": z.object({
+      name: z.literal("integration-tests.log"),
+      type: z.literal("file"),
+      extension: z.literal("log"),
+      stem: z.literal("integration-tests."),
+    }),
     "other-subdirectory": z.object({
       name: z.literal("other-subdirectory/"),
       type: z.literal("directory"),
@@ -180,6 +186,7 @@ export const testDirectoryFiles = z.enum([
   "fakegitrepo",
   "file.txt",
   "initial-file.txt",
+  "integration-tests.log",
   "other-subdirectory/other-sub-file.txt",
   "other-subdirectory",
   "routes/posts.$postId/adjacent-file.txt",
