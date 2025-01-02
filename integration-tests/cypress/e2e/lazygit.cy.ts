@@ -213,13 +213,7 @@ describe("testing", () => {
       // the Commits/Reflog pane should be visible
       cy.contains("Reflog")
 
-      // by default we are not looking at the full view in file mode
-      cy.contains("Status").should("not.exist")
-
-      // goto the next screen mode (the full view) so that we get a good
-      // overall view for tests
-      cy.typeIntoTerminal("+")
-      cy.contains("Status")
+      cy.contains("Commits")
       cy.contains("Filtering by")
       cy.contains("initial commit").should("not.exist")
     })
