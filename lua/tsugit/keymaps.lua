@@ -18,7 +18,11 @@ function M.create_keymaps(config, lazygit)
 
   if config.keys.force_quit ~= false then
     vim.keymap.set({ "t" }, config.keys.force_quit, function()
-      lazygit:close({ buf = true })
+      vim.o.lazyredraw = true
+      pcall(function()
+        lazygit:close({ buf = true })
+      end)
+      vim.o.lazyredraw = false
     end, { buffer = lazygit.buf })
   end
 end
