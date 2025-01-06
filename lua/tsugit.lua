@@ -1,5 +1,3 @@
----@module "plenary"
-
 local M = {}
 
 ---@class(exact) tsugit.UserConfig
