@@ -15,7 +15,7 @@ const lazygit = {
 describe("testing", () => {
   it("can toggle lazygit on/off", () => {
     cy.visit("/")
-    cy.startNeovim({ filename: "fakegitrepo/file.txt" }).then(() => {
+    cy.startNeovim({ filename: "fakegitrepo/file.txt" }).then((nvim) => {
       // wait until text on the start screen is visible
       cy.contains("fake-git-repository-file-contents-71f64aabd056")
       initializeGitRepositoryInDirectory()
@@ -59,7 +59,7 @@ describe("testing", () => {
   it("hides lazygit when clicked outside of the floating window", () => {
     cy.visit("/")
 
-    cy.startNeovim({ filename: "fakegitrepo/file.txt" }).then(() => {
+    cy.startNeovim({ filename: "fakegitrepo/file.txt" }).then((nvim) => {
       cy.contains("fake-git-repository-file-contents-71f64aabd056")
       initializeGitRepositoryInDirectory()
 
@@ -74,12 +74,12 @@ describe("testing", () => {
   it("can open lazygit after COMMIT_EDITMSG is closed", () => {
     cy.visit("/")
 
-    cy.startNeovim({ filename: "fakegitrepo/file.txt" }).then(() => {
+    cy.startNeovim({ filename: "fakegitrepo/file.txt" }).then((nvim) => {
       cy.contains("fake-git-repository-file-contents-71f64aabd056")
       initializeGitRepositoryInDirectory()
-      cy.runExCommand({ command: "e %:h/.git/COMMIT_EDITMSG" })
+      nvim.runExCommand({ command: "e %:h/.git/COMMIT_EDITMSG" })
       cy.typeIntoTerminal("itest commit message{esc}", { delay: 0 })
-      cy.runExCommand({ command: "write | bdelete" })
+      nvim.runExCommand({ command: "write | bdelete" })
 
       cy.contains(lazygit.donateMessage)
     })
@@ -94,7 +94,7 @@ describe("testing", () => {
         EDITOR: "nvim",
         VISUAL: "nvim",
       },
-    }).then(() => {
+    }).then((nvim) => {
       cy.contains("fake-git-repository-file-contents-71f64aabd056")
       initializeGitRepositoryInDirectory()
 
@@ -126,7 +126,7 @@ describe("testing", () => {
       cy.contains("# Please enter the commit message for your changes.")
 
       cy.typeIntoTerminal("itest commit message{esc}", { delay: 0 })
-      cy.runExCommand({ command: "write | bdelete" })
+      nvim.runExCommand({ command: "write | bdelete" })
 
       // lazygit should have been brought back
       cy.contains("Donate")
@@ -142,14 +142,14 @@ describe("testing", () => {
         EDITOR: "nvim",
         VISUAL: "nvim",
       },
-    }).then(() => {
+    }).then((nvim) => {
       initializeGitRepositoryInDirectory()
       cy.contains("fake-git-repository-file-contents-71f64aabd056")
-      cy.runBlockingShellCommand({
+      nvim.runBlockingShellCommand({
         command:
           "cd fakegitrepo && git add file.txt && git commit -a -m 'initial commit'",
       })
-      cy.runBlockingShellCommand({
+      nvim.runBlockingShellCommand({
         command: "cd $HOME/fakegitrepo && echo 'file2-contents' > file2.txt",
       })
 
@@ -185,17 +185,17 @@ describe("testing", () => {
         EDITOR: "nvim",
         VISUAL: "nvim",
       },
-    }).then(() => {
+    }).then((nvim) => {
       initializeGitRepositoryInDirectory()
       cy.contains("fake-git-repository-file-contents-71f64aabd056")
-      cy.runBlockingShellCommand({
+      nvim.runBlockingShellCommand({
         command:
           "cd fakegitrepo && git add file.txt && git commit -a -m 'initial commit'",
       })
-      cy.runBlockingShellCommand({
+      nvim.runBlockingShellCommand({
         command: "cd $HOME/fakegitrepo && echo 'file2-contents' > file2.txt",
       })
-      cy.runExCommand({ command: "edit %:h/file2.txt" })
+      nvim.runExCommand({ command: "edit %:h/file2.txt" })
       cy.contains("file2-contents")
 
       cy.typeIntoTerminal("{rightarrow}")
@@ -221,7 +221,7 @@ describe("testing", () => {
 
   it("can force_quit lazygit", () => {
     cy.visit("/")
-    cy.startNeovim({ filename: "fakegitrepo/file.txt" }).then(() => {
+    cy.startNeovim({ filename: "fakegitrepo/file.txt" }).then((nvim) => {
       // wait until text on the start screen is visible
       cy.contains("fake-git-repository-file-contents-71f64aabd056")
       initializeGitRepositoryInDirectory()
@@ -260,7 +260,7 @@ describe("testing", () => {
 function initializeGitRepositoryInDirectory(
   relativePath: string = "fakegitrepo",
 ) {
-  cy.runBlockingShellCommand({
+  cy.nvim_runBlockingShellCommand({
     command: `cd $HOME/${relativePath} && git init`,
   }).and((result) => {
     assert(result.type === "success", "Failed to initialize git repository")
