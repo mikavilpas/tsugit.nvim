@@ -15,7 +15,7 @@ const lazygit = {
 describe("testing", () => {
   it("can toggle lazygit on/off", () => {
     cy.visit("/")
-    cy.startNeovim({ filename: "fakegitrepo/file.txt" }).then((nvim) => {
+    cy.startNeovim({ filename: "fakegitrepo/file.txt" }).then(() => {
       // wait until text on the start screen is visible
       cy.contains("fake-git-repository-file-contents-71f64aabd056")
       initializeGitRepositoryInDirectory()
@@ -59,7 +59,7 @@ describe("testing", () => {
   it("hides lazygit when clicked outside of the floating window", () => {
     cy.visit("/")
 
-    cy.startNeovim({ filename: "fakegitrepo/file.txt" }).then((nvim) => {
+    cy.startNeovim({ filename: "fakegitrepo/file.txt" }).then(() => {
       cy.contains("fake-git-repository-file-contents-71f64aabd056")
       initializeGitRepositoryInDirectory()
 
@@ -221,7 +221,7 @@ describe("testing", () => {
 
   it("can force_quit lazygit", () => {
     cy.visit("/")
-    cy.startNeovim({ filename: "fakegitrepo/file.txt" }).then((nvim) => {
+    cy.startNeovim({ filename: "fakegitrepo/file.txt" }).then(() => {
       // wait until text on the start screen is visible
       cy.contains("fake-git-repository-file-contents-71f64aabd056")
       initializeGitRepositoryInDirectory()
