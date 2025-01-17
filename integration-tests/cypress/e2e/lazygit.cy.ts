@@ -15,7 +15,7 @@ const lazygit = {
 describe("testing", () => {
   it("can toggle lazygit on/off", () => {
     cy.visit("/")
-    cy.startNeovim({ filename: "fakegitrepo/file.txt" }).then((nvim) => {
+    cy.startNeovim({ filename: "fakegitrepo/file.txt" }).then(() => {
       // wait until text on the start screen is visible
       cy.contains("fake-git-repository-file-contents-71f64aabd056")
       initializeGitRepositoryInDirectory()
@@ -59,7 +59,7 @@ describe("testing", () => {
   it("hides lazygit when clicked outside of the floating window", () => {
     cy.visit("/")
 
-    cy.startNeovim({ filename: "fakegitrepo/file.txt" }).then((nvim) => {
+    cy.startNeovim({ filename: "fakegitrepo/file.txt" }).then(() => {
       cy.contains("fake-git-repository-file-contents-71f64aabd056")
       initializeGitRepositoryInDirectory()
 
@@ -245,8 +245,22 @@ describe("testing", () => {
 
       // lazygit is now in a non-default state. Let's force_quit it
       cy.typeIntoTerminal("{control+c}")
+
+      // snacks displays an error message. Close it.
+      cy.contains("Error detected")
+      cy.contains("Check for any errors")
+      cy.typeIntoTerminal("{enter}")
+      cy.contains("Check for any errors").should("not.exist")
+
       // lazygit should have disappeared
       cy.contains(lazygit.branchesPane).should("not.exist")
+
+      // we should be in insert mode (TODO why? is this caused by snacks?)
+      cy.contains("INSERT")
+      nvim.runLuaCode({
+        luaCode: "assert(vim.api.nvim_get_mode().mode == 'i')",
+      })
+      cy.typeIntoTerminal("{esc}")
 
       // bring lazygit back. The pane should be reset to the initial state
       cy.contains(lazygit.branchesPane).should("not.exist")
