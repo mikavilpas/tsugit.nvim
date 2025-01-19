@@ -25,8 +25,6 @@ export const MyTestDirectorySchema = z.object({
             config: z.object({
               name: z.literal("config"),
               type: z.literal("file"),
-              extension: z.literal(""),
-              stem: z.literal("config"),
             }),
           }),
         }),
@@ -37,8 +35,6 @@ export const MyTestDirectorySchema = z.object({
             "config.yml": z.object({
               name: z.literal("config.yml"),
               type: z.literal("file"),
-              extension: z.literal("yml"),
-              stem: z.literal("config."),
             }),
           }),
         }),
@@ -49,8 +45,6 @@ export const MyTestDirectorySchema = z.object({
             "init.lua": z.object({
               name: z.literal("init.lua"),
               type: z.literal("file"),
-              extension: z.literal("lua"),
-              stem: z.literal("init."),
             }),
           }),
         }),
@@ -63,8 +57,6 @@ export const MyTestDirectorySchema = z.object({
         "use_light_neovim_colorscheme.lua": z.object({
           name: z.literal("use_light_neovim_colorscheme.lua"),
           type: z.literal("file"),
-          extension: z.literal("lua"),
-          stem: z.literal("use_light_neovim_colorscheme."),
         }),
       }),
     }),
@@ -75,14 +67,10 @@ export const MyTestDirectorySchema = z.object({
         "file1.txt": z.object({
           name: z.literal("file1.txt"),
           type: z.literal("file"),
-          extension: z.literal("txt"),
-          stem: z.literal("file1."),
         }),
         "file2.txt": z.object({
           name: z.literal("file2.txt"),
           type: z.literal("file"),
-          extension: z.literal("txt"),
-          stem: z.literal("file2."),
         }),
       }),
     }),
@@ -93,28 +81,20 @@ export const MyTestDirectorySchema = z.object({
         "file.txt": z.object({
           name: z.literal("file.txt"),
           type: z.literal("file"),
-          extension: z.literal("txt"),
-          stem: z.literal("file."),
         }),
       }),
     }),
     "file.txt": z.object({
       name: z.literal("file.txt"),
       type: z.literal("file"),
-      extension: z.literal("txt"),
-      stem: z.literal("file."),
     }),
     "initial-file.txt": z.object({
       name: z.literal("initial-file.txt"),
       type: z.literal("file"),
-      extension: z.literal("txt"),
-      stem: z.literal("initial-file."),
     }),
     "integration-tests.log": z.object({
       name: z.literal("integration-tests.log"),
       type: z.literal("file"),
-      extension: z.literal("log"),
-      stem: z.literal("integration-tests."),
     }),
     "other-subdirectory": z.object({
       name: z.literal("other-subdirectory/"),
@@ -123,8 +103,6 @@ export const MyTestDirectorySchema = z.object({
         "other-sub-file.txt": z.object({
           name: z.literal("other-sub-file.txt"),
           type: z.literal("file"),
-          extension: z.literal("txt"),
-          stem: z.literal("other-sub-file."),
         }),
       }),
     }),
@@ -139,8 +117,6 @@ export const MyTestDirectorySchema = z.object({
             "adjacent-file.txt": z.object({
               name: z.literal("adjacent-file.txt"),
               type: z.literal("file"),
-              extension: z.literal("txt"),
-              stem: z.literal("adjacent-file."),
             }),
           }),
         }),
@@ -153,8 +129,6 @@ export const MyTestDirectorySchema = z.object({
         "subdirectory-file.txt": z.object({
           name: z.literal("subdirectory-file.txt"),
           type: z.literal("file"),
-          extension: z.literal("txt"),
-          stem: z.literal("subdirectory-file."),
         }),
       }),
     }),
