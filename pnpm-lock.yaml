@@ -29,7 +29,7 @@ importers:
     devDependencies:
       '@tui-sandbox/library':
         specifier: 9.0.0
-        version: 9.0.0(cypress@14.0.0)(prettier@3.4.2)(type-fest@4.27.0)(typescript@5.7.3)
+        version: 9.0.0(cypress@14.0.0)(prettier@3.4.2)(type-fest@4.32.0)(typescript@5.7.3)
       '@typescript-eslint/eslint-plugin':
         specifier: 8.20.0
         version: 8.20.0(@typescript-eslint/parser@8.20.0(eslint@9.18.0)(typescript@5.7.3))(eslint@9.18.0)(typescript@5.7.3)
@@ -59,7 +59,7 @@ importers:
         version: 4.19.2
       type-fest:
         specifier: ^4
-        version: 4.27.0
+        version: 4.32.0
       typescript:
         specifier: 5.7.3
         version: 5.7.3
@@ -2292,8 +2292,8 @@ packages:
     resolution: {integrity: sha512-t0rzBq87m3fVcduHDUFhKmyyX+9eo6WQjZvf51Ea/M0Q7+T374Jp1aUiyUl0GKxp8M/OETVHSDvmkyPgvX+X2w==}
     engines: {node: '>=10'}
 
-  type-fest@4.27.0:
-    resolution: {integrity: sha512-3IMSWgP7C5KSQqmo1wjhKrwsvXAtF33jO3QY+Uy++ia7hqvgSK6iXbbg5PbDBc1P2ZbNEDgejOrN4YooXvhwCw==}
+  type-fest@4.32.0:
+    resolution: {integrity: sha512-rfgpoi08xagF3JSdtJlCwMq9DGNDE0IMh3Mkpc1wUypg9vPi786AiqeBBKcqvIkq42azsBM85N490fyZjeUftw==}
     engines: {node: '>=16'}
 
   type-is@1.6.18:
@@ -2712,7 +2712,7 @@ snapshots:
     dependencies:
       typescript: 5.7.3
 
-  '@tui-sandbox/library@9.0.0(cypress@14.0.0)(prettier@3.4.2)(type-fest@4.27.0)(typescript@5.7.3)':
+  '@tui-sandbox/library@9.0.0(cypress@14.0.0)(prettier@3.4.2)(type-fest@4.32.0)(typescript@5.7.3)':
     dependencies:
       '@catppuccin/palette': 1.7.1
       '@trpc/client': 11.0.0-rc.700(@trpc/server@11.0.0-rc.700(typescript@5.7.3))(typescript@5.7.3)
@@ -2730,7 +2730,7 @@ snapshots:
       node-pty: 1.0.0
       prettier: 3.4.2
       tsx: 4.19.2
-      type-fest: 4.27.0
+      type-fest: 4.32.0
       typescript: 5.7.3
       winston: 3.17.0
       zod: 3.24.1
@@ -4998,7 +4998,7 @@ snapshots:
 
   type-fest@0.21.3: {}
 
-  type-fest@4.27.0: {}
+  type-fest@4.32.0: {}
 
   type-is@1.6.18:
     dependencies:
