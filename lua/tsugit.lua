@@ -146,6 +146,13 @@ function M.toggle(args, options)
       end,
     })
 
+    lazygit:on("TermClose", function()
+      lazygit:close({ buf = true })
+      if vim.api.nvim_buf_is_valid(lazygit.buf) then
+        vim.api.nvim_buf_delete(lazygit.buf, { force = true })
+      end
+    end)
+
     vim.api.nvim_create_autocmd({ "WinLeave" }, {
       buffer = lazygit.buf,
       callback = function()
