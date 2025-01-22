@@ -16,8 +16,8 @@
   },
   "devDependencies": {
     "@tui-sandbox/library": "9.0.0",
-    "@typescript-eslint/eslint-plugin": "8.20.0",
-    "@typescript-eslint/parser": "8.20.0",
+    "@typescript-eslint/eslint-plugin": "8.21.0",
+    "@typescript-eslint/parser": "8.21.0",
     "concurrently": "9.1.2",
     "cypress": "14.0.0",
     "eslint": "9.18.0",
