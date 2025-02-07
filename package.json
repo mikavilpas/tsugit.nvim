@@ -19,5 +19,13 @@
     "prettier-plugin-organize-imports": "4.1.0",
     "prettier-plugin-packagejson": "2.5.8"
   },
-  "packageManager": "pnpm@10.2.0+sha256.72f1630812107c8723eb5be4517725f3e13f09cfd8f71571cf29f23ce318bdb7"
+  "packageManager": "pnpm@10.2.0+sha256.72f1630812107c8723eb5be4517725f3e13f09cfd8f71571cf29f23ce318bdb7",
+  "pnpm": {
+    "ignoredBuiltDependencies": [
+      "cypress"
+    ],
+    "onlyBuiltDependencies": [
+      "cypress"
+    ]
+  }
 }
