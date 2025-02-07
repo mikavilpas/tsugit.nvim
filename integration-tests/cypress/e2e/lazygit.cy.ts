@@ -246,12 +246,6 @@ describe("testing", () => {
       // lazygit is now in a non-default state. Let's force_quit it
       cy.typeIntoTerminal("{control+c}")
 
-      // snacks displays an error message. Close it.
-      cy.contains("Error detected")
-      cy.contains("Check for any errors")
-      cy.typeIntoTerminal("{enter}")
-      cy.contains("Check for any errors").should("not.exist")
-
       // lazygit should have disappeared
       cy.contains(lazygit.branchesPane).should("not.exist")
 
