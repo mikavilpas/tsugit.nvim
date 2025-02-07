@@ -26,7 +26,11 @@ jobs:
           nvim_version: ${{ matrix.neovim_version }}
           luarocks_version: "3.11.1"
 
-      - uses: pnpm/action-setup@v4.0.0
+      - uses: pnpm/action-setup@v4.1.0
+        with:
+          # https://github.com/pnpm/action-setup?tab=readme-ov-file#use-cache-to-reduce-installation-time
+          run_install: false
+
       - uses: actions/setup-node@v4.2.0
         with:
           node-version-file: .nvmrc
@@ -44,11 +48,8 @@ jobs:
           echo "lazygit version $(lazygit --version)"
           echo "lazygit path $(which lazygit)"
 
-      - name: Install dependencies
-        uses: cypress-io/github-action@v6
-        with:
-          runTests: false
-          # https://github.com/cypress-io/github-action/blob/bff0ae58f02476fbc4b13229bcaac2767f645b3e/README.md#pnpm-workspaces
+      # need to work around https://github.com/cypress-io/github-action/issues/1246
+      - run: pnpm --filter integration-tests exec cypress install
 
       - name: Preinstall neovim plugins
         run: pnpm tui neovim exec "Lazy! sync"
