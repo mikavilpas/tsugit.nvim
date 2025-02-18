@@ -15,9 +15,9 @@
     "@catppuccin/palette": "1.7.1"
   },
   "devDependencies": {
-    "@tui-sandbox/library": "9.1.10",
-    "@typescript-eslint/eslint-plugin": "8.24.0",
-    "@typescript-eslint/parser": "8.24.0",
+    "@tui-sandbox/library": "9.2.1",
+    "@typescript-eslint/eslint-plugin": "8.24.1",
+    "@typescript-eslint/parser": "8.24.1",
     "concurrently": "9.1.2",
     "cypress": "14.0.3",
     "eslint": "9.20.1",
