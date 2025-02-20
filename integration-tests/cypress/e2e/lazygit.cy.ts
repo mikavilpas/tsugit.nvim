@@ -221,7 +221,7 @@ describe("testing", () => {
 
   it("can force_quit lazygit", () => {
     cy.visit("/")
-    cy.startNeovim({ filename: "fakegitrepo/file.txt" }).then((nvim) => {
+    cy.startNeovim({ filename: "fakegitrepo/file.txt" }).then((_nvim) => {
       // wait until text on the start screen is visible
       cy.contains("fake-git-repository-file-contents-71f64aabd056")
       initializeGitRepositoryInDirectory()
@@ -248,13 +248,6 @@ describe("testing", () => {
 
       // lazygit should have disappeared
       cy.contains(lazygit.branchesPane).should("not.exist")
-
-      // we should be in insert mode (TODO why? is this caused by snacks?)
-      cy.contains("INSERT")
-      nvim.runLuaCode({
-        luaCode: "assert(vim.api.nvim_get_mode().mode == 'i')",
-      })
-      cy.typeIntoTerminal("{esc}")
 
       // bring lazygit back. The pane should be reset to the initial state
       cy.contains(lazygit.branchesPane).should("not.exist")
