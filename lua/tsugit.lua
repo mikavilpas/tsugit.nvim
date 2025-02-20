@@ -22,7 +22,7 @@ M.config = {
   },
 }
 
----@param config tsugit.Config
+---@param config tsugit.Config | {}
 M.setup = function(config)
   require("flatten").setup(
     ---@diagnostic disable-next-line: missing-fields
