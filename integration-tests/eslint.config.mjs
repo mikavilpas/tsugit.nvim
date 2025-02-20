@@ -1,18 +1,8 @@
-import { FlatCompat } from "@eslint/eslintrc"
-import js from "@eslint/js"
+import eslintConfigPrettier from "eslint-config-prettier"
 import noOnlyTests from "eslint-plugin-no-only-tests"
-import path from "node:path"
-import { fileURLToPath } from "node:url"
+import * as typescriptEslint from "typescript-eslint"
 
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = path.dirname(__filename)
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-  recommendedConfig: js.configs.recommended,
-  allConfig: js.configs.all,
-})
-
-export default [
+export default typescriptEslint.config(
   {
     ignores: [
       "**/vite.config.js",
@@ -23,11 +13,9 @@ export default [
       "cypress/support/tui-sandbox.ts",
     ],
   },
-  ...compat.extends(
-    "plugin:@typescript-eslint/recommended",
-    "plugin:@typescript-eslint/strict-type-checked",
-    "prettier",
-  ),
+  eslintConfigPrettier,
+  typescriptEslint.configs.recommended,
+  typescriptEslint.configs.recommendedTypeChecked,
   {
     plugins: {
       "no-only-tests": noOnlyTests,
@@ -96,4 +84,4 @@ export default [
       "@typescript-eslint/no-unused-vars": "off",
     },
   },
-]
+)
