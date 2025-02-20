@@ -147,35 +147,23 @@ function M.toggle(args, options)
     })
 
     lazygit:on("TermClose", function()
-      lazygit:close({ buf = true })
+      -- Prevent the "Process exited 0" message. It's displayed by default when
+      -- the terminal application has exited.
       if vim.api.nvim_buf_is_valid(lazygit.buf) then
         vim.api.nvim_buf_delete(lazygit.buf, { force = true })
       end
+
+      -- warm up the next instance
+      local newLazyGit = M.toggle(args, {
+        tries_remaining = (options.tries_remaining or 0) - 1,
+        term_opts = {},
+      })
+      newLazyGit:hide()
     end)
 
-    vim.api.nvim_create_autocmd({ "WinLeave" }, {
-      buffer = lazygit.buf,
-      callback = function()
-        lazygit:hide()
-        local tries_remaining = (options.tries_remaining or 0) <= 0
-        if not tries_remaining then
-          return
-        end
-
-        if lazygit:buf_valid() then
-          return -- nothing to do
-        end
-
-        vim.schedule(function()
-          -- warm up the next instance
-          local newLazyGit = M.toggle(args, {
-            tries_remaining = (options.tries_remaining or 0) - 1,
-            term_opts = {},
-          })
-          newLazyGit:hide()
-        end)
-      end,
-    })
+    lazygit:on("WinLeave", function()
+      lazygit:hide()
+    end)
   end
 
   require("tsugit.keymaps").create_keymaps(config, lazygit)
