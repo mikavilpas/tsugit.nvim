@@ -289,7 +289,7 @@ describe("toggle_for_file", () => {
       // verify that toggle_for_file shows the commit messages for the current
       // file
       nvim.runLuaCode({
-        luaCode: `require('tsugit').toggle_for_file(vim.fn.expand('%:p'))`,
+        luaCode: `require('tsugit').toggle_for_file()`,
       })
       cy.contains("other-file commit")
       cy.contains("root commit")
@@ -304,7 +304,7 @@ describe("toggle_for_file", () => {
       cy.contains("fake-git-repository-file-contents-71f64aabd056")
 
       nvim.runLuaCode({
-        luaCode: `require('tsugit').toggle_for_file(vim.fn.expand('%:p'))`,
+        luaCode: `require('tsugit').toggle_for_file()`,
       })
       cy.contains("other-file commit").should("not.exist")
       cy.contains("root commit")
