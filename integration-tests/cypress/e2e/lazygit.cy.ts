@@ -312,6 +312,45 @@ describe("toggle_for_file", () => {
   })
 })
 
+describe("in a git workspace", () => {
+  it("by default, opens the current workspace", () => {
+    cy.visit("/")
+    cy.startNeovim({}).then((nvim) => {
+      // set up a git workspace
+      nvim.runBlockingShellCommand({
+        command: "./create-workspaces.sh",
+        cwdRelative: "workspace-test",
+      })
+
+      // test: opening tsugit in a file in a workspace opens lazygit in that
+      // workspace (not the workspace root)
+      nvim.runExCommand({
+        command:
+          "e %:h/workspace-test/my-repo/workspaces/workspace1/workspace1.txt",
+      })
+      cy.contains("This is workspace 1")
+      cy.typeIntoTerminal("{rightarrow}")
+      // the commits for this workspace should be visible
+      cy.contains("Add workspace1.txt")
+      cy.contains("Initial commit")
+
+      cy.typeIntoTerminal("q")
+      cy.contains("Add workspace1.txt").should("not.exist")
+
+      // test: toggle_for_file should also open lazygit in the current workspace
+      nvim.runLuaCode({
+        luaCode: `require('tsugit').toggle_for_file()`,
+      })
+      cy.contains("Add workspace1.txt")
+      // at the bottom, lazygit should show that we're filtering the commits
+      // for this file only
+      cy.contains("Filtering by")
+      cy.typeIntoTerminal("q")
+      cy.contains("Add workspace1.txt").should("not.exist")
+    })
+  })
+})
+
 function initializeGitRepositoryInDirectory(
   relativePath: MyTestDirectoryFile = "fakegitrepo",
 ) {

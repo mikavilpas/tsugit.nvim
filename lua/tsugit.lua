@@ -103,7 +103,8 @@ function M.toggle(args, options)
   local config = vim.tbl_deep_extend("force", M.config, options.config or {})
   assert(config.keys.toggle, "tsugit.nvim: missing the toggle key")
 
-  local cwd = vim.fn.fnameescape(vim.fs.root(0, ".git") or vim.fn.getcwd())
+  local cwd = options.cwd
+    or vim.fn.fnameescape(require("snacks.git").get_root() or vim.fn.getcwd())
   local terminal = require("snacks.terminal")
   ---@type snacks.terminal.Opts
   local default_opts = {
