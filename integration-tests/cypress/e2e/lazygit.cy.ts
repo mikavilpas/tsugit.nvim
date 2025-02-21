@@ -1,6 +1,7 @@
 import { flavors } from "@catppuccin/palette"
 import { rgbify } from "@tui-sandbox/library/dist/src/client/color-utilities"
 import assert from "assert"
+import type { MyTestDirectoryFile } from "MyTestDirectory"
 
 const colors = {
   selectedItem: rgbify(flavors.macchiato.colors.blue.rgb),
@@ -258,11 +259,65 @@ describe("testing", () => {
   })
 })
 
+describe("toggle_for_file", () => {
+  it("opens lazygit in filter mode for the given file", () => {
+    cy.visit("/")
+    cy.startNeovim({ filename: "fakegitrepo/file.txt" }).then((nvim) => {
+      // wait until text on the start screen is visible
+      cy.contains("fake-git-repository-file-contents-71f64aabd056")
+      initializeGitRepositoryInDirectory()
+
+      // create a commit for the root repo that includes all files in this mini
+      // repo
+      cy.typeIntoTerminal("ofoo{esc}")
+      nvim.runExCommand({ command: "write" })
+      nvim.runBlockingShellCommand({
+        command: `git add . && git commit -m 'root commit'`,
+        cwdRelative: "fakegitrepo",
+      })
+
+      // create commit for other-file.txt that only includes that file
+      nvim.runExCommand({ command: "edit %:h/other-file.txt" })
+      cy.contains("another fakegitrepo file")
+      cy.typeIntoTerminal("ofoo{esc}")
+      nvim.runExCommand({ command: "write" })
+      nvim.runBlockingShellCommand({
+        command: `git add . && git commit -m 'other-file commit'`,
+        cwdRelative: "fakegitrepo",
+      })
+
+      // verify that toggle_for_file shows the commit messages for the current
+      // file
+      nvim.runLuaCode({
+        luaCode: `require('tsugit').toggle_for_file(vim.fn.expand('%:p'))`,
+      })
+      cy.contains("other-file commit")
+      cy.contains("root commit")
+      // close lazygit
+      cy.typeIntoTerminal("q")
+      cy.contains("other-file commit").should("not.exist")
+
+      // now that both files have a commit, go back to the first file and
+      // verify that the commit message for that file only is visible when
+      // toggle_for_file is used
+      nvim.runExCommand({ command: "edit %:h/file.txt" })
+      cy.contains("fake-git-repository-file-contents-71f64aabd056")
+
+      nvim.runLuaCode({
+        luaCode: `require('tsugit').toggle_for_file(vim.fn.expand('%:p'))`,
+      })
+      cy.contains("other-file commit").should("not.exist")
+      cy.contains("root commit")
+    })
+  })
+})
+
 function initializeGitRepositoryInDirectory(
-  relativePath: string = "fakegitrepo",
+  relativePath: MyTestDirectoryFile = "fakegitrepo",
 ) {
   cy.nvim_runBlockingShellCommand({
-    command: `cd $HOME/${relativePath} && git init`,
+    command: `git init`,
+    cwdRelative: relativePath,
   }).and((result) => {
     assert(result.type === "success", "Failed to initialize git repository")
   })
