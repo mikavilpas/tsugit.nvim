@@ -82,6 +82,10 @@ export const MyTestDirectorySchema = z.object({
           name: z.literal("file.txt"),
           type: z.literal("file"),
         }),
+        "other-file.txt": z.object({
+          name: z.literal("other-file.txt"),
+          type: z.literal("file"),
+        }),
       }),
     }),
     "file.txt": z.object({
@@ -157,6 +161,7 @@ export const testDirectoryFiles = z.enum([
   "dir with spaces/file2.txt",
   "dir with spaces",
   "fakegitrepo/file.txt",
+  "fakegitrepo/other-file.txt",
   "fakegitrepo",
   "file.txt",
   "initial-file.txt",
