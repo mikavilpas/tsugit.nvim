@@ -136,6 +136,16 @@ export const MyTestDirectorySchema = z.object({
         }),
       }),
     }),
+    "workspace-test": z.object({
+      name: z.literal("workspace-test/"),
+      type: z.literal("directory"),
+      contents: z.object({
+        "create-workspaces.sh": z.object({
+          name: z.literal("create-workspaces.sh"),
+          type: z.literal("file"),
+        }),
+      }),
+    }),
   }),
 })
 
@@ -173,6 +183,8 @@ export const testDirectoryFiles = z.enum([
   "routes",
   "subdirectory/subdirectory-file.txt",
   "subdirectory",
+  "workspace-test/create-workspaces.sh",
+  "workspace-test",
   ".",
 ])
 export type MyTestDirectoryFile = z.infer<typeof testDirectoryFiles>
