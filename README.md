@@ -18,7 +18,7 @@ myself to make it even more powerful.
     background.
   - Alternatively, toggle lazygit on/off. Instantly bring it back with the same
     key.
-  - Kill lazygit (in case it gets stuck) with `<c-c>`.
+  - Kill lazygit (in case it gets stuck) with `<c-c>` by default.
 - **Seamless integration**: Use lazygit as if it's a part of Neovim. No extra
   applications are required.
   - You can edit files in Neovim while lazygit is open.
@@ -37,6 +37,8 @@ return {
     {
       "<right>",
       function()
+        -- if lazygit is running in the background but hidden, show it.
+        -- otherwise, start it and focus it.
         require("tsugit").toggle()
       end,
       { silent = true, desc = "toggle lazygit" },
@@ -44,8 +46,9 @@ return {
     {
       "<leader>gl",
       function()
-        local absolutePath = vim.api.nvim_buf_get_name(0)
-        require("tsugit").toggle_for_file(absolutePath)
+        -- display the commit history for the current file in lazygit.
+        -- do not keep lazygit open after it has been closed.
+        require("tsugit").toggle_for_file()
       end,
       { silent = true, desc = "lazygit file commits" },
     },
