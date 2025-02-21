@@ -59,7 +59,11 @@ return {
     -- If you want to completely disable keys, you can set them to `false`.
     -- You can also set `keys = false` to disable automatically creating keymaps.
     keys = {
+      -- when lazygit is open and focused, hide it but keep it running in the
+      -- background
       toggle = "<right>",
+      -- when lazygit is open and focused, kill it and warm up the next
+      -- instance
       force_quit = "<c-c>",
     }
   },
