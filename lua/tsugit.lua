@@ -86,10 +86,16 @@ M.setup = function(config)
   })
 end
 
+---@class tsugit.CallOptions
+---@field config? tsugit.Config | {} # overrides to the default configuration, used for this call only
+---@field cwd? string # the path to open lazygit in
+---@field term_opts? snacks.terminal.Opts # overrides to the snacks terminal
+---@field tries_remaining? number # used internally to prevent infinite loops
+
 -- open lazygit in the current git directory
 ---@module "snacks.terminal"
 ---@param args? string[]
----@param options? {tries_remaining?: number, term_opts?: snacks.terminal.Opts, config?: tsugit.Config}
+---@param options? tsugit.CallOptions
 ---@return snacks.win
 function M.toggle(args, options)
   local cmd = vim.list_extend({ "lazygit" }, args or {})
@@ -180,12 +186,14 @@ function M.toggle(args, options)
 end
 
 --- Open lazygit for the current file path
----@param path string
----@param options? {tries_remaining?: number, term_opts?: snacks.terminal.Opts, config?: tsugit.Config}
+---@param path? string # the file path to open lazygit in. If not given, uses the current buffer's file path.
+---@param options? tsugit.CallOptions | {}
 function M.toggle_for_file(path, options)
+  path = path or vim.fn.expand("%:p")
   if not path then
+    -- might happen if the current buffer is not a file (rare)
     vim.notify("tsugit.nvim: No file path provided", vim.log.levels.ERROR)
-    return
+    error("tsugit.nvim: No file path provided")
   end
 
   -- don't warm up the next lazygit for a single file path to save some resources
