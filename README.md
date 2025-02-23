@@ -14,8 +14,8 @@ myself to make it even more powerful.
 
 - **Blazingly fast**: No more waiting for lazygit to start up. After starting it
   once, it's always running in the background.
-  - When you quit lazygit (default: `q`), it's automatically restarted in the
-    background.
+  - When you quit lazygit (default lazygit key: `q`), it's automatically
+    restarted in the background.
   - Alternatively, toggle lazygit on/off. Instantly bring it back with the same
     key.
   - Kill lazygit (in case it gets stuck) with `<c-c>` by default.
