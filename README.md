@@ -8,7 +8,7 @@ myself to make it even more powerful.
 <a href="https://dotfyle.com/plugins/mikavilpas/tsugit.nvim">
   <img src="https://dotfyle.com/plugins/mikavilpas/tsugit.nvim/shield?style=flat-square" alt="shield image for plugin usage" /> </a>
 
-<https://github.com/user-attachments/assets/46c8b582-6b4f-4418-8fe4-e63f0d8766cf>
+<https://github.com/user-attachments/assets/f9f676ee-49eb-424a-9cf1-e472814b9674>
 
 ## ✨ Features
 
