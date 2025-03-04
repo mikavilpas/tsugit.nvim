@@ -15,7 +15,7 @@
     "@catppuccin/palette": "1.7.1"
   },
   "devDependencies": {
-    "@tui-sandbox/library": "9.5.0",
+    "@tui-sandbox/library": "9.5.1",
     "concurrently": "9.1.2",
     "cypress": "14.1.0",
     "eslint": "9.21.0",
@@ -23,8 +23,8 @@
     "eslint-plugin-no-only-tests": "3.3.0",
     "tsx": "4.19.3",
     "type-fest": "^4",
-    "typescript": "5.7.3",
-    "typescript-eslint": "8.25.0",
+    "typescript": "5.8.2",
+    "typescript-eslint": "8.26.0",
     "wait-on": "8.0.2",
     "zod": "3.24.2"
   }
