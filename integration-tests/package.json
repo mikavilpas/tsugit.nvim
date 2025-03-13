@@ -17,15 +17,15 @@
   "devDependencies": {
     "@tui-sandbox/library": "9.6.0",
     "concurrently": "9.1.2",
-    "cypress": "14.1.0",
-    "eslint": "9.21.0",
+    "cypress": "14.2.0",
+    "eslint": "9.22.0",
     "eslint-config-prettier": "10.1.1",
     "eslint-plugin-no-only-tests": "3.3.0",
     "tsx": "4.19.3",
     "type-fest": "^4",
     "typescript": "5.8.2",
-    "typescript-eslint": "8.26.0",
-    "wait-on": "8.0.2",
+    "typescript-eslint": "8.26.1",
+    "wait-on": "8.0.3",
     "zod": "3.24.2"
   }
 }
