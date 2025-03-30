@@ -102,15 +102,16 @@ describe("testing", () => {
       cy.typeIntoTerminal("{rightarrow}")
       cy.contains("main")
 
-      // TODO tui-sandbox should have a human readable way to match the text on the screen
-      //
-      // for now just match on the symbol before the file since the test
-      // environment is well controlled anyway
-      cy.contains("??").should(
+      // the file tree root item (📁 /) should be selected
+      cy.contains("/").should(
         "have.css",
         "background-color",
         colors.selectedItem,
       )
+
+      // select the first file in the file tree (move the selection away from
+      // the root of the tree)
+      cy.typeIntoTerminal("j")
 
       // stage all files
       cy.typeIntoTerminal("a")
@@ -156,6 +157,17 @@ describe("testing", () => {
 
       cy.typeIntoTerminal("{rightarrow}")
       cy.contains("Donate")
+
+      // the file tree root item (📁 /) should be selected
+      cy.contains("/").should(
+        "have.css",
+        "background-color",
+        colors.selectedItem,
+      )
+
+      // select the first file in the file tree (move the selection away from
+      // the root of the tree)
+      cy.typeIntoTerminal("j")
 
       cy.contains("??").should(
         "have.css",
