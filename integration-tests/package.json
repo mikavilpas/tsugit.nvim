@@ -18,7 +18,7 @@
     "@tui-sandbox/library": "10.2.1",
     "concurrently": "9.1.2",
     "cypress": "14.3.1",
-    "eslint": "9.24.0",
+    "eslint": "9.25.0",
     "eslint-config-prettier": "10.1.2",
     "eslint-plugin-no-only-tests": "3.3.0",
     "tsx": "4.19.3",
