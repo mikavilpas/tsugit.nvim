@@ -1,7 +1,9 @@
 import { flavors } from "@catppuccin/palette"
 import { rgbify } from "@tui-sandbox/library/dist/src/client/color-utilities"
-import assert from "assert"
-import type { MyTestDirectoryFile } from "MyTestDirectory"
+import {
+  assertCurrentBufferName,
+  initializeGitRepositoryInDirectory,
+} from "./test-utils"
 
 const colors = {
   selectedItem: rgbify(flavors.macchiato.colors.blue.rgb),
@@ -71,6 +73,36 @@ describe("testing", () => {
 
       cy.contains(fakeGitRepoFileText).click()
       cy.contains(lazygit.donateMessage).should("not.exist")
+    })
+  })
+
+  it("keeps focus on the previous buffer after closing", () => {
+    cy.visit("/")
+
+    cy.startNeovim({
+      filename: {
+        openInVerticalSplits: [
+          "fakegitrepo/file.txt",
+          "fakegitrepo/other-file.txt",
+        ],
+      },
+    }).then((nvim) => {
+      cy.contains(fakeGitRepoFileText)
+      initializeGitRepositoryInDirectory()
+
+      // make sure the first file is focused
+      assertCurrentBufferName("fakegitrepo/file.txt")
+
+      // focus on the second file
+      nvim.runExCommand({ command: "wincmd l" })
+      assertCurrentBufferName("fakegitrepo/other-file.txt")
+
+      cy.typeIntoTerminal("{rightarrow}")
+      cy.contains(lazygit.donateMessage)
+
+      cy.typeIntoTerminal("q")
+      cy.contains(lazygit.donateMessage).should("not.exist")
+      assertCurrentBufferName("fakegitrepo/other-file.txt")
     })
   })
 
@@ -362,14 +394,3 @@ describe("in a git workspace", () => {
     })
   })
 })
-
-function initializeGitRepositoryInDirectory(
-  relativePath: MyTestDirectoryFile = "fakegitrepo",
-) {
-  cy.nvim_runBlockingShellCommand({
-    command: `git init`,
-    cwdRelative: relativePath,
-  }).and((result) => {
-    assert(result.type === "success", "Failed to initialize git repository")
-  })
-}
