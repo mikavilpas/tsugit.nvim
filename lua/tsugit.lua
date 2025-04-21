@@ -141,6 +141,7 @@ function M.toggle(args, options)
 
   assert(lazygit, "tsugit.nvim: failed to create lazygit terminal")
   vim.api.nvim_buf_set_var(lazygit.buf, "minicursorword_disable", true)
+  local previous_buffer = vim.api.nvim_get_current_buf()
   lazygit:show()
 
   if created then
@@ -158,6 +159,11 @@ function M.toggle(args, options)
       -- the terminal application has exited.
       if vim.api.nvim_buf_is_valid(lazygit.buf) then
         vim.api.nvim_buf_delete(lazygit.buf, { force = true })
+
+        -- focus the previous_buffer after closing lazygit
+        if vim.api.nvim_buf_is_valid(previous_buffer) then
+          vim.api.set_current_buf(previous_buffer)
+        end
       end
 
       -- warm up the next instance
