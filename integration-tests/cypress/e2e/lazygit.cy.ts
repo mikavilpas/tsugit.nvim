@@ -13,12 +13,14 @@ const lazygit = {
   donateMessage: "Donate",
 } as const
 
+const fakeGitRepoFileText = "fake-git-repository-file-contents-71f64aabd056"
+
 describe("testing", () => {
   it("can toggle lazygit on/off", () => {
     cy.visit("/")
     cy.startNeovim({ filename: "fakegitrepo/file.txt" }).then(() => {
       // wait until text on the start screen is visible
-      cy.contains("fake-git-repository-file-contents-71f64aabd056")
+      cy.contains(fakeGitRepoFileText)
       initializeGitRepositoryInDirectory()
 
       cy.typeIntoTerminal("{rightarrow}")
@@ -61,13 +63,13 @@ describe("testing", () => {
     cy.visit("/")
 
     cy.startNeovim({ filename: "fakegitrepo/file.txt" }).then(() => {
-      cy.contains("fake-git-repository-file-contents-71f64aabd056")
+      cy.contains(fakeGitRepoFileText)
       initializeGitRepositoryInDirectory()
 
       cy.typeIntoTerminal("{rightarrow}")
       cy.contains(lazygit.donateMessage)
 
-      cy.contains("fake-git-repository-file-contents-71f64aabd056").click()
+      cy.contains(fakeGitRepoFileText).click()
       cy.contains(lazygit.donateMessage).should("not.exist")
     })
   })
@@ -76,7 +78,7 @@ describe("testing", () => {
     cy.visit("/")
 
     cy.startNeovim({ filename: "fakegitrepo/file.txt" }).then((nvim) => {
-      cy.contains("fake-git-repository-file-contents-71f64aabd056")
+      cy.contains(fakeGitRepoFileText)
       initializeGitRepositoryInDirectory()
       nvim.runExCommand({ command: "e %:h/.git/COMMIT_EDITMSG" })
       cy.typeIntoTerminal("itest commit message{esc}", { delay: 0 })
@@ -96,7 +98,7 @@ describe("testing", () => {
         VISUAL: "nvim",
       },
     }).then((nvim) => {
-      cy.contains("fake-git-repository-file-contents-71f64aabd056")
+      cy.contains(fakeGitRepoFileText)
       initializeGitRepositoryInDirectory()
 
       cy.typeIntoTerminal("{rightarrow}")
@@ -146,7 +148,7 @@ describe("testing", () => {
       },
     }).then((nvim) => {
       initializeGitRepositoryInDirectory()
-      cy.contains("fake-git-repository-file-contents-71f64aabd056")
+      cy.contains(fakeGitRepoFileText)
       nvim.runBlockingShellCommand({
         command:
           "cd fakegitrepo && git add file.txt && git commit -a -m 'initial commit'",
@@ -182,9 +184,7 @@ describe("testing", () => {
       cy.contains("Donate").should("not.exist")
 
       // the file should have been opened in neovim
-      cy.contains("fake-git-repository-file-contents-71f64aabd056").should(
-        "not.exist",
-      )
+      cy.contains(fakeGitRepoFileText).should("not.exist")
       cy.contains("file2-contents")
     })
   })
@@ -200,7 +200,7 @@ describe("testing", () => {
       },
     }).then((nvim) => {
       initializeGitRepositoryInDirectory()
-      cy.contains("fake-git-repository-file-contents-71f64aabd056")
+      cy.contains(fakeGitRepoFileText)
       nvim.runBlockingShellCommand({
         command:
           "cd fakegitrepo && git add file.txt && git commit -a -m 'initial commit'",
@@ -236,7 +236,7 @@ describe("testing", () => {
     cy.visit("/")
     cy.startNeovim({ filename: "fakegitrepo/file.txt" }).then((_nvim) => {
       // wait until text on the start screen is visible
-      cy.contains("fake-git-repository-file-contents-71f64aabd056")
+      cy.contains(fakeGitRepoFileText)
       initializeGitRepositoryInDirectory()
 
       cy.typeIntoTerminal("{rightarrow}")
@@ -276,7 +276,7 @@ describe("toggle_for_file", () => {
     cy.visit("/")
     cy.startNeovim({ filename: "fakegitrepo/file.txt" }).then((nvim) => {
       // wait until text on the start screen is visible
-      cy.contains("fake-git-repository-file-contents-71f64aabd056")
+      cy.contains(fakeGitRepoFileText)
       initializeGitRepositoryInDirectory()
 
       // create a commit for the root repo that includes all files in this mini
@@ -313,7 +313,7 @@ describe("toggle_for_file", () => {
       // verify that the commit message for that file only is visible when
       // toggle_for_file is used
       nvim.runExCommand({ command: "edit %:h/file.txt" })
-      cy.contains("fake-git-repository-file-contents-71f64aabd056")
+      cy.contains(fakeGitRepoFileText)
 
       nvim.runLuaCode({
         luaCode: `require('tsugit').toggle_for_file()`,
