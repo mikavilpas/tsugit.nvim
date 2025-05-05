@@ -15,10 +15,10 @@
     "@catppuccin/palette": "1.7.1"
   },
   "devDependencies": {
-    "@tui-sandbox/library": "10.2.1",
+    "@tui-sandbox/library": "10.2.2",
     "concurrently": "9.1.2",
     "cypress": "14.3.2",
-    "eslint": "9.25.1",
+    "eslint": "9.26.0",
     "eslint-config-prettier": "10.1.2",
     "eslint-plugin-no-only-tests": "3.3.0",
     "tsx": "4.19.4",
@@ -26,6 +26,6 @@
     "typescript": "5.8.3",
     "typescript-eslint": "8.31.1",
     "wait-on": "8.0.3",
-    "zod": "3.24.3"
+    "zod": "4.0.0-beta.20250430T185432"
   }
 }
