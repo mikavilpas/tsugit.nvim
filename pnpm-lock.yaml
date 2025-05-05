@@ -32,7 +32,7 @@ importers:
     devDependencies:
       '@tui-sandbox/library':
         specifier: 10.2.2
-        version: 10.2.2(cypress@14.3.2)(prettier@3.5.3)(type-fest@4.40.1)(typescript@5.8.3)(zod@3.24.4)
+        version: 10.2.2(cypress@14.3.2)(prettier@3.5.3)(type-fest@4.40.1)(typescript@5.8.3)(zod@4.0.0-beta.20250430T185432)
       concurrently:
         specifier: 9.1.2
         version: 9.1.2
@@ -64,8 +64,8 @@ importers:
         specifier: 8.0.3
         version: 8.0.3
       zod:
-        specifier: 3.24.4
-        version: 3.24.4
+        specifier: 4.0.0-beta.20250430T185432
+        version: 4.0.0-beta.20250430T185432
 
 packages:
 
@@ -484,6 +484,9 @@ packages:
 
   '@xterm/xterm@5.5.0':
     resolution: {integrity: sha512-hqJHYaQb5OptNunnyAnkHyM8aCjZ1MEIDTQu1iIbbTD/xops91NB5yq1ZK/dC2JDbVWtF23zUtl9JE2NqwT87A==}
+
+  '@zod/core@0.10.0':
+    resolution: {integrity: sha512-iMITRygme3v9jPsITJjvRMw60+MQq7MWnNpJleRkfjeSCjBm3c1/tiw3NUS4re/M2CBXVP5kAjI7sQrf22twXA==}
 
   accepts@2.0.0:
     resolution: {integrity: sha512-5cvg6CtKwfgdmVqY1WIiXKc3Q1bkRqGLi+2W/6ao+6Y7gu/RCwRuAhGEzh5B4KlszSuTLgZYuqFqo5bImjNKng==}
@@ -2501,6 +2504,9 @@ packages:
   zod@3.24.4:
     resolution: {integrity: sha512-OdqJE9UDRPwWsrHjLN2F8bPxvwJBK22EHLWtanu0LSYr5YqzsaaW3RMgmjwr8Rypg5k+meEJdSPXJZXE/yqOMg==}
 
+  zod@4.0.0-beta.20250430T185432:
+    resolution: {integrity: sha512-vslrh3wNLK14cpJwzcuU/uphPR0K/nf4G+/rDpp7TTl4d9h5Rgk1PNcr+2zftZJ4o+sKRUvlFV+FmAVfhu7ZqA==}
+
   zwitch@2.0.4:
     resolution: {integrity: sha512-bXE4cR/kVZhKZX/RjPEflHaKVhUVl85noU3v6b8apfQEc1x4A+zBxjZ4lN8LqGd6WZ3dl98pY4o717VFmoPp+A==}
 
@@ -2767,7 +2773,7 @@ snapshots:
     dependencies:
       typescript: 5.8.3
 
-  '@tui-sandbox/library@10.2.2(cypress@14.3.2)(prettier@3.5.3)(type-fest@4.40.1)(typescript@5.8.3)(zod@3.24.4)':
+  '@tui-sandbox/library@10.2.2(cypress@14.3.2)(prettier@3.5.3)(type-fest@4.40.1)(typescript@5.8.3)(zod@4.0.0-beta.20250430T185432)':
     dependencies:
       '@catppuccin/palette': 1.7.1
       '@trpc/client': 11.1.2(@trpc/server@11.1.2(typescript@5.8.3))(typescript@5.8.3)
@@ -2788,7 +2794,7 @@ snapshots:
       type-fest: 4.40.1
       typescript: 5.8.3
       winston: 3.17.0
-      zod: 3.24.4
+      zod: 4.0.0-beta.20250430T185432
     transitivePeerDependencies:
       - supports-color
 
@@ -2937,6 +2943,8 @@ snapshots:
       '@xterm/xterm': 5.5.0
 
   '@xterm/xterm@5.5.0': {}
+
+  '@zod/core@0.10.0': {}
 
   accepts@2.0.0:
     dependencies:
@@ -5317,5 +5325,9 @@ snapshots:
       zod: 3.24.4
 
   zod@3.24.4: {}
+
+  zod@4.0.0-beta.20250430T185432:
+    dependencies:
+      '@zod/core': 0.10.0
 
   zwitch@2.0.4: {}
