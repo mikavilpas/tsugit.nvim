@@ -205,7 +205,7 @@ function M.toggle_for_file(path, options)
 
   -- don't warm up the next lazygit for a single file path to save some resources
   options = options or {}
-  options.tries_remaining = 999
+  options.tries_remaining = 1 -- just one try
 
   return M.toggle({ "--filter", path }, options)
 end
