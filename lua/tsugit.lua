@@ -214,7 +214,9 @@ function M.toggle(args, options)
       if newLazyGit then
         newLazyGit:hide()
       end
-    end)
+    end, {
+      buffer = lazygit.buf,
+    })
 
     lazygit:on("WinLeave", function()
       lazygit:hide()
