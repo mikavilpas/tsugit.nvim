@@ -5,10 +5,27 @@ local M = {}
 
 ---@class(exact) tsugit.Config # the internal configuration for tsugit. Use tsugit.UserConfig for your personal configuration.
 ---@field keys tsugit.Keys | false
+---@field debug? boolean # whether to enable debug messages. Defaults to false.
 
 ---@class(exact) tsugit.Keys
 ---@field toggle? string | false # toggle lazygit on/off without closing it
 ---@field force_quit? string | false # force quit lazygit (e.g. when it's stuck)
+
+--- issue: The snacks terminal seems to have some issue that causes duplicate
+--- lazygits to be opened
+---
+--- solution: Provides a cache for the lazygits that are known to tsugit. We
+--- can use this to detect if a lazygit has already been opened, and avoiding
+--- opening a new one if it has. This essentially duplicates the snacks
+--- terminal's cache.
+---@type table<string, snacks.win>
+M.lazygit_cache = {
+  -- `v` means weak values, which allows garbage collecting them when they have
+  -- no other references, see :help lua-weaktable
+  --
+  -- `k` is the same thing but for keys
+  __mode = "kv",
+}
 
 M.last_lazygits = vim.ringbuf(5)
 
@@ -20,6 +37,7 @@ M.config = {
     toggle = "<right>",
     force_quit = "<c-c>",
   },
+  debug = false,
 }
 
 ---@param config tsugit.Config | {}
@@ -96,28 +114,49 @@ end
 ---@module "snacks.terminal"
 ---@param args? string[]
 ---@param options? tsugit.CallOptions
----@return snacks.win
+---@return snacks.win | nil # the lazygit terminal window, or nil if it could not be opened
 function M.toggle(args, options)
-  local cmd = vim.list_extend({ "lazygit" }, args or {})
   options = options or {}
+
+  if options.tries_remaining and options.tries_remaining < 0 then
+    if M.config.debug then
+      require("tsugit.debug").add_debug_message(
+        "tsugit.nvim: too many tries to open lazygit, aborting"
+      )
+    end
+    return nil
+  end
+
   local config = vim.tbl_deep_extend("force", M.config, options.config or {})
   assert(config.keys.toggle, "tsugit.nvim: missing the toggle key")
 
-  local cwd = options.cwd
-    or vim.fn.fnameescape(require("snacks.git").get_root() or vim.fn.getcwd())
-  local terminal = require("snacks.terminal")
-  ---@type snacks.terminal.Opts
-  local default_opts = {
-    cwd = cwd,
-    win = {
-      backdrop = false,
-      relative = "editor",
-      border = "none",
-      width = 0.95,
-      height = 0.97,
-      style = "minimal",
-    },
-  }
+  local absolute_cwd = options.cwd
+    or vim.fn.fnamemodify(
+      -- make it absolute
+      vim.fn.fnameescape(require("snacks.git").get_root() or vim.fn.getcwd()),
+      ":p"
+    )
+
+  local key = vim.inspect({ cwd = vim.inspect(absolute_cwd), args = args })
+
+  local created = false
+  local lazygit = M.lazygit_cache[key]
+  if lazygit and not lazygit.closed then
+    if M.config.debug then
+      require("tsugit.debug").add_debug_message(
+        "tsugit.nvim: using cached lazygit for cwd " .. absolute_cwd
+      )
+    end
+  else
+    if M.config.debug then
+      require("tsugit.debug").add_debug_message(
+        "tsugit.nvim: creating new lazygit for cwd " .. absolute_cwd
+      )
+    end
+    -- if lazygit is not cached, create it
+    lazygit, created =
+      require("tsugit.snacks").maybe_create_lazygit(args, options, absolute_cwd)
+  end
 
   -- sometimes when editing a commit message, the terminal is left open. In
   -- this case, toggling tsugit should close the terminal so that only one can
@@ -129,22 +168,12 @@ function M.toggle(args, options)
     end
   end
 
-  local lazygit, created = terminal.get(
-    cmd,
-    vim.tbl_deep_extend(
-      "force",
-      default_opts,
-      options.term_opts or {},
-      { create = true }
-    )
-  )
-
-  assert(lazygit, "tsugit.nvim: failed to create lazygit terminal")
-  vim.api.nvim_buf_set_var(lazygit.buf, "minicursorword_disable", true)
   local previous_buffer = vim.api.nvim_get_current_buf()
   lazygit:show()
 
   if created then
+    M.lazygit_cache[key] = lazygit
+    vim.api.nvim_buf_set_var(lazygit.buf, "minicursorword_disable", true)
     vim.api.nvim_create_autocmd({ "BufEnter" }, {
       buffer = lazygit.buf,
       callback = function()
@@ -166,12 +195,25 @@ function M.toggle(args, options)
         end
       end
 
+      if M.config.debug then
+        require("tsugit.debug").add_debug_message(
+          string.format(
+            "tsugit.nvim: lazygit for cwd %s closed",
+            vim.inspect(absolute_cwd)
+          )
+        )
+      end
+
+      assert(M.lazygit_cache[key])
+      M.lazygit_cache[key] = nil
       -- warm up the next instance
       local newLazyGit = M.toggle(args, {
         tries_remaining = (options.tries_remaining or 0) - 1,
         term_opts = {},
       })
-      newLazyGit:hide()
+      if newLazyGit then
+        newLazyGit:hide()
+      end
     end)
 
     lazygit:on("WinLeave", function()

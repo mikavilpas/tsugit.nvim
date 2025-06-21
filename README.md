@@ -69,6 +69,7 @@ return {
       -- instance
       force_quit = "<c-c>",
     }
+    debug = false, -- set to true to enable debug logging
   },
 }
 
