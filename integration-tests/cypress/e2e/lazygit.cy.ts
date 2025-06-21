@@ -243,24 +243,62 @@ describe("testing", () => {
       nvim.runExCommand({ command: "edit %:h/file2.txt" })
       cy.contains("file2-contents")
 
+      // opening lazygit for a single file should keep the "repo" lazygit
+      // active. the single file lazygit should also be closeable with
+      // rightarrow without disturbing the "repo" lazygit
+
+      {
+        // manipulate the repoLevelLazygit
+        cy.typeIntoTerminal("{rightarrow}")
+        cy.contains("Donate")
+
+        // the commit for the first file should be visible
+        cy.contains("initial commit")
+        // set up some state for the repoLevelLazygit by hiding the command log
+        cy.contains("Command log")
+        cy.typeIntoTerminal("@")
+        cy.contains("Toggle show/hide command log")
+        cy.typeIntoTerminal("{enter}")
+        cy.contains("Command log").should("not.exist")
+
+        cy.typeIntoTerminal("{rightarrow}")
+        cy.contains("initial commit").should("not.exist")
+      }
+
+      {
+        // manipulate the fileLevelLazygit
+        cy.typeIntoTerminal(" gl")
+
+        // the Commits/Reflog pane should be visible
+        cy.contains("Reflog")
+        // we're at the commits view in the single file lazygit. Move to the next view.
+        cy.contains("Commits")
+        cy.contains("Stash").should("not.exist")
+        cy.contains("Filtering by")
+        cy.contains("initial commit").should("not.exist")
+        cy.typeIntoTerminal("l") // move
+        cy.contains("Commits").should("not.exist")
+        cy.contains("Stash")
+      }
+
+      // toggle it to hide it
       cy.typeIntoTerminal("{rightarrow}")
-      cy.contains("Donate")
+      cy.contains("Stash").should("not.exist")
 
-      // the commit for the first file should be visible
-      cy.contains("initial commit")
+      {
+        // toggle the fileLevelLazygit back and close it
+        cy.typeIntoTerminal(" gl")
+        cy.contains("Stash") // should still be visible
+        cy.typeIntoTerminal("q")
+        cy.contains("Stash").should("not.exist")
+      }
 
-      cy.typeIntoTerminal("{rightarrow}")
-      cy.contains("initial commit").should("not.exist")
-
-      // bring up the file history
-      cy.typeIntoTerminal(" gl")
-
-      // the Commits/Reflog pane should be visible
-      cy.contains("Reflog")
-
-      cy.contains("Commits")
-      cy.contains("Filtering by")
-      cy.contains("initial commit").should("not.exist")
+      {
+        // manipulate the repoLevelLazygit again
+        cy.typeIntoTerminal("{rightarrow}")
+        cy.contains("Donate")
+        cy.contains("Command log").should("not.exist") // should still be hidden (not closed)
+      }
     })
   })
 
