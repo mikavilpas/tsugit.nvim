@@ -139,8 +139,43 @@ function M.toggle(args, options)
       )
     end
     -- lazygit is not cached, so create it
-    lazygit, created =
-      require("tsugit.snacks").maybe_create_lazygit(args, options, absolute_cwd)
+    lazygit, created = require("tsugit.snacks").maybe_create_lazygit(
+      args,
+      options,
+      absolute_cwd,
+      function(buf)
+        vim.api.nvim_create_autocmd("TermClose", {
+          buffer = buf,
+          callback = function(event)
+            -- Prevent the "Process exited 0" message. It's displayed by default when
+            -- the terminal application has exited.
+            if vim.api.nvim_buf_is_valid(event.buf) then
+              vim.api.nvim_buf_delete(event.buf, { force = true })
+            end
+
+            if M.config.debug then
+              require("tsugit.debug").add_debug_message(
+                string.format(
+                  "tsugit.nvim: lazygit closed for cwd %s",
+                  vim.inspect(absolute_cwd)
+                )
+              )
+            end
+
+            require("tsugit.cache").delete_lazygit(key)
+
+            -- warm up the next instance
+            local newLazyGit = M.toggle(event, {
+              tries_remaining = (options.tries_remaining or 0) - 1,
+              term_opts = options.term_opts,
+            })
+            if newLazyGit then
+              newLazyGit:hide()
+            end
+          end,
+        })
+      end
+    )
   end
 
   -- sometimes when editing a commit message, the terminal is left open. In
@@ -153,7 +188,6 @@ function M.toggle(args, options)
     end
   end
 
-  local previous_buffer = vim.api.nvim_get_current_buf()
   lazygit:show()
 
   if created then
@@ -166,41 +200,6 @@ function M.toggle(args, options)
         -- automatically hidden. Force it to hide.
         lazygit:hide()
       end,
-    })
-
-    lazygit:on("TermClose", function()
-      -- Prevent the "Process exited 0" message. It's displayed by default when
-      -- the terminal application has exited.
-      if vim.api.nvim_buf_is_valid(lazygit.buf) then
-        vim.api.nvim_buf_delete(lazygit.buf, { force = true })
-
-        -- focus the previous_buffer after closing lazygit
-        if vim.api.nvim_buf_is_valid(previous_buffer) then
-          vim.api.set_current_buf(previous_buffer)
-        end
-      end
-
-      if M.config.debug then
-        require("tsugit.debug").add_debug_message(
-          string.format(
-            "tsugit.nvim: lazygit for cwd %s closed",
-            vim.inspect(absolute_cwd)
-          )
-        )
-      end
-
-      require("tsugit.cache").delete_lazygit(key)
-
-      -- warm up the next instance
-      local newLazyGit = M.toggle(args, {
-        tries_remaining = (options.tries_remaining or 0) - 1,
-        term_opts = options.term_opts,
-      })
-      if newLazyGit then
-        newLazyGit:hide()
-      end
-    end, {
-      buf = true,
     })
 
     lazygit:on("WinLeave", function()

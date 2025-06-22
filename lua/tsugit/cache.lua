@@ -7,7 +7,7 @@ local M = {}
 --- can use this to detect if a lazygit has already been opened, and avoiding
 --- opening a new one if it has. This essentially duplicates the snacks
 --- terminal's cache.
----@type table<string, snacks.win>
+---@type table<string, snacks.terminal>
 M.lazygit_cache = {
   -- `v` means weak values, which allows garbage collecting them when they have
   -- no other references, see :help lua-weaktable

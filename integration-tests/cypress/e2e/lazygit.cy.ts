@@ -17,10 +17,12 @@ const lazygit = {
 
 const fakeGitRepoFileText = "fake-git-repository-file-contents-71f64aabd056"
 
+const lazygitWasClosedMessage = "tsugit.nvim: lazygit closed for"
+
 describe("testing", () => {
   it("can toggle lazygit on/off", () => {
     cy.visit("/")
-    cy.startNeovim({ filename: "fakegitrepo/file.txt" }).then(() => {
+    cy.startNeovim({ filename: "fakegitrepo/file.txt" }).then((nvim) => {
       // wait until text on the start screen is visible
       cy.contains(fakeGitRepoFileText)
       initializeGitRepositoryInDirectory()
@@ -47,6 +49,11 @@ describe("testing", () => {
       // lazygit should have disappeared
       cy.contains(lazygit.branchesPane).should("not.exist")
 
+      // it should not have been closed yet
+      nvim.runExCommand({ command: "messages" }).and((output) => {
+        expect(output.value).to.not.include(lazygitWasClosedMessage)
+      })
+
       // bring lazygit back. The pane should be the same as before - the state
       // must have been kept (lazygit was not actually closed, just toggled)
       cy.typeIntoTerminal("{rightarrow}")
@@ -55,6 +62,11 @@ describe("testing", () => {
       // now close lazygit and reopen it. The state should be reset.
       cy.typeIntoTerminal("q")
       cy.contains(lazygit.branchesPane).should("not.exist")
+
+      nvim.runExCommand({ command: "messages" }).and((output) => {
+        expect(output.value).to.include(lazygitWasClosedMessage)
+      })
+
       cy.typeIntoTerminal("{rightarrow}")
       cy.contains(lazygit.filesPane)
       cy.contains(lazygit.branchesPane).should("not.exist")
@@ -337,6 +349,12 @@ describe("testing", () => {
       cy.typeIntoTerminal("{rightarrow}")
       cy.contains(lazygit.filesPane)
       cy.contains(lazygit.branchesPane).should("not.exist")
+
+      // make sure we can still quit the new lazygit normally
+      cy.typeIntoTerminal("q")
+      cy.contains(lazygit.filesPane).should("not.exist")
+      cy.typeIntoTerminal("{rightarrow}")
+      cy.contains(lazygit.filesPane)
     })
   })
 })
