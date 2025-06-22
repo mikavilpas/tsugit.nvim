@@ -166,7 +166,9 @@ function M.toggle(args, options)
 
             -- warm up the next instance
             local newLazyGit = M.toggle(event, {
-              tries_remaining = (options.tries_remaining or 0) - 1,
+              tries_remaining = options.tries_remaining
+                  and options.tries_remaining - 1
+                or 1,
               term_opts = options.term_opts,
             })
             if newLazyGit then
