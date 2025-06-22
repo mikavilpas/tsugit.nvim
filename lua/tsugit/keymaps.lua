@@ -20,8 +20,17 @@ function M.create_keymaps(config, lazygit)
     vim.keymap.set({ "t" }, config.keys.force_quit, function()
       vim.o.lazyredraw = true
       pcall(function()
+        if config.debug then
+          require("tsugit.debug").add_debug_message(
+            "tsugit.nvim: force quitting lazygit"
+          )
+        end
         lazygit:close({ buf = true })
 
+        assert(
+          lazygit["tsugit_key"],
+          "tsugit.nvim: missing tsugit_key in lazygit"
+        )
         require("tsugit.cache").delete_lazygit(lazygit["tsugit_key"])
       end)
       vim.o.lazyredraw = false
