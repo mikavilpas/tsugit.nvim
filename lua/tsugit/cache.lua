@@ -16,6 +16,8 @@ M.lazygit_cache = {
   __mode = "kv",
 }
 
+---@param key string
+---@param lazygit unknown
 function M.add_lazygit(key, lazygit)
   assert(
     not M.lazygit_cache[key],
@@ -25,8 +27,8 @@ function M.add_lazygit(key, lazygit)
   lazygit.tsugit_key = key
 end
 
+---@param key string
 function M.delete_lazygit(key)
-  assert(M.lazygit_cache[key])
   M.lazygit_cache[key] = nil
 end
 
