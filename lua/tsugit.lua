@@ -11,22 +11,6 @@ local M = {}
 ---@field toggle? string | false # toggle lazygit on/off without closing it
 ---@field force_quit? string | false # force quit lazygit (e.g. when it's stuck)
 
---- issue: The snacks terminal seems to have some issue that causes duplicate
---- lazygits to be opened
----
---- solution: Provides a cache for the lazygits that are known to tsugit. We
---- can use this to detect if a lazygit has already been opened, and avoiding
---- opening a new one if it has. This essentially duplicates the snacks
---- terminal's cache.
----@type table<string, snacks.win>
-M.lazygit_cache = {
-  -- `v` means weak values, which allows garbage collecting them when they have
-  -- no other references, see :help lua-weaktable
-  --
-  -- `k` is the same thing but for keys
-  __mode = "kv",
-}
-
 M.last_lazygits = vim.ringbuf(5)
 
 M.version = "1.0.0" -- x-release-please-version
@@ -140,8 +124,9 @@ function M.toggle(args, options)
   local key = vim.inspect({ cwd = vim.inspect(absolute_cwd), args = args })
 
   local created = false
-  local lazygit = M.lazygit_cache[key]
-  if lazygit and not lazygit.closed then
+  local lazygit = require("tsugit.cache").lazygit_cache[key]
+
+  if lazygit then
     if M.config.debug then
       require("tsugit.debug").add_debug_message(
         "tsugit.nvim: using cached lazygit for cwd " .. absolute_cwd
@@ -153,7 +138,7 @@ function M.toggle(args, options)
         "tsugit.nvim: creating new lazygit for cwd " .. absolute_cwd
       )
     end
-    -- if lazygit is not cached, create it
+    -- lazygit is not cached, so create it
     lazygit, created =
       require("tsugit.snacks").maybe_create_lazygit(args, options, absolute_cwd)
   end
@@ -172,7 +157,7 @@ function M.toggle(args, options)
   lazygit:show()
 
   if created then
-    M.lazygit_cache[key] = lazygit
+    require("tsugit.cache").add_lazygit(key, lazygit)
     vim.api.nvim_buf_set_var(lazygit.buf, "minicursorword_disable", true)
     vim.api.nvim_create_autocmd({ "BufEnter" }, {
       buffer = lazygit.buf,
@@ -204,8 +189,8 @@ function M.toggle(args, options)
         )
       end
 
-      assert(M.lazygit_cache[key])
-      M.lazygit_cache[key] = nil
+      require("tsugit.cache").delete_lazygit(key)
+
       -- warm up the next instance
       local newLazyGit = M.toggle(args, {
         tries_remaining = (options.tries_remaining or 0) - 1,
@@ -215,7 +200,7 @@ function M.toggle(args, options)
         newLazyGit:hide()
       end
     end, {
-      buffer = lazygit.buf,
+      buf = true,
     })
 
     lazygit:on("WinLeave", function()
