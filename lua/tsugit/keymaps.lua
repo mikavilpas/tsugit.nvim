@@ -21,6 +21,8 @@ function M.create_keymaps(config, lazygit)
       vim.o.lazyredraw = true
       pcall(function()
         lazygit:close({ buf = true })
+
+        require("tsugit.cache").delete_lazygit(lazygit["tsugit_key"])
       end)
       vim.o.lazyredraw = false
     end, { buffer = lazygit.buf })
