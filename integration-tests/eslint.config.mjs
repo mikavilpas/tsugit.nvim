@@ -5,7 +5,6 @@ import * as typescriptEslint from "typescript-eslint"
 export default typescriptEslint.config(
   {
     ignores: [
-      "**/vite.config.js",
       "**/cypress.config.ts",
       "**/test-environment/",
       "eslint.config.mjs",
