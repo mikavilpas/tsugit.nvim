@@ -13,7 +13,6 @@ export default typescriptEslint.config(
       "cypress/support/tui-sandbox.ts",
     ],
   },
-  eslintConfigPrettier,
   typescriptEslint.configs.recommended,
   typescriptEslint.configs.recommendedTypeChecked,
   {
@@ -84,4 +83,5 @@ export default typescriptEslint.config(
       "@typescript-eslint/no-unused-vars": "off",
     },
   },
+  eslintConfigPrettier,
 )
