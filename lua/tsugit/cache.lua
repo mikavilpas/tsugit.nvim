@@ -1,5 +1,7 @@
 local M = {}
 
+---@module "snacks.terminal"
+
 --- issue: The snacks terminal seems to have some issue that causes duplicate
 --- lazygits to be opened
 ---
@@ -8,13 +10,13 @@ local M = {}
 --- opening a new one if it has. This essentially duplicates the snacks
 --- terminal's cache.
 ---@type table<string, snacks.terminal>
-M.lazygit_cache = {
+M.lazygit_cache = setmetatable({}, {
   -- `v` means weak values, which allows garbage collecting them when they have
   -- no other references, see :help lua-weaktable
   --
   -- `k` is the same thing but for keys
   __mode = "kv",
-}
+})
 
 ---@param key string
 ---@param lazygit unknown
