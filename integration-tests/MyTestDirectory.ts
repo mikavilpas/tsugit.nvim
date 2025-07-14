@@ -46,6 +46,10 @@ export const MyTestDirectorySchema = z.object({
               name: z.literal("init.lua"),
               type: z.literal("file"),
             }),
+            "prepare.lua": z.object({
+              name: z.literal("prepare.lua"),
+              type: z.literal("file"),
+            }),
           }),
         }),
       }),
@@ -163,6 +167,7 @@ export const testDirectoryFiles = z.enum([
   ".config/lazygit/config.yml",
   ".config/lazygit",
   ".config/nvim/init.lua",
+  ".config/nvim/prepare.lua",
   ".config/nvim",
   ".config",
   "config-modifications/use_light_neovim_colorscheme.lua",

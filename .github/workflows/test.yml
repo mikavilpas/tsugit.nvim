@@ -52,7 +52,7 @@ jobs:
       - run: pnpm --filter integration-tests exec cypress install
 
       - name: Preinstall neovim plugins
-        run: pnpm tui neovim exec "Lazy! sync"
+        run: pnpm tui neovim prepare
         working-directory: integration-tests/
 
       - name: Cypress test
