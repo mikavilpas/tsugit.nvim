@@ -28,8 +28,6 @@ describe("testing", () => {
       initializeGitRepositoryInDirectory()
 
       cy.typeIntoTerminal("{rightarrow}")
-      // close any introduction popup. TODO this should be done automatically
-      cy.typeIntoTerminal("{esc}")
 
       // wait until lazygit has initialized and the main branch name is visible
       cy.contains("main")
@@ -322,8 +320,6 @@ describe("testing", () => {
       initializeGitRepositoryInDirectory()
 
       cy.typeIntoTerminal("{rightarrow}")
-      // close any introduction popup. TODO this should be done automatically
-      cy.typeIntoTerminal("{esc}")
 
       // wait until lazygit has initialized and the main branch name is visible
       cy.contains("main")
