@@ -52,8 +52,11 @@ jobs:
       - run: pnpm --filter integration-tests exec cypress install
 
       - name: Preinstall neovim plugins
-        run: pnpm tui neovim prepare
         working-directory: integration-tests/
+        run: |
+          # NVIM_APPNAME=nvim is the default, but spelled out here for clarity
+          NVIM_APPNAME=nvim pnpm tui neovim prepare
+          NVIM_APPNAME=nvim_formatting pnpm tui neovim prepare
 
       - name: Cypress test
         uses: cypress-io/github-action@v6

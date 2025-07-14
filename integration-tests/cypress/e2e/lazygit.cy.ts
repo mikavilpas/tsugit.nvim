@@ -1,5 +1,6 @@
 import { flavors } from "@catppuccin/palette"
 import { rgbify } from "@tui-sandbox/library/dist/src/client/color-utilities"
+import z from "zod"
 import {
   assertCurrentBufferName,
   initializeGitRepositoryInDirectory,
@@ -135,10 +136,6 @@ describe("testing", () => {
 
     cy.startNeovim({
       filename: "fakegitrepo/file.txt",
-      additionalEnvironmentVariables: {
-        EDITOR: "nvim",
-        VISUAL: "nvim",
-      },
     }).then((nvim) => {
       cy.contains(fakeGitRepoFileText)
       initializeGitRepositoryInDirectory()
@@ -184,10 +181,6 @@ describe("testing", () => {
 
     cy.startNeovim({
       filename: "fakegitrepo/file.txt",
-      additionalEnvironmentVariables: {
-        EDITOR: "nvim",
-        VISUAL: "nvim",
-      },
     }).then((nvim) => {
       initializeGitRepositoryInDirectory()
       cy.contains(fakeGitRepoFileText)
@@ -236,10 +229,6 @@ describe("testing", () => {
 
     cy.startNeovim({
       filename: "fakegitrepo/file.txt",
-      additionalEnvironmentVariables: {
-        EDITOR: "nvim",
-        VISUAL: "nvim",
-      },
     }).then((nvim) => {
       initializeGitRepositoryInDirectory()
       cy.contains(fakeGitRepoFileText)
@@ -443,6 +432,136 @@ describe("in a git workspace", () => {
       cy.contains("Filtering by")
       cy.typeIntoTerminal("q")
       cy.contains("Add workspace1.txt").should("not.exist")
+    })
+  })
+})
+
+describe("conform integration for commit message formatting", () => {
+  it("can reformat a COMMIT_EDITMSG file with prettierd", () => {
+    cy.visit("/")
+
+    cy.startNeovim({
+      filename: "fakegitrepo/file.txt",
+      NVIM_APPNAME: "nvim_formatting",
+    }).then((nvim) => {
+      cy.contains(fakeGitRepoFileText)
+      initializeGitRepositoryInDirectory()
+      nvim.runBlockingShellCommand({
+        command: `git add .`,
+        cwdRelative: "fakegitrepo",
+      })
+      cy.typeIntoTerminal("{rightarrow}")
+
+      // wait until lazygit has initialized and the main branch name is visible
+      cy.contains("main")
+
+      cy.typeIntoTerminal("C") // commit
+      nvim.waitForLuaCode({
+        luaAssertion: `return vim.api.nvim_buf_get_name(0) == vim.fn.expand('%:h') .. '/.git/COMMIT_EDITMSG'`,
+      })
+      cy.contains("# Please enter the commit message for your changes.")
+
+      // add some unformatted text and save
+      nvim.runExCommand({ command: `normal! i  test` })
+      nvim.runExCommand({ command: `normal! o ` })
+      nvim.runExCommand({ command: `normal! o-  list` })
+      nvim.runExCommand({ command: `normal! o` })
+      nvim.runExCommand({
+        command: `normal! oLong line long line long line long line long long line long line line should wrap here`,
+      })
+      nvim.runExCommand({ command: `normal! gg` })
+      cy.typeIntoTerminal(":w{enter}")
+
+      // prettierd should have formatted the text
+      nvim.waitForLuaCode({
+        // wait for the first line to be formatted. This means the formatter is
+        // finished.
+        luaAssertion: `assert (vim.api.nvim_get_current_line() == "test")`,
+      })
+
+      nvim
+        .runLuaCode({
+          luaCode: `return vim.api.nvim_buf_get_lines(0, 0, -1, false)`,
+        })
+        .then((result) => {
+          const lines = z.array(z.string()).parse(result.value)
+          expect(lines.slice(0, 8).join("\n")).to.deep.equal(
+            [
+              "test",
+              "",
+              "- list",
+              "",
+              "Long line long line long line long line long long line long line line",
+              "should wrap here",
+              "",
+              "# Please enter the commit message for your changes. Lines starting",
+            ].join("\n"),
+          )
+        })
+    })
+  })
+
+  it("can reformat a COMMIT_EDITMSG file with a custom commentChar", () => {
+    // git allows customizing the comment character used in commit messages.
+    cy.visit("/")
+
+    cy.startNeovim({
+      filename: "fakegitrepo/file.txt",
+      NVIM_APPNAME: "nvim_formatting",
+    }).then((nvim) => {
+      cy.contains(fakeGitRepoFileText)
+      initializeGitRepositoryInDirectory()
+      nvim.runBlockingShellCommand({
+        command: `git add .`,
+        cwdRelative: "fakegitrepo",
+      })
+      // set the commentChar to a custom value
+      nvim.runBlockingShellCommand({
+        command: `git config core.commentChar ";"`,
+        cwdRelative: "fakegitrepo",
+      })
+      cy.typeIntoTerminal("{rightarrow}")
+
+      // wait until lazygit has initialized and the main branch name is visible
+      cy.contains("main")
+
+      cy.typeIntoTerminal("C") // commit
+      nvim.waitForLuaCode({
+        luaAssertion: `return vim.api.nvim_buf_get_name(0) == vim.fn.expand('%:h') .. '/.git/COMMIT_EDITMSG'`,
+      })
+      cy.contains("; Please enter the commit message for your changes.")
+
+      // add some unformatted text and save
+      nvim.runExCommand({ command: `normal! i  test` })
+      nvim.runExCommand({ command: `normal! o ` })
+      nvim.runExCommand({ command: `normal! o-  list` })
+      nvim.runExCommand({ command: `normal! o` })
+      nvim.runExCommand({ command: `normal! gg` })
+      cy.typeIntoTerminal(":w{enter}")
+
+      // prettierd should have formatted the text
+      nvim.waitForLuaCode({
+        // wait for the first line to be formatted. This means the formatter is
+        // finished.
+        luaAssertion: `assert (vim.api.nvim_get_current_line() == "test")`,
+      })
+
+      nvim
+        .runLuaCode({
+          luaCode: `return vim.api.nvim_buf_get_lines(0, 0, -1, false)`,
+        })
+        .then((result) => {
+          const lines = z.array(z.string()).parse(result.value)
+          expect(lines.slice(0, 5).join("\n")).to.deep.equal(
+            [
+              "test",
+              "",
+              "- list",
+              "",
+              "; Please enter the commit message for your changes. Lines starting",
+            ].join("\n"),
+          )
+        })
     })
   })
 })
