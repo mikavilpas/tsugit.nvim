@@ -2,10 +2,16 @@ local M = {}
 
 ---@class(exact) tsugit.UserConfig
 ---@field keys? tsugit.Keys | false # key mappings that are active when lazygit is open. They are completely unusable by lazygit, so set the to rare keys.
+---@field debug? boolean # whether to enable debug messages. Defaults to false.
+---@field integrations? tsugit.IntegrationConfig
 
 ---@class(exact) tsugit.Config # the internal configuration for tsugit. Use tsugit.UserConfig for your personal configuration.
 ---@field keys tsugit.Keys | false
 ---@field debug? boolean # whether to enable debug messages. Defaults to false.
+---@field integrations? tsugit.IntegrationConfig
+
+---@class(exact) tsugit.IntegrationConfig
+---@field conform? { formatter: "prettierd" } | false # conform.nvim integration. If set to false, the integration is disabled.
 
 ---@class(exact) tsugit.Keys
 ---@field toggle? string | false # toggle lazygit on/off without closing it
@@ -20,6 +26,9 @@ M.config = {
   keys = {
     toggle = "<right>",
     force_quit = "<c-c>",
+  },
+  integrations = {
+    conform = false,
   },
   debug = false,
 }
@@ -86,6 +95,16 @@ M.setup = function(config)
       end)
     end,
   })
+
+  if
+    M.config.integrations
+    and M.config.integrations.conform
+    and M.config.integrations.conform.formatter == "prettierd"
+  then
+    require("tsugit.integrations.conform").setup_conform_prettierd_integration(
+      M.config
+    )
+  end
 end
 
 ---@class tsugit.CallOptions

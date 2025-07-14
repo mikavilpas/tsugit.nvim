@@ -3,4 +3,6 @@
   name=John Doe
 [init]
   defaultBranch=main
+[commit]
+	verbose = true
 # vim: set ft=gitconfig:

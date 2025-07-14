@@ -23,6 +23,12 @@ myself to make it even more powerful.
   applications are required.
   - You can edit files in Neovim while lazygit is open.
   - See below for 🎁 Goodies on how to write commit messages in Neovim.
+- **Autoformatting of commit messages**: If you use
+  [conform.nvim](https://github.com/stevearc/conform.nvim), you can
+  automatically format your commit messages as markdown on save. It uses
+  [prettierd](https://github.com/fsouza/prettierd) under the hood for maximum
+  speed. See the instructions below:
+  [Autoformatting commit messages with prettierd](#autoformatting-commit-messages-with-prettierd).
 
 ## 📦 Installation
 
@@ -70,6 +76,16 @@ return {
       force_quit = "<c-c>",
     }
     debug = false, -- set to true to enable debug logging
+
+    integrations = {
+      -- off by default. The structure is shown here for reference.
+      conform = {
+        -- use conform.nvim and https://github.com/fsouza/prettierd to format
+        -- git COMMIT_EDITMSG files as markdown. More details are available in
+        -- the readme.
+        formatter = "prettierd",
+      },
+    },
   },
 }
 
@@ -122,6 +138,37 @@ default. You can enable it with the following config:
 
 The documentation for this feature can be found in the git docs
 [here](https://git-scm.com/docs/git-commit#Documentation/git-commit.txt---verbose).
+
+### Autoformatting commit messages with prettierd
+
+Instructions:
+
+1. Install [prettierd](https://github.com/fsouza/prettierd) with e.g.
+   [mason.nvim](https://github.com/mason-org/mason.nvim).
+2. Configure tsugit.nvim to use the conform.nvim integration
+
+   ```lua
+   return {
+     "mikavilpas/tsugit.nvim",
+     ---@type tsugit.UserConfig
+     opts = {
+       integrations = {
+         conform = {
+           formatter = "prettierd",
+         },
+       },
+     }
+   ```
+
+<https://github.com/user-attachments/assets/c00be1fd-d7f9-41d9-a2f4-ae742c3c0a87>
+
+See here how it's done in the e2e tests that use
+[tui-sandbox](https://github.com/mikavilpas/tui-sandbox):
+
+- [init.lua](integration-tests/test-environment/.config/nvim_formatting/init.lua)
+  for configuring tsugit.nvim and conform.nvim
+- [prepare.lua](integration-tests/test-environment/.config/nvim_formatting/prepare.lua)
+  for installing prettierd
 
 ### Lazygit color scheme (💤 lazygit feature)
 
