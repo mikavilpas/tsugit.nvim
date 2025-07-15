@@ -23,7 +23,7 @@
     "tsx": "4.20.3",
     "type-fest": "4.41.0",
     "typescript": "5.8.3",
-    "typescript-eslint": "8.36.0",
+    "typescript-eslint": "8.37.0",
     "wait-on": "8.0.3",
     "zod": "4.0.5"
   }
