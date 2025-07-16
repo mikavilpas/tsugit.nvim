@@ -30,8 +30,7 @@ vim.g.maplocalleader = " "
 vim.o.swapfile = false
 
 -- load the base plugins from the main nvim configuration
-local fname = vim.fs.joinpath(vim.env.PWD, "/.config/nvim/lua/plugins.lua")
-local plugins = assert(loadfile(fname)())
+local plugins = require("plugins")
 
 ---@module "lazy"
 ---@type LazySpec
