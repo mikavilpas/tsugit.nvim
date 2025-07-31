@@ -107,6 +107,14 @@ M.setup = function(config)
   end
 end
 
+-- quit detection
+M.neovim_is_quitting = false
+vim.api.nvim_create_autocmd("VimLeavePre", {
+  callback = function()
+    M.neovim_is_quitting = true
+  end,
+})
+
 ---@class tsugit.CallOptions
 ---@field config? tsugit.Config | {} # overrides to the default configuration, used for this call only
 ---@field cwd? string # the path to open lazygit in
@@ -182,6 +190,11 @@ function M.toggle(args, options)
             end
 
             require("tsugit.cache").delete_lazygit(key)
+
+            if M.neovim_is_quitting then
+              -- don't warm up the next instance if Neovim is quitting
+              return
+            end
 
             -- warm up the next instance
             local newLazyGit = M.toggle(event, {
