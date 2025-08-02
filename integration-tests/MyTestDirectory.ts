@@ -8,7 +8,7 @@
 // be written with confidence that the files and directories they expect are
 // actually found. Otherwise the tests are brittle and can break easily.
 
-import { z } from "zod"
+import * as z from "zod"
 
 export const MyTestDirectorySchema = z.object({
   name: z.literal("test-environment/"),
@@ -69,6 +69,11 @@ export const MyTestDirectorySchema = z.object({
             "init.lua": z.object({
               name: z.literal("init.lua"),
               type: z.literal("file"),
+            }),
+            lua: z.object({
+              name: z.literal("lua/"),
+              type: z.literal("directory"),
+              contents: z.object({}),
             }),
             "prepare.lua": z.object({
               name: z.literal("prepare.lua"),
@@ -196,6 +201,7 @@ export const testDirectoryFiles = z.enum([
   ".config/nvim/prepare.lua",
   ".config/nvim",
   ".config/nvim_formatting/init.lua",
+  ".config/nvim_formatting/lua",
   ".config/nvim_formatting/prepare.lua",
   ".config/nvim_formatting",
   ".config",
