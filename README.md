@@ -1,7 +1,8 @@
 # ⚡ A blazingly fast [lazygit](https://github.com/jesseduffield/lazygit) + Neovim integration
 
-Lazygit is a powerful terminal UI for git. This is a Neovim plugin I built for
-myself to make it even more powerful.
+[Lazygit](https://github.com/jesseduffield/lazygit) is a powerful terminal UI
+for git. tsugit is a Neovim plugin I built for myself to make it even more
+powerful.
 
 > _tsugit_ is a blend of the words tsugi (次, Japanese for "next") and git
 
