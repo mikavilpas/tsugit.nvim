@@ -1,11 +1,11 @@
 import { flavors } from "@catppuccin/palette"
 import { rgbify } from "@tui-sandbox/library/dist/src/client/color-utilities"
+import { textIsVisibleWithBackgroundColor } from "@tui-sandbox/library/dist/src/client/cypress-assertions"
 import z from "zod"
 import {
   assertCurrentBufferName,
   initializeGitRepositoryInDirectory,
 } from "./test-utils"
-
 const colors = {
   selectedItem: rgbify(flavors.macchiato.colors.blue.rgb),
 }
@@ -144,11 +144,7 @@ describe("testing", () => {
       cy.contains("main")
 
       // the file tree root item (📁 /) should be selected
-      cy.contains("/").should(
-        "have.css",
-        "background-color",
-        colors.selectedItem,
-      )
+      textIsVisibleWithBackgroundColor("/", colors.selectedItem)
 
       // select the first file in the file tree (move the selection away from
       // the root of the tree)
@@ -156,11 +152,7 @@ describe("testing", () => {
 
       // stage all files
       cy.typeIntoTerminal("a")
-      cy.contains("A").should(
-        "have.css",
-        "background-color",
-        colors.selectedItem,
-      )
+      textIsVisibleWithBackgroundColor("A", colors.selectedItem)
 
       // tell lazygit to commit the changes. This should hide lazygit and open
       // COMMIT_EDITMSG in the parent neovim because flatten.nvim is used
@@ -196,21 +188,13 @@ describe("testing", () => {
       cy.contains("Donate")
 
       // the file tree root item (📁 /) should be selected
-      cy.contains("/").should(
-        "have.css",
-        "background-color",
-        colors.selectedItem,
-      )
+      textIsVisibleWithBackgroundColor("/", colors.selectedItem)
 
       // select the first file in the file tree (move the selection away from
       // the root of the tree)
       cy.typeIntoTerminal("j")
 
-      cy.contains("??").should(
-        "have.css",
-        "background-color",
-        colors.selectedItem,
-      )
+      textIsVisibleWithBackgroundColor("??", colors.selectedItem)
 
       // edit the file. This should call neovim to open the file.
       cy.typeIntoTerminal("e")
