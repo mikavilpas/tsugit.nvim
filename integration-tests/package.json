@@ -21,8 +21,8 @@
     "tsx": "4.20.5",
     "type-fest": "4.41.0",
     "typescript": "5.9.2",
-    "typescript-eslint": "8.40.0",
+    "typescript-eslint": "8.41.0",
     "wait-on": "8.0.4",
-    "zod": "4.1.1"
+    "zod": "4.1.3"
   }
 }
