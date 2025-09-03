@@ -36,17 +36,8 @@ jobs:
           node-version-file: .nvmrc
           cache: "pnpm"
       - run: pnpm install
-      - name: Install lazygit
-        run: |
-          # https://github.com/jesseduffield/lazygit?tab=readme-ov-file#ubuntu
-          # https://api.github.com/repos/jesseduffield/lazygit/releases/latest
-          LAZYGIT_VERSION="https://github.com/jesseduffield/lazygit/releases/download/v0.54.2/lazygit_0.54.2_Linux_x86_64.tar.gz"
-          curl -Lo lazygit.tar.gz $LAZYGIT_VERSION
-          tar xf lazygit.tar.gz lazygit
-          sudo install lazygit -D -t /usr/local/bin/
-          echo "Installed lazygit version ${LAZYGIT_VERSION}"
-          echo "lazygit version $(lazygit --version)"
-          echo "lazygit path $(which lazygit)"
+
+      - uses: jdx/mise-action@v3.2.0
 
       # need to work around https://github.com/cypress-io/github-action/issues/1246
       - run: pnpm --filter integration-tests exec cypress install
