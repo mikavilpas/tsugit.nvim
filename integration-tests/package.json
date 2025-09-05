@@ -13,7 +13,7 @@
     "@catppuccin/palette": "1.7.1"
   },
   "devDependencies": {
-    "@tui-sandbox/library": "11.7.1",
+    "@tui-sandbox/library": "11.8.0",
     "cypress": "15.1.0",
     "eslint": "9.34.0",
     "eslint-config-prettier": "10.1.8",
