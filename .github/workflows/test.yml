@@ -16,15 +16,17 @@ jobs:
 
     steps:
       - uses: actions/checkout@v5.0.0
-      - name: Set up dependencies
-        run: |
-          echo "no dependencies to install"
 
-      - name: Run tests
-        uses: nvim-neorocks/nvim-busted-action@v1.1.0
+      - uses: jdx/mise-action@v3.2.0
+
+      - name: Install neovim ${{ matrix.neovim_version }}
+        uses: rhysd/action-setup-vim@v1.4.3
         with:
-          nvim_version: ${{ matrix.neovim_version }}
-          luarocks_version: "3.11.1"
+          neovim: true
+          version: ${{ matrix.neovim_version }}
+
+      - name: Run neovim (${{ matrix.neovim_version }}) tests
+        run: lx test
 
       - uses: pnpm/action-setup@v4.1.0
         with:
@@ -37,12 +39,10 @@ jobs:
           cache: "pnpm"
       - run: pnpm install
 
-      - uses: jdx/mise-action@v3.2.0
-
       # need to work around https://github.com/cypress-io/github-action/issues/1246
       - run: pnpm --filter integration-tests exec cypress install
 
-      - name: Preinstall neovim plugins
+      - name: Preinstall neovim plugins for tui-sandbox tests
         working-directory: integration-tests/
         run: |
           # NVIM_APPNAME=nvim is the default, but spelled out here for clarity
