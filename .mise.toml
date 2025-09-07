@@ -1,5 +1,5 @@
+settings.experimental = true
+settings.idiomatic_version_file_enable_tools = []
+
 [tools]
 "github:jesseduffield/lazygit" = "0.55.0"
-
-[settings]
-experimental = true

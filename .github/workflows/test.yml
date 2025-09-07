@@ -16,9 +16,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v5.0.0
-      - name: Set up dependencies
-        run: |
-          echo "no dependencies to install"
 
       - name: Run tests
         uses: nvim-neorocks/nvim-busted-action@v1.1.0
@@ -35,8 +32,8 @@ jobs:
         with:
           node-version-file: .nvmrc
           cache: "pnpm"
-      - run: pnpm install
 
+      - run: pnpm install
       - uses: jdx/mise-action@v3.2.0
 
       # need to work around https://github.com/cypress-io/github-action/issues/1246
