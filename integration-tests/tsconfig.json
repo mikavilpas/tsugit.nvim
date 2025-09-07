@@ -29,6 +29,7 @@
     "./client",
     "./server",
     "./cypress",
-    "./eslint.config.mjs"
+    "./eslint.config.mjs",
+    "./tui-sandbox.config.ts"
   ]
 }
