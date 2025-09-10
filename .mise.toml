@@ -1,5 +1,6 @@
 [tools]
 "github:jesseduffield/lazygit" = "0.55.0"
+"github:nvim-neorocks/lux" = "0.17.0"
 
 [settings]
 experimental = true
