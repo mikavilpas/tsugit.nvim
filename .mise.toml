@@ -1,5 +1,5 @@
 [tools]
-"github:jesseduffield/lazygit" = "0.55.0"
+"ubi:jesseduffield/lazygit" = "0.55.0"
 
 [settings]
 experimental = true
