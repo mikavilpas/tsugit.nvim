@@ -9,7 +9,7 @@ on:
 jobs:
   build:
     name: Run tests
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     strategy:
       matrix:
         neovim_version: ["nightly", "stable"]
@@ -68,7 +68,7 @@ jobs:
   automerge:
     needs: build
     name: Automerge Dependabot PRs
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     permissions:
       # NOTE: no special token needs to be generated if these permissions are
       # used. However, "Workflow permissions > Allow GitHub Actions to create
