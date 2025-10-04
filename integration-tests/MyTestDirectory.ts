@@ -87,8 +87,8 @@ export const MyTestDirectorySchema = z.object({
       name: z.literal("config-modifications/"),
       type: z.literal("directory"),
       contents: z.object({
-        "use_light_neovim_colorscheme.lua": z.object({
-          name: z.literal("use_light_neovim_colorscheme.lua"),
+        "map_key_to_start_lazygit_in_normal_screen_mode.lua": z.object({
+          name: z.literal("map_key_to_start_lazygit_in_normal_screen_mode.lua"),
           type: z.literal("file"),
         }),
       }),
@@ -205,7 +205,7 @@ export const testDirectoryFiles = z.enum([
   ".config/nvim_formatting/prepare.lua",
   ".config/nvim_formatting",
   ".config",
-  "config-modifications/use_light_neovim_colorscheme.lua",
+  "config-modifications/map_key_to_start_lazygit_in_normal_screen_mode.lua",
   "config-modifications",
   "dir with spaces/file1.txt",
   "dir with spaces/file2.txt",
