@@ -1,5 +1,12 @@
 # Changelog
 
+## [7.1.0](https://github.com/mikavilpas/tsugit.nvim/compare/v7.0.0...v7.1.0) (2025-10-04)
+
+
+### Features
+
+* allow toggle_for_file to accept additional lazygit args ([#359](https://github.com/mikavilpas/tsugit.nvim/issues/359)) ([c35e39a](https://github.com/mikavilpas/tsugit.nvim/commit/c35e39afcdf4923ce1124f214f9f345f3afcddad))
+
 ## [7.0.0](https://github.com/mikavilpas/tsugit.nvim/compare/v6.4.1...v7.0.0) (2025-09-03)
 
 
