@@ -257,7 +257,8 @@ end
 --- Open lazygit for the current file path
 ---@param path? string # the file path to open lazygit in. If not given, uses the current buffer's file path.
 ---@param options? tsugit.CallOptions | {}
-function M.toggle_for_file(path, options)
+---@param additional_args? string[] # additional arguments to pass to lazygit
+function M.toggle_for_file(path, options, additional_args)
   path = path or vim.fn.expand("%:p")
   if not path then
     -- might happen if the current buffer is not a file (rare)
@@ -268,8 +269,9 @@ function M.toggle_for_file(path, options)
   -- don't warm up the next lazygit for a single file path to save some resources
   options = options or {}
   options.tries_remaining = 1 -- just one try
+  local args = vim.list_extend({ "--filter", path }, additional_args or {})
 
-  return M.toggle({ "--filter", path }, options)
+  return M.toggle(args, options)
 end
 
 return M
