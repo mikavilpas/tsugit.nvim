@@ -285,29 +285,6 @@ describe("testing", () => {
     })
   })
 
-  it("can start toggle_for_file in a different screen mode", () => {
-    cy.visit("/")
-
-    cy.startNeovim({
-      filename: "fakegitrepo/file.txt",
-      startupScriptModifications: [
-        "map_key_to_start_lazygit_in_normal_screen_mode.lua",
-      ],
-    }).then((nvim) => {
-      initializeGitRepositoryInDirectory()
-      cy.contains(fakeGitRepoFileText)
-      nvim.runBlockingShellCommand({
-        command: "git add file.txt && git commit -a -m 'initial commit'",
-        cwdRelative: "fakegitrepo",
-      })
-
-      cy.typeIntoTerminal(" lF")
-
-      // the normal screen mode should have been applied
-      cy.contains("Worktrees")
-    })
-  })
-
   it("can force_quit lazygit", () => {
     cy.visit("/")
     cy.startNeovim({ filename: "fakegitrepo/file.txt" }).then((_nvim) => {
@@ -400,6 +377,29 @@ describe("toggle_for_file", () => {
       })
       cy.contains("other-file commit").should("not.exist")
       cy.contains("root commit")
+    })
+  })
+
+  it("can start toggle_for_file in a different screen mode", () => {
+    cy.visit("/")
+
+    cy.startNeovim({
+      filename: "fakegitrepo/file.txt",
+      startupScriptModifications: [
+        "map_key_to_start_lazygit_in_normal_screen_mode.lua",
+      ],
+    }).then((nvim) => {
+      initializeGitRepositoryInDirectory()
+      cy.contains(fakeGitRepoFileText)
+      nvim.runBlockingShellCommand({
+        command: "git add file.txt && git commit -a -m 'initial commit'",
+        cwdRelative: "fakegitrepo",
+      })
+
+      cy.typeIntoTerminal(" lF")
+
+      // the normal screen mode should have been applied
+      cy.contains("Worktrees")
     })
   })
 })
