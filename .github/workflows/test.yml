@@ -37,7 +37,22 @@ jobs:
           cache: "pnpm"
       - run: pnpm install
 
-      - uses: jdx/mise-action@e3d7b8d67a7958d1207f6ed871e83b1ea780e7b0 # v3.3.1
+      - name: Install tools
+        shell: bash
+        run: |
+          mkdir -p "$HOME/.local/bin"
+          # make the tools available for subsequent steps
+          echo "$(pwd)/bin" >> "$GITHUB_PATH"
+          curl --silent --location \
+              https://raw.githubusercontent.com/houseabsolute/ubi/master/bootstrap/bootstrap-ubi.sh |
+              TARGET="$HOME/.local/bin" sh
+
+          ubi --project mikefarah/yq
+
+          VERSION=$(yq '.tools."ubi:jesseduffield/lazygit"' .mise.toml)
+          ubi --project jesseduffield/lazygit --tag "v$VERSION"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       # need to work around https://github.com/cypress-io/github-action/issues/1246
       - run: pnpm --filter integration-tests exec cypress install
