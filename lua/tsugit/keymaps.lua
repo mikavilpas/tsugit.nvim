@@ -25,7 +25,9 @@ function M.create_keymaps(config, lazygit)
             "tsugit.nvim: force quitting lazygit"
           )
         end
-        lazygit:close({ buf = true })
+        local job_id = vim.b[lazygit.buf].terminal_job_id
+        assert(job_id, "tsugit.nvim: missing terminal_job_id in lazygit buffer")
+        vim.fn.jobstop(job_id)
 
         assert(
           lazygit["tsugit_key"],
