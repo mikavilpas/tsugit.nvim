@@ -287,7 +287,7 @@ describe("testing", () => {
 
   it("can force_quit lazygit", () => {
     cy.visit("/")
-    cy.startNeovim({ filename: "fakegitrepo/file.txt" }).then((_nvim) => {
+    cy.startNeovim({ filename: "fakegitrepo/file.txt" }).then((nvim) => {
       // wait until text on the start screen is visible
       cy.contains(fakeGitRepoFileText)
       initializeGitRepositoryInDirectory()
@@ -324,6 +324,13 @@ describe("testing", () => {
       cy.contains(lazygit.filesPane).should("not.exist")
       cy.typeIntoTerminal("{rightarrow}")
       cy.contains(lazygit.filesPane)
+
+      cy.typeIntoTerminal("{rightarrow}")
+      cy.contains(lazygit.filesPane).should("not.exist")
+      nvim.runExCommand({ command: "messages" }).and((output) => {
+        expect(output.value).to.not.match(/error/i)
+        expect(output.value).to.match(/force quitting lazygit/)
+      })
     })
   })
 })
