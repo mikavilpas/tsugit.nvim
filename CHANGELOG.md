@@ -1,5 +1,12 @@
 # Changelog
 
+## [7.1.1](https://github.com/mikavilpas/tsugit.nvim/compare/v7.1.0...v7.1.1) (2025-10-18)
+
+
+### Bug Fixes
+
+* force_quit not working and showing an error ([#379](https://github.com/mikavilpas/tsugit.nvim/issues/379)) ([f811663](https://github.com/mikavilpas/tsugit.nvim/commit/f811663a60a7aa85b75e2bb2327e1f17482c6ad3))
+
 ## [7.1.0](https://github.com/mikavilpas/tsugit.nvim/compare/v7.0.0...v7.1.0) (2025-10-04)
 
 
