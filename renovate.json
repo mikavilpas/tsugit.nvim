@@ -19,6 +19,7 @@
       ]
     },
     {
+      "description": ["lua file github-releases"],
       "customType": "regex",
       "datasourceTemplate": "github-releases",
       "managerFilePatterns": [
@@ -26,7 +27,7 @@
         "integration-tests/test-environment/.config/nvim_formatting/init.lua"
       ],
       "matchStrings": [
-        "--\\s*renovate:\\s*datasource=github-releases\\s+depName=(?<depName>\\S+)\\s*[\\r\\n]+[^=]+=\\s*(?<currentValue>\\S+)"
+        "--\\s*renovate:\\s*datasource=github-releases\\s+depName=(?<depName>\\S+)\\s*[\\r\\n]+[^=]+=\\s*\"?(?<currentValue>[^\",]+)\"?"
       ]
     }
   ]
