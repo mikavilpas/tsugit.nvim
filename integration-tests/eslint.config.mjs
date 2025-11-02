@@ -1,8 +1,10 @@
 import eslintConfigPrettier from "eslint-config-prettier"
 import noOnlyTests from "eslint-plugin-no-only-tests"
+import oxlint from "eslint-plugin-oxlint"
+import { defineConfig } from "eslint/config"
 import * as typescriptEslint from "typescript-eslint"
 
-export default typescriptEslint.config(
+export default defineConfig(
   {
     ignores: [
       "**/cypress.config.ts",
@@ -82,5 +84,6 @@ export default typescriptEslint.config(
       "@typescript-eslint/no-unused-vars": "off",
     },
   },
+  ...oxlint.configs["flat/recommended"], // oxlint should be the last one
   eslintConfigPrettier,
 )

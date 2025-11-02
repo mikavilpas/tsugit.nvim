@@ -1,5 +1,5 @@
 import type { RunLuaCodeOutput } from "@tui-sandbox/library/src/server/types"
-import type { MyTestDirectoryFile } from "MyTestDirectory"
+import type { MyTestDirectoryFile } from "../../MyTestDirectory"
 
 export function initializeGitRepositoryInDirectory(
   relativePath: MyTestDirectoryFile = "fakegitrepo",
