@@ -41,10 +41,12 @@ vim.list_extend(plugins, {
   -- mason.nvim is used to install prettierd. You can also install it
   -- manually, but in the e2e test environment, this is the easiest way to do
   -- it.
-  { "https://github.com/mason-org/mason.nvim", opts = {} },
+  -- renovate: datasource=github-releases depName=mason-org/mason.nvim
+  { "https://github.com/mason-org/mason.nvim", opts = {}, version = "v2.1.0" },
 
   -- conform.nvim is the formatter that is used to format the code.
-  { "https://github.com/stevearc/conform.nvim", opts = {} },
+  -- renovate: datasource=github-releases depName=stevearc/conform.nvim
+  { "https://github.com/stevearc/conform.nvim", opts = {}, version = "v9.1.0" },
 
   -- enable the conform.nvim integration that formats COMMIT_EDITMSG files in
   -- tsugit.nvim

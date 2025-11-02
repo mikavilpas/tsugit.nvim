@@ -38,7 +38,13 @@ local plugins = {
       debug = true,
     },
   },
-  { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
+  {
+    "catppuccin/nvim",
+    name = "catppuccin",
+    priority = 1000,
+    -- renovate: datasource=github-releases depName=catppuccin/nvim
+    version = "v1.11.0",
+  },
 }
 
 return plugins
