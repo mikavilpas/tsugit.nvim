@@ -7,18 +7,21 @@
     "build": "tsc",
     "cy:open": "cypress open --e2e --browser=electron",
     "dev": "concurrently --kill-others --names 'app,cypress' --prefix-colors 'blue,yellow' 'pnpm tui start' 'pnpm cy:open'",
-    "eslint": "eslint --max-warnings=0 ."
+    "lint": "pnpx oxlint --type-aware && eslint --max-warnings=0 ."
   },
   "dependencies": {
     "@catppuccin/palette": "1.7.1"
   },
   "devDependencies": {
     "@tui-sandbox/library": "11.11.0",
+    "@types/node": "24.9.2",
     "concurrently": "9.2.1",
     "cypress": "15.5.0",
     "eslint": "9.39.0",
     "eslint-config-prettier": "10.1.8",
     "eslint-plugin-no-only-tests": "3.3.0",
+    "eslint-plugin-oxlint": "1.25.0",
+    "oxlint-tsgolint": "0.4.0",
     "tsx": "4.20.6",
     "type-fest": "5.1.0",
     "typescript": "5.9.3",
