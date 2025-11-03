@@ -23,7 +23,7 @@
     "eslint-plugin-oxlint": "1.25.0",
     "oxlint-tsgolint": "0.4.0",
     "tsx": "4.20.6",
-    "type-fest": "5.1.0",
+    "type-fest": "5.2.0",
     "typescript": "5.9.3",
     "typescript-eslint": "8.46.2",
     "wait-on": "9.0.1",
