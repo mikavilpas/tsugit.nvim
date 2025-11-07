@@ -1,5 +1,13 @@
 # Changelog
 
+## [7.1.2](https://github.com/mikavilpas/tsugit.nvim/compare/v7.1.1...v7.1.2) (2025-11-07)
+
+
+### Bug Fixes
+
+* conform integration should not wrap long commit subjects ([#412](https://github.com/mikavilpas/tsugit.nvim/issues/412)) ([84b9d4e](https://github.com/mikavilpas/tsugit.nvim/commit/84b9d4ebcf189df2ea4d4cb2d36f71a71ddf487a))
+* only lock snacks.nvim and flatten.nvim versions in tests ([#409](https://github.com/mikavilpas/tsugit.nvim/issues/409)) ([e79fa54](https://github.com/mikavilpas/tsugit.nvim/commit/e79fa54fa029906bd6140a38895d29dbc14ab170))
+
 ## [7.1.1](https://github.com/mikavilpas/tsugit.nvim/compare/v7.1.0...v7.1.1) (2025-10-18)
 
 
