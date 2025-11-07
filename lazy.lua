@@ -11,12 +11,18 @@
 
 ---@type LazySpec
 return {
-  { "folke/snacks.nvim", lazy = true },
+  {
+    "folke/snacks.nvim",
+    -- renovate: datasource=github-releases depName=folke/snacks.nvim
+    version = "v2.28.0",
+    lazy = true,
+  },
   {
     -- Open files and command output from wezterm, kitty, and neovim terminals in
     -- your current neovim instance
     -- https://github.com/willothy/flatten.nvim
     "willothy/flatten.nvim",
+    commit = "7252779",
     -- Ensure that it runs first to minimize delay when opening file from terminal
     lazy = false,
     priority = 1001,
