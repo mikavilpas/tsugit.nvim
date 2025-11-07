@@ -25,6 +25,24 @@ function M.setup_conform_prettierd_integration(config)
     )
   end
 
+  vim.api.nvim_create_autocmd("BufEnter", {
+    pattern = "COMMIT_EDITMSG",
+    callback = function()
+      if config.debug then
+        require("tsugit.debug").add_debug_message(
+          "tsugit: Entered git commit message buffer"
+        )
+      end
+
+      -- disable neovim hard wrapping for this buffer to prevent changing long
+      -- commit subjects. git expects them to be a single line no matter how
+      -- long it is.
+      vim.opt_local.textwidth = 0
+      vim.opt_local.wrapmargin = 0
+      vim.opt_local.wrap = false
+    end,
+  })
+
   vim.api.nvim_create_autocmd("BufWritePre", {
     pattern = "COMMIT_EDITMSG",
     callback = function(args)
@@ -60,6 +78,15 @@ function M.setup_conform_prettierd_integration(config)
       end
       ---@cast comment_char string
 
+      -- get the subject and the second line (the empty line)
+      local heading_lines = vim.api.nvim_buf_get_lines(args.buf, 0, 2, false)
+      assert(
+        #heading_lines == 2,
+        "Expected at least two lines in commit message buffer"
+      )
+      -- remove them from the buffer temporarily
+      vim.api.nvim_buf_set_lines(args.buf, 0, 2, true, {})
+
       -- get the lines before the first line starting with the comment_char
       local instructions = {}
       local lines = vim.api.nvim_buf_get_lines(args.buf, 0, -1, false)
@@ -85,6 +112,9 @@ function M.setup_conform_prettierd_integration(config)
         bufnr = args.buf,
         formatters = { "tsugit_gitcommit" },
       })
+
+      -- add the heading lines back to the beginning
+      vim.api.nvim_buf_set_lines(args.buf, 0, 0, false, heading_lines)
 
       -- put the commit instructions back
       if #instructions > 0 then
