@@ -476,7 +476,13 @@ describe("conform integration for commit message formatting", () => {
       cy.contains("# Please enter the commit message for your changes.")
 
       // add some unformatted text and save
-      nvim.runExCommand({ command: `normal! i  test` })
+      const longSubject =
+        "chore: this is a very long subject line that should not be wrapped by the formatter"
+      assert(
+        longSubject.length > 72,
+        `test setup is correct. longSubject is ${longSubject.length} characters long`,
+      )
+      nvim.runExCommand({ command: `normal! i${longSubject}` })
       nvim.runExCommand({ command: `normal! o ` })
       nvim.runExCommand({ command: `normal! o-  list` })
       nvim.runExCommand({ command: `normal! o` })
@@ -490,7 +496,7 @@ describe("conform integration for commit message formatting", () => {
       nvim.waitForLuaCode({
         // wait for the first line to be formatted. This means the formatter is
         // finished.
-        luaAssertion: `assert (vim.api.nvim_get_current_line() == "test")`,
+        luaAssertion: `assert (vim.api.nvim_get_current_line() == "- list")`,
       })
 
       nvim
@@ -501,8 +507,8 @@ describe("conform integration for commit message formatting", () => {
           const lines = z.array(z.string()).parse(result.value)
           expect(lines.slice(0, 8).join("\n")).to.deep.equal(
             [
-              "test",
-              "",
+              longSubject, // should not be wrapped
+              " ", // must be unchanged
               "- list",
               "",
               "Long line long line long line long line long long line long line line",
@@ -546,7 +552,7 @@ describe("conform integration for commit message formatting", () => {
       cy.contains("; Please enter the commit message for your changes.")
 
       // add some unformatted text and save
-      nvim.runExCommand({ command: `normal! i  test` })
+      nvim.runExCommand({ command: `normal! itest` })
       nvim.runExCommand({ command: `normal! o ` })
       nvim.runExCommand({ command: `normal! o-  list` })
       nvim.runExCommand({ command: `normal! o` })
@@ -557,7 +563,7 @@ describe("conform integration for commit message formatting", () => {
       nvim.waitForLuaCode({
         // wait for the first line to be formatted. This means the formatter is
         // finished.
-        luaAssertion: `assert (vim.api.nvim_get_current_line() == "test")`,
+        luaAssertion: `assert (vim.api.nvim_get_current_line() == "- list")`,
       })
 
       nvim
@@ -569,7 +575,7 @@ describe("conform integration for commit message formatting", () => {
           expect(lines.slice(0, 5).join("\n")).to.deep.equal(
             [
               "test",
-              "",
+              " ",
               "- list",
               "",
               "; Please enter the commit message for your changes. Lines starting",
