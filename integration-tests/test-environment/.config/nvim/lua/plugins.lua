@@ -9,7 +9,7 @@ local plugins = {
   {
     "folke/snacks.nvim",
     -- renovate: datasource=github-releases depName=folke/snacks.nvim
-    version = "v2.28.0",
+    version = "v2.30.0",
     lazy = true,
   },
   {
