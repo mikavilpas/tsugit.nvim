@@ -5,6 +5,7 @@ import z from "zod"
 import {
   assertCurrentBufferName,
   initializeGitRepositoryInDirectory,
+  waitForFormattingToHaveCompleted,
 } from "./test-utils"
 const colors = {
   selectedItem: rgbify(flavors.macchiato.colors.blue.rgb),
@@ -492,12 +493,7 @@ describe("conform integration for commit message formatting", () => {
       nvim.runExCommand({ command: `normal! gg` })
       cy.typeIntoTerminal(":w{enter}")
 
-      // prettierd should have formatted the text
-      nvim.waitForLuaCode({
-        // wait for the first line to be formatted. This means the formatter is
-        // finished.
-        luaAssertion: `assert (vim.api.nvim_get_current_line() == "- list")`,
-      })
+      waitForFormattingToHaveCompleted(nvim)
 
       nvim
         .runLuaCode({
@@ -559,12 +555,7 @@ describe("conform integration for commit message formatting", () => {
       nvim.runExCommand({ command: `normal! gg` })
       cy.typeIntoTerminal(":w{enter}")
 
-      // prettierd should have formatted the text
-      nvim.waitForLuaCode({
-        // wait for the first line to be formatted. This means the formatter is
-        // finished.
-        luaAssertion: `assert (vim.api.nvim_get_current_line() == "- list")`,
-      })
+      waitForFormattingToHaveCompleted(nvim)
 
       nvim
         .runLuaCode({
@@ -580,6 +571,48 @@ describe("conform integration for commit message formatting", () => {
               "",
               "; Please enter the commit message for your changes. Lines starting",
             ].join("\n"),
+          )
+        })
+    })
+  })
+
+  it("formats oddly formatted commit message drafts correctly", () => {
+    // git allows customizing the comment character used in commit messages.
+    cy.visit("/")
+
+    cy.startNeovim({
+      filename: "fakegitrepo/file.txt",
+      NVIM_APPNAME: "nvim_formatting",
+    }).then((nvim) => {
+      cy.contains(fakeGitRepoFileText)
+      initializeGitRepositoryInDirectory()
+      nvim.runBlockingShellCommand({
+        command: `git add .`,
+        cwdRelative: "fakegitrepo",
+      })
+      cy.typeIntoTerminal("{rightarrow}")
+
+      // wait until lazygit has initialized and the main branch name is visible
+      cy.contains("main")
+
+      cy.typeIntoTerminal("C") // commit
+      nvim.waitForLuaCode({
+        luaAssertion: `return vim.api.nvim_buf_get_name(0) == vim.fn.expand('%:h') .. '/.git/COMMIT_EDITMSG'`,
+      })
+      cy.contains("# Please enter the commit message for your changes.")
+
+      nvim.runExCommand({ command: `normal! itest` })
+      cy.typeIntoTerminal(":w{enter}")
+      waitForFormattingToHaveCompleted(nvim)
+
+      nvim
+        .runLuaCode({
+          luaCode: `return vim.api.nvim_buf_get_lines(0, 0, -1, false)`,
+        })
+        .and((result) => {
+          const lines = z.array(z.string()).parse(result.value)
+          expect(lines.slice(0, 3).join("\n")).to.deep.equal(
+            ["test", "", ""].join("\n"),
           )
         })
     })
