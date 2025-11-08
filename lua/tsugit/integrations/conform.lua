@@ -79,13 +79,15 @@ function M.setup_conform_prettierd_integration(config)
       ---@cast comment_char string
 
       -- get the subject and the second line (the empty line)
-      local heading_lines = vim.api.nvim_buf_get_lines(args.buf, 0, 2, false)
-      assert(
-        #heading_lines == 2,
-        "Expected at least two lines in commit message buffer"
-      )
+      local heading_lines = vim.tbl_filter(function(value)
+        return not vim.startswith(value, comment_char)
+      end, vim.api.nvim_buf_get_lines(args.buf, 0, 2, false))
+      if #heading_lines <= 1 then
+        table.insert(heading_lines, "")
+      end
+
       -- remove them from the buffer temporarily
-      vim.api.nvim_buf_set_lines(args.buf, 0, 2, true, {})
+      vim.api.nvim_buf_set_lines(args.buf, 0, #heading_lines - 1, true, {})
 
       -- get the lines before the first line starting with the comment_char
       local instructions = {}
@@ -112,13 +114,17 @@ function M.setup_conform_prettierd_integration(config)
         bufnr = args.buf,
         formatters = { "tsugit_gitcommit" },
       })
+      -- selene: allow(global_usage)
+      _G.tsugit_formatting_done = true
 
       -- add the heading lines back to the beginning
       vim.api.nvim_buf_set_lines(args.buf, 0, 0, false, heading_lines)
 
       -- put the commit instructions back
       if #instructions > 0 then
-        vim.api.nvim_buf_set_lines(args.buf, -1, -1, false, { "" })
+        if heading_lines[#heading_lines] ~= "" then
+          vim.api.nvim_buf_set_lines(args.buf, -1, -1, false, { "" })
+        end
         vim.api.nvim_buf_set_lines(args.buf, -1, -1, false, instructions)
       end
     end,
