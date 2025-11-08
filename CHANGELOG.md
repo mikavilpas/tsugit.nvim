@@ -1,5 +1,12 @@
 # Changelog
 
+## [7.1.3](https://github.com/mikavilpas/tsugit.nvim/compare/v7.1.2...v7.1.3) (2025-11-08)
+
+
+### Bug Fixes
+
+* formatting in-progress commit messages weirdly ([#414](https://github.com/mikavilpas/tsugit.nvim/issues/414)) ([33b5cc4](https://github.com/mikavilpas/tsugit.nvim/commit/33b5cc4b6ace95390179b198692df00c28e7496e))
+
 ## [7.1.2](https://github.com/mikavilpas/tsugit.nvim/compare/v7.1.1...v7.1.2) (2025-11-07)
 
 
