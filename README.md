@@ -142,6 +142,11 @@ The documentation for this feature can be found in the git docs
 
 ### Autoformatting commit messages with prettierd
 
+> [!NOTE]
+>
+> The first and second lines of the commit message are not formatted to make
+> sure they are always valid.
+
 Instructions:
 
 1. Install [prettierd](https://github.com/fsouza/prettierd) with e.g.
