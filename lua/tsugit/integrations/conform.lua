@@ -1,5 +1,11 @@
 local M = {}
 
+local function is_long_mode()
+  -- we are in long mode if the commit subject is longer than 72 characters
+  local first_line = vim.api.nvim_buf_get_lines(0, 0, 1, false)[1] or ""
+  return #first_line > 72
+end
+
 ---@param config tsugit.Config
 function M.setup_conform_prettierd_integration(config)
   local conform = require("conform")
@@ -34,12 +40,14 @@ function M.setup_conform_prettierd_integration(config)
         )
       end
 
-      -- disable neovim hard wrapping for this buffer to prevent changing long
-      -- commit subjects. git expects them to be a single line no matter how
-      -- long it is.
-      vim.opt_local.textwidth = 0
-      vim.opt_local.wrapmargin = 0
-      vim.opt_local.wrap = false
+      if is_long_mode() then
+        -- disable neovim hard wrapping for this buffer to prevent changing long
+        -- commit subjects. git expects them to be a single line no matter how
+        -- long it is.
+        vim.opt_local.textwidth = 0
+        vim.opt_local.wrapmargin = 0
+        vim.opt_local.wrap = false
+      end
     end,
   })
 
@@ -65,9 +73,10 @@ function M.setup_conform_prettierd_integration(config)
       -- - puts the instructions back at the bottom, so that it seems like only
       --   the commit message was formatted
 
+      local buf = args.buf
       local comment_char = vim
         .system({ "git", "config", "--get", "core.commentChar" }, {
-          cwd = vim.fs.dirname(vim.api.nvim_buf_get_name(args.buf)),
+          cwd = vim.fs.dirname(vim.api.nvim_buf_get_name(buf)),
           text = true,
         })
         :wait(500).stdout
@@ -78,57 +87,107 @@ function M.setup_conform_prettierd_integration(config)
       end
       ---@cast comment_char string
 
-      -- get the subject and the second line (the empty line)
-      local heading_lines = vim.tbl_filter(function(value)
-        return not vim.startswith(value, comment_char)
-      end, vim.api.nvim_buf_get_lines(args.buf, 0, 2, false))
-      if #heading_lines <= 1 then
-        table.insert(heading_lines, "")
+      -- do not use long mode unless we have to avoid reformatting the subject, because:
+      -- - the cursor can jump a round annoyingly
+      -- - auto hard wrapping is disabled and it's annoying to type the commit
+      --   message having to wrap manually
+      if not is_long_mode() then
+        M.format_comfy_mode(config, comment_char, buf)
+      else
+        M.format_long_mode(config, comment_char, buf)
       end
 
-      -- remove them from the buffer temporarily
-      vim.api.nvim_buf_set_lines(args.buf, 0, #heading_lines - 1, true, {})
-
-      -- get the lines before the first line starting with the comment_char
-      local instructions = {}
-      local lines = vim.api.nvim_buf_get_lines(args.buf, 0, -1, false)
-      for i, line in ipairs(lines) do
-        if vim.startswith(line, comment_char) then
-          instructions = vim.list_slice(lines, i, #lines)
-          vim.api.nvim_buf_set_lines(args.buf, i - 1, -1, true, {})
-          break
-        end
-      end
-
-      if config.debug then
-        require("tsugit.debug").add_debug_message(
-          string.format(
-            "tsugit: Formatting %s commit message lines with conform using comment_char '%s'",
-            #lines,
-            vim.inspect(comment_char)
-          )
-        )
-      end
-
-      require("conform").format({
-        bufnr = args.buf,
-        formatters = { "tsugit_gitcommit" },
-      })
       -- selene: allow(global_usage)
       _G.tsugit_formatting_done = true
-
-      -- add the heading lines back to the beginning
-      vim.api.nvim_buf_set_lines(args.buf, 0, 0, false, heading_lines)
-
-      -- put the commit instructions back
-      if #instructions > 0 then
-        if heading_lines[#heading_lines] ~= "" then
-          vim.api.nvim_buf_set_lines(args.buf, -1, -1, false, { "" })
-        end
-        vim.api.nvim_buf_set_lines(args.buf, -1, -1, false, instructions)
-      end
     end,
   })
+end
+
+---@param config tsugit.Config
+---@param comment_char string
+---@param buf number
+M.format_comfy_mode = function(config, comment_char, buf)
+  -- get the lines before the first line starting with the comment_char
+  local instructions = {}
+  local lines = vim.api.nvim_buf_get_lines(buf, 0, -1, false)
+  for i, line in ipairs(lines) do
+    if vim.startswith(line, comment_char) then
+      instructions = vim.list_slice(lines, i, #lines)
+      vim.api.nvim_buf_set_lines(buf, i - 1, -1, true, {})
+      break
+    end
+  end
+
+  if config.debug then
+    require("tsugit.debug").add_debug_message(
+      string.format(
+        "tsugit: Formatting %s commit message lines in comfy mode with conform using comment_char '%s'",
+        #lines,
+        vim.inspect(comment_char)
+      )
+    )
+  end
+
+  require("conform").format({
+    bufnr = buf,
+    formatters = { "tsugit_gitcommit" },
+  })
+
+  -- put the commit instructions back
+  if #instructions > 0 then
+    vim.api.nvim_buf_set_lines(buf, -1, -1, false, { "" })
+    vim.api.nvim_buf_set_lines(buf, -1, -1, false, instructions)
+  end
+end
+
+M.format_long_mode = function(config, comment_char, buf)
+  -- get the subject and the second line (the empty line)
+  local heading_lines = vim.tbl_filter(function(value)
+    return not vim.startswith(value, comment_char)
+  end, vim.api.nvim_buf_get_lines(buf, 0, 2, false))
+  if #heading_lines <= 1 then
+    table.insert(heading_lines, "")
+  end
+
+  -- remove them from the buffer temporarily
+  vim.api.nvim_buf_set_lines(buf, 0, #heading_lines - 1, true, {})
+
+  -- get the lines before the first line starting with the comment_char
+  local instructions = {}
+  local lines = vim.api.nvim_buf_get_lines(buf, 0, -1, false)
+  for i, line in ipairs(lines) do
+    if vim.startswith(line, comment_char) then
+      instructions = vim.list_slice(lines, i, #lines)
+      vim.api.nvim_buf_set_lines(buf, i - 1, -1, true, {})
+      break
+    end
+  end
+
+  if config.debug then
+    require("tsugit.debug").add_debug_message(
+      string.format(
+        "tsugit: Formatting %s commit message lines in long mode with conform using comment_char '%s'",
+        #lines,
+        vim.inspect(comment_char)
+      )
+    )
+  end
+
+  require("conform").format({
+    bufnr = buf,
+    formatters = { "tsugit_gitcommit" },
+  })
+
+  -- add the heading lines back to the beginning
+  vim.api.nvim_buf_set_lines(buf, 0, 0, false, heading_lines)
+
+  -- put the commit instructions back
+  if #instructions > 0 then
+    if heading_lines[#heading_lines] ~= "" then
+      vim.api.nvim_buf_set_lines(buf, -1, -1, false, { "" })
+    end
+    vim.api.nvim_buf_set_lines(buf, -1, -1, false, instructions)
+  end
 end
 
 return M
