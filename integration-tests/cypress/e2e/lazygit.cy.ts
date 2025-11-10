@@ -477,13 +477,7 @@ describe("conform integration for commit message formatting", () => {
       cy.contains("# Please enter the commit message for your changes.")
 
       // add some unformatted text and save
-      const longSubject =
-        "chore: this is a very long subject line that should not be wrapped by the formatter"
-      assert(
-        longSubject.length > 72,
-        `test setup is correct. longSubject is ${longSubject.length} characters long`,
-      )
-      nvim.runExCommand({ command: `normal! i${longSubject}` })
+      nvim.runExCommand({ command: `normal! i  test` })
       nvim.runExCommand({ command: `normal! o ` })
       nvim.runExCommand({ command: `normal! o-  list` })
       nvim.runExCommand({ command: `normal! o` })
@@ -503,8 +497,9 @@ describe("conform integration for commit message formatting", () => {
           const lines = z.array(z.string()).parse(result.value)
           expect(lines.slice(0, 8).join("\n")).to.deep.equal(
             [
-              longSubject, // should not be wrapped
-              " ", // must be unchanged
+              // the subject line should be formatted when it's <72 chars
+              "test",
+              "",
               "- list",
               "",
               "Long line long line long line long line long long line long line line",
@@ -566,7 +561,7 @@ describe("conform integration for commit message formatting", () => {
           expect(lines.slice(0, 5).join("\n")).to.deep.equal(
             [
               "test",
-              " ",
+              "",
               "- list",
               "",
               "; Please enter the commit message for your changes. Lines starting",
@@ -576,8 +571,11 @@ describe("conform integration for commit message formatting", () => {
     })
   })
 
-  it("formats oddly formatted commit message drafts correctly", () => {
-    // git allows customizing the comment character used in commit messages.
+  const longSubject =
+    "chore: this is a very long subject line that should not be wrapped by the formatter"
+  assert(longSubject.length > 72)
+
+  it("formats in long mode when the commit subject is long", () => {
     cy.visit("/")
 
     cy.startNeovim({
@@ -601,8 +599,17 @@ describe("conform integration for commit message formatting", () => {
       })
       cy.contains("# Please enter the commit message for your changes.")
 
-      nvim.runExCommand({ command: `normal! itest` })
+      // set the first line to contain longSubject
+      nvim.runLuaCode({
+        luaCode: `vim.api.nvim_buf_set_lines(0, 0, 1, false, { "${longSubject}" })`,
+      })
+
+      nvim.runExCommand({ command: `normal! o ` })
+      nvim.runExCommand({ command: `normal! o-  list` })
+      nvim.runExCommand({ command: `normal! o` })
+      nvim.runExCommand({ command: `normal! gg` })
       cy.typeIntoTerminal(":w{enter}")
+
       waitForFormattingToHaveCompleted(nvim)
 
       nvim
@@ -611,8 +618,12 @@ describe("conform integration for commit message formatting", () => {
         })
         .and((result) => {
           const lines = z.array(z.string()).parse(result.value)
+          console.warn(
+            "🤔 DEBUGPRINT[2359]: lazygit.cy.ts:622: lines.slice(0, 3)=",
+            lines.slice(0, 3),
+          )
           expect(lines.slice(0, 3).join("\n")).to.deep.equal(
-            ["test", "", ""].join("\n"),
+            [longSubject, " ", "- list"].join("\n"),
           )
         })
     })
