@@ -1,5 +1,12 @@
 # Changelog
 
+## [7.1.4](https://github.com/mikavilpas/tsugit.nvim/compare/v7.1.3...v7.1.4) (2025-11-10)
+
+
+### Bug Fixes
+
+* only format long commit subjects specially when needed ([#419](https://github.com/mikavilpas/tsugit.nvim/issues/419)) ([cac1671](https://github.com/mikavilpas/tsugit.nvim/commit/cac16717de34b55c4571bd047dbfbf87a4964372))
+
 ## [7.1.3](https://github.com/mikavilpas/tsugit.nvim/compare/v7.1.2...v7.1.3) (2025-11-08)
 
 

@@ -19,7 +19,7 @@ local M = {}
 
 M.last_lazygits = vim.ringbuf(5)
 
-M.version = "7.1.3" -- x-release-please-version
+M.version = "7.1.4" -- x-release-please-version
 
 ---@type tsugit.Config
 M.config = {
