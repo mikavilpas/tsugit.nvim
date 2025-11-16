@@ -4,7 +4,8 @@
   "categories": {
     "correctness": "error",
     "perf": "warn",
-    "suspicious": "warn"
+    "suspicious": "warn",
+    "restriction": "warn"
   },
   "env": {
     "builtin": true,
