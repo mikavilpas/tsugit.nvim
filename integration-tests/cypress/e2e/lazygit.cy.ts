@@ -1,7 +1,7 @@
 import { flavors } from "@catppuccin/palette"
 import { rgbify } from "@tui-sandbox/library/dist/src/client/color-utilities"
 import { textIsVisibleWithBackgroundColor } from "@tui-sandbox/library/dist/src/client/cypress-assertions"
-import z from "zod"
+import { z } from "zod"
 import {
   assertCurrentBufferName,
   initializeGitRepositoryInDirectory,
