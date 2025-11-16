@@ -618,10 +618,6 @@ describe("conform integration for commit message formatting", () => {
         })
         .and((result) => {
           const lines = z.array(z.string()).parse(result.value)
-          console.warn(
-            "🤔 DEBUGPRINT[2359]: lazygit.cy.ts:622: lines.slice(0, 3)=",
-            lines.slice(0, 3),
-          )
           expect(lines.slice(0, 3).join("\n")).to.deep.equal(
             [longSubject, " ", "- list"].join("\n"),
           )
