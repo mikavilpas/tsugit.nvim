@@ -13,7 +13,6 @@ function M.setup_conform_prettierd_integration(config)
     formatters = {
       tsugit_gitcommit = {
         command = "prettierd",
-        inherit = false,
         args = {
           -- provide the filename to the formatter so that it picks the
           -- markdown language
