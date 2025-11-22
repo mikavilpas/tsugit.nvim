@@ -1,5 +1,12 @@
 # Changelog
 
+## [7.1.5](https://github.com/mikavilpas/tsugit.nvim/compare/v7.1.4...v7.1.5) (2025-11-22)
+
+
+### Bug Fixes
+
+* remove 'inherit = false' from tsugit_gitcommit formatter config ([#436](https://github.com/mikavilpas/tsugit.nvim/issues/436)) ([176eb3b](https://github.com/mikavilpas/tsugit.nvim/commit/176eb3b0dd82a382f711ef7c47bdc3450081ed75))
+
 ## [7.1.4](https://github.com/mikavilpas/tsugit.nvim/compare/v7.1.3...v7.1.4) (2025-11-10)
 
 
