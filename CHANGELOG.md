@@ -1,5 +1,12 @@
 # Changelog
 
+## [7.1.6](https://github.com/mikavilpas/tsugit.nvim/compare/v7.1.5...v7.1.6) (2025-11-27)
+
+
+### Performance Improvements
+
+* only back up first 1000 lines of commit message ([f25b14e](https://github.com/mikavilpas/tsugit.nvim/commit/f25b14e2271475c82ff37107109cd938e69bf269))
+
 ## [7.1.5](https://github.com/mikavilpas/tsugit.nvim/compare/v7.1.4...v7.1.5) (2025-11-22)
 
 
