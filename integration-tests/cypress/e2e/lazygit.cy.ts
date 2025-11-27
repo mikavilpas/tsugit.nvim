@@ -129,6 +129,16 @@ describe("testing", () => {
       nvim.runExCommand({ command: "write | bdelete" })
 
       cy.contains(lazygit.donateMessage)
+
+      // make sure the backup file was written to disk
+      nvim
+        .runBlockingShellCommand({
+          cwdRelative: "fakegitrepo",
+          command: "test -f .git/COMMIT_EDITMSG.backup",
+        })
+        .then((result) => {
+          assert(result.type === "success")
+        })
     })
   })
 
