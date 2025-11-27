@@ -86,7 +86,8 @@ function M.setup_conform_prettierd_integration(config)
       end
       ---@cast comment_char string
 
-      -- do not use long mode unless we have to avoid reformatting the subject, because:
+      -- do not use long (subject) mode unless we have to avoid reformatting
+      -- the subject, because:
       -- - the cursor can jump a round annoyingly
       -- - auto hard wrapping is disabled and it's annoying to type the commit
       --   message having to wrap manually
