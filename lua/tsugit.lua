@@ -19,6 +19,7 @@ local M = {}
 
 M.last_lazygits = vim.ringbuf(5)
 
+M.max_backup_file_lines = 1000
 M.version = "7.1.5" -- x-release-please-version
 
 ---@type tsugit.Config
@@ -67,20 +68,27 @@ M.setup = function(config)
         return
       end
 
-      local contents = vim.fn.readfile(file_name)
-
-      local backup_file_path =
-        vim.fs.joinpath(vim.fs.dirname(file_name), "COMMIT_EDITMSG.backup")
-      local backup_file = io.open(backup_file_path, "w+")
-      if not backup_file then
-        vim.notify(
-          string.format("Failed to open file: %s", backup_file_path),
-          vim.log.levels.ERROR
+      do
+        local contents = vim.api.nvim_buf_get_lines(
+          event.buf,
+          0,
+          M.max_backup_file_lines,
+          false
         )
-        return
+
+        local backup_file_path =
+          vim.fs.joinpath(vim.fs.dirname(file_name), "COMMIT_EDITMSG.backup")
+        local backup_file = io.open(backup_file_path, "w+")
+        if not backup_file then
+          vim.notify(
+            string.format("Failed to open file: %s", backup_file_path),
+            vim.log.levels.ERROR
+          )
+          return
+        end
+        backup_file:write(table.concat(contents, "\n"))
+        backup_file:close()
       end
-      backup_file:write(table.concat(contents, "\n"))
-      backup_file:close()
 
       vim.schedule(function()
         for _, lg in ipairs(M.last_lazygits) do
