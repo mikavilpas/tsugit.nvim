@@ -47,8 +47,8 @@ M.setup = function(config)
   M.config = vim.tbl_deep_extend("force", M.config, config or {})
   vim.api.nvim_create_autocmd("BufDelete", {
     -- if the git COMMIT_EDITMSG file is closed, automatically display lazygit
-    callback = function()
-      local file_name = vim.fn.expand("<afile>")
+    callback = function(event)
+      local file_name = event.file
 
       if not file_name:match("COMMIT_EDITMSG") then
         return
