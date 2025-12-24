@@ -1,4 +1,4 @@
-import type { RunLuaCodeOutput } from "@tui-sandbox/library/src/server/types"
+import type { RunLuaCodeOutput } from "@tui-sandbox/library/server"
 import type { MyTestDirectoryFile } from "../../MyTestDirectory"
 import type { NeovimContext } from "../support/tui-sandbox"
 
