@@ -84,6 +84,7 @@ export default defineConfig(
       "@typescript-eslint/no-unused-vars": "off",
     },
   },
-  ...oxlint.configs["flat/recommended"], // oxlint should be the last one
+
+  ...oxlint.buildFromOxlintConfigFile("./.oxlintrc.json"),
   eslintConfigPrettier,
 )
