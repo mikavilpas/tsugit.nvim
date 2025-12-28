@@ -1,6 +1,5 @@
 import { flavors } from "@catppuccin/palette"
 import { rgbify, textIsVisibleWithBackgroundColor } from "@tui-sandbox/library"
-import { z } from "zod"
 import {
   assertCurrentBufferName,
   initializeGitRepositoryInDirectory,
@@ -497,27 +496,22 @@ describe("conform integration for commit message formatting", () => {
       cy.typeIntoTerminal(":w{enter}")
 
       waitForFormattingToHaveCompleted(nvim)
-
-      nvim
-        .runLuaCode({
-          luaCode: `return vim.api.nvim_buf_get_lines(0, 0, -1, false)`,
-        })
-        .then((result) => {
-          const lines = z.array(z.string()).parse(result.value)
-          expect(lines.slice(0, 8).join("\n")).to.deep.equal(
-            [
-              // the subject line should be formatted when it's <72 chars
-              "test",
-              "",
-              "- list",
-              "",
-              "Long line long line long line long line long long line long line line",
-              "should wrap here",
-              "",
-              "# Please enter the commit message for your changes. Lines starting",
-            ].join("\n"),
-          )
-        })
+      nvim.runExCommand({ command: `1,8yank` })
+      nvim.clipboard.system().should(
+        "equal",
+        [
+          // the subject line should be formatted when it's <72 chars
+          "test",
+          "",
+          "- list",
+          "",
+          "Long line long line long line long line long long line long line line",
+          "should wrap here",
+          "",
+          "# Please enter the commit message for your changes. Lines starting",
+          "",
+        ].join("\n"),
+      )
     })
   })
 
@@ -561,22 +555,20 @@ describe("conform integration for commit message formatting", () => {
 
       waitForFormattingToHaveCompleted(nvim)
 
-      nvim
-        .runLuaCode({
-          luaCode: `return vim.api.nvim_buf_get_lines(0, 0, -1, false)`,
-        })
-        .then((result) => {
-          const lines = z.array(z.string()).parse(result.value)
-          expect(lines.slice(0, 5).join("\n")).to.deep.equal(
-            [
-              "test",
-              "",
-              "- list",
-              "",
-              "; Please enter the commit message for your changes. Lines starting",
-            ].join("\n"),
-          )
-        })
+      nvim.runExCommand({ command: `1,5yank` })
+      nvim.clipboard
+        .system()
+        .should(
+          "equal",
+          [
+            "test",
+            "",
+            "- list",
+            "",
+            "; Please enter the commit message for your changes. Lines starting",
+            "",
+          ].join("\n"),
+        )
     })
   })
 
@@ -621,16 +613,10 @@ describe("conform integration for commit message formatting", () => {
 
       waitForFormattingToHaveCompleted(nvim)
 
-      nvim
-        .runLuaCode({
-          luaCode: `return vim.api.nvim_buf_get_lines(0, 0, -1, false)`,
-        })
-        .and((result) => {
-          const lines = z.array(z.string()).parse(result.value)
-          expect(lines.slice(0, 3).join("\n")).to.deep.equal(
-            [longSubject, " ", "- list"].join("\n"),
-          )
-        })
+      nvim.runExCommand({ command: `1,3yank` })
+      nvim.clipboard
+        .system()
+        .should("equal", [longSubject, " ", "- list", ""].join("\n"))
     })
   })
 })
