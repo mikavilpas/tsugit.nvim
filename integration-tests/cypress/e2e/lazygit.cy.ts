@@ -81,7 +81,7 @@ describe("testing", () => {
       cy.typeIntoTerminal("{rightarrow}")
       cy.contains(lazygit.donateMessage)
 
-      cy.contains(fakeGitRepoFileText).click()
+      cy.contains(fakeGitRepoFileText).click({ force: true })
       cy.contains(lazygit.donateMessage).should("not.exist")
     })
   })
