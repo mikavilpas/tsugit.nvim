@@ -1,14 +1,7 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "automerge": true,
-  "extends": ["config:best-practices", "group:allNonMajor"],
-  "commitBodyTable": true,
+  "extends": ["local>mikavilpas/mika-renovate"],
   "packageRules": [
-    {
-      "matchUpdateTypes": ["digest"],
-      "automerge": true,
-      "automergeType": "branch"
-    },
     {
       "matchDepNames": ["lua"],
       "allowedVersions": "<=5.1"
@@ -16,49 +9,7 @@
   ],
   "customManagers": [
     {
-      "customType": "regex",
-      "datasourceTemplate": "github-releases",
-      "managerFilePatterns": [".github/workflows/*.yml"],
-      "matchStrings": [
-        "#\\s*renovate:\\s*datasource=github-releases\\s+depName=(?<depName>\\S+)\\s*[\\r\\n]+[^:]+:\\s*(?<currentValue>\\S+)"
-      ]
-    },
-    {
-      "description": ["lua file github-releases"],
-      "customType": "regex",
-      "datasourceTemplate": "github-releases",
-      "managerFilePatterns": [
-        "integration-tests/test-environment/.config/nvim/init.lua",
-        "integration-tests/test-environment/.config/nvim_formatting/init.lua",
-        "integration-tests/test-environment/.config/nvim/lua/plugins.lua"
-      ],
-      "matchStrings": [
-        "-- renovate: datasource=github-releases depName=(?<depName>[^\\s]+)[\\s\\S]*?version\\s*=\\s*\"?(?<currentValue>[^\",]+)\"?"
-      ]
-    },
-    {
-      "description": [
-        "git-refs main branch",
-        "make sure the packageName is a full url like https://github.com/MagicDuck/grug-far.nvim"
-      ],
-      "customType": "regex",
-      "datasourceTemplate": "git-refs",
-      "currentValueTemplate": "main",
-      "managerFilePatterns": [
-        ".github/workflows/test.yml",
-        "integration-tests/test-environment/.config/**/*.lua"
-      ],
-      "matchStrings": [
-        "#\\s*renovate:\\s*datasource=git-refs\\s+packageName=(?<packageName>\\S+)\\s*[\\r\\n]+[^:]+:\\s*(?<currentDigest>\\S+)",
-        "-- renovate: datasource=git-refs packageName=(?<packageName>[^\\s]+)\\s*?commit = \"?(?<currentDigest>[^\",]+)\"?"
-      ]
-    },
-    {
-      "description": [
-        "Update semantic-release packages in GitHub Action workflows",
-        "semantic-release recommends not installing these as dependencies to the project, but instead using them directly in CI/CD pipelines.",
-        "https://semantic-release.gitbook.io/semantic-release/usage/installation#local-installation"
-      ],
+      "description": "Update semantic-release packages in GitHub Action workflows. semantic-release recommends not installing these as dependencies to the project, but instead using them directly in CI/CD pipelines. https://semantic-release.gitbook.io/semantic-release/usage/installation#local-installation",
       "customType": "regex",
       "datasourceTemplate": "npm",
       "managerFilePatterns": [".github/workflows/*.yml"],
