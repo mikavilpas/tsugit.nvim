@@ -138,7 +138,7 @@ default. You can enable it with the following config:
 ```
 
 The documentation for this feature can be found in the git docs
-[here](https://git-scm.com/docs/git-commit#Documentation/git-commit.txt---verbose).
+[for verbose=true](https://git-scm.com/docs/git-commit#Documentation/git-commit.txt---verbose).
 
 ### Autoformatting commit messages with prettierd
 
