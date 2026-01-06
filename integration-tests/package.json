@@ -9,10 +9,8 @@
     "dev": "concurrently --kill-others --names 'app,cypress' --prefix-colors 'blue,yellow' 'pnpm tui start' 'pnpm cy:open'",
     "lint": "pnpx oxlint --type-aware --deny-warnings --report-unused-disable-directives && eslint --max-warnings=0 ."
   },
-  "dependencies": {
-    "@catppuccin/palette": "1.7.1"
-  },
   "devDependencies": {
+    "@catppuccin/palette": "1.7.1",
     "@tui-sandbox/library": "12.3.0",
     "@types/node": "24.10.4",
     "concurrently": "9.2.1",

@@ -25,11 +25,10 @@ importers:
         version: 2.5.20(prettier@3.7.4)
 
   integration-tests:
-    dependencies:
+    devDependencies:
       '@catppuccin/palette':
         specifier: 1.7.1
         version: 1.7.1
-    devDependencies:
       '@tui-sandbox/library':
         specifier: 12.3.0
         version: 12.3.0(cypress@15.8.1)(prettier@3.7.4)(type-fest@5.3.1)(typescript@5.9.3)(wait-on@9.0.3)(zod@4.3.5)
