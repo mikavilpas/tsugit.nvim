@@ -46,7 +46,7 @@ vim.list_extend(plugins, {
   -- manually, but in the e2e test environment, this is the easiest way to do
   -- it.
   -- renovate: datasource=github-releases depName=mason-org/mason.nvim
-  { "https://github.com/mason-org/mason.nvim", opts = {}, version = "v2.1.0" },
+  { "https://github.com/mason-org/mason.nvim", opts = {}, version = "v2.2.1" },
 
   -- conform.nvim is the formatter that is used to format the code.
   -- renovate: datasource=github-releases depName=stevearc/conform.nvim
