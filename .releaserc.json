@@ -3,6 +3,34 @@
   "plugins": [
     "@semantic-release/commit-analyzer",
     "@semantic-release/release-notes-generator",
+    [
+      "semantic-release-replace-plugin",
+      {
+        "replacements": [
+          {
+            "files": ["lua/tsugit.lua"],
+            "from": "M.version = \".*\"",
+            "to": "M.version = \"${nextRelease.version}\"",
+            "countMatches": true,
+            "results": [
+              {
+                "file": "lua/tsugit.lua",
+                "hasChanged": true,
+                "numMatches": 1,
+                "numReplacements": 1
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    [
+      "@semantic-release/git",
+      {
+        "assets": ["lua/tsugit.lua"],
+        "message": "chore(release): ${nextRelease.version}"
+      }
+    ],
     "@semantic-release/github"
   ]
 }
