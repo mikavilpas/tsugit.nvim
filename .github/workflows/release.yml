@@ -27,5 +27,7 @@ jobs:
           node-version-file: .nvmrc
       - name: Release
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npx semantic-release@${{ env.SEMANTIC_RELEASE_VERSION }}
+          GITHUB_TOKEN: ${{ secrets.SEMANTIC_RELEASE_TOKEN }}
+        run: |
+          npm install --no-save semantic-release-replace-plugin @semantic-release/git
+          npx semantic-release@${{ env.SEMANTIC_RELEASE_VERSION }}
