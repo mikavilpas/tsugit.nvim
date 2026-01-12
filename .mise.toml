@@ -1,5 +1,5 @@
 [tools]
-"ubi:jesseduffield/lazygit" = "0.58.0"
+"ubi:jesseduffield/lazygit" = "0.58.1"
 lua = "5.1"
 "ubi:JohnnyMorganz/stylua" = "2.3.1"
 
