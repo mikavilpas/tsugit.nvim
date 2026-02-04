@@ -81,7 +81,8 @@
       {
         "allowAsStatement": true
       }
-    ]
+    ],
+    "import/no-relative-parent-imports": "off"
   },
   "overrides": [
     {
