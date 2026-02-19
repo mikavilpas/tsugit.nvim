@@ -12,8 +12,8 @@ importers:
         specifier: 0.4.7
         version: 0.4.7(typescript@5.9.3)
       markdownlint-cli2:
-        specifier: 0.20.0
-        version: 0.20.0
+        specifier: 0.21.0
+        version: 0.21.0
       prettier:
         specifier: 3.8.1
         version: 3.8.1
@@ -1455,8 +1455,8 @@ packages:
     resolution: {integrity: sha512-oahGvuMGQlPw/ivIYBjVSrWAfWLBeku5tpPE2fOPLi+WHffIWbuh2tCjhyQhTBPMf5E9jDEH4FOmTYgYwbKwtQ==}
     engines: {node: '>=18'}
 
-  globby@15.0.0:
-    resolution: {integrity: sha512-oB4vkQGqlMl682wL1IlWd02tXCbquGWM4voPEI85QmNKCaw8zGTm1f1rubFgkg3Eli2PtKlFgrnmUqasbQWlkw==}
+  globby@16.1.0:
+    resolution: {integrity: sha512-+A4Hq7m7Ze592k9gZRy4gJ27DrXRNnC1vPjxTt1qQxEY8RxagBkBxivkCwg7FxSTG0iLLEMaUx13oOr0R2/qcQ==}
     engines: {node: '>=20'}
 
   gopd@1.2.0:
@@ -1590,6 +1590,10 @@ packages:
   is-path-inside@3.0.3:
     resolution: {integrity: sha512-Fd4gABb+ycGAmKou8eMftCupSir5lRxqf4aD/vd0cD2qc4HL07OjCeuHMr8Ro4CoMaeCKDB0/ECBOVWjTwUvPQ==}
     engines: {node: '>=8'}
+
+  is-path-inside@4.0.0:
+    resolution: {integrity: sha512-lJJV/5dYS+RcL8uQdBDW9c9uWFLLBNRyFhnAKXw5tVqLlKZ4RMGZKv+YQ/IA3OhD+RpbJa1LLFM1FQPGyIXvOA==}
+    engines: {node: '>=12'}
 
   is-plain-obj@4.1.0:
     resolution: {integrity: sha512-+Pgi+vMuUNkJyExiMBt5IlFoMyKnr5zhJ4Uspz58WOhBF5QoIZkFyNHIbBAtHwzVAgk5RtndVNsDRN61/mmDqg==}
@@ -1748,8 +1752,8 @@ packages:
     resolution: {integrity: sha512-jumlc0BIUrS3qJGgIkWZsyfAM7NCWiBcCDhnd+3NNM5KbBmLTgHVfWBcg6W+rLUsIpzpERPsvwUP7CckAQSOoA==}
     engines: {node: '>=12'}
 
-  markdown-it@14.1.0:
-    resolution: {integrity: sha512-a54IwgWPaeBCAAsv13YgmALOF1elABB08FxO9i+r4VFk5Vl4pKokRPeX8u5TCgSsPi6ec1otfLjdOpVcgbpshg==}
+  markdown-it@14.1.1:
+    resolution: {integrity: sha512-BuU2qnTti9YKgK5N+IeMubp14ZUKUUw7yeJbkjtosvHiP0AZ5c8IAgEMk79D0eC8F23r4Ac/q8cAIFdm2FtyoA==}
     hasBin: true
 
   markdown-table@3.0.4:
@@ -1760,8 +1764,8 @@ packages:
     peerDependencies:
       markdownlint-cli2: '>=0.0.4'
 
-  markdownlint-cli2@0.20.0:
-    resolution: {integrity: sha512-esPk+8Qvx/f0bzI7YelUeZp+jCtFOk3KjZ7s9iBQZ6HlymSXoTtWGiIRZP05/9Oy2ehIoIjenVwndxGtxOIJYQ==}
+  markdownlint-cli2@0.21.0:
+    resolution: {integrity: sha512-DzzmbqfMW3EzHsunP66x556oZDzjcdjjlL2bHG4PubwnL58ZPAfz07px4GqteZkoCGnBYi779Y2mg7+vgNCwbw==}
     engines: {node: '>=20'}
     hasBin: true
 
@@ -2095,10 +2099,6 @@ packages:
 
   path-to-regexp@8.3.0:
     resolution: {integrity: sha512-7jdwVIRtsP8MYpdXSwOS0YdD0Du+qOoF/AEPIt88PcCFrZCzx41oxku1jD88hZBwbNUIEfpqvuhjFaMAqMTWnA==}
-
-  path-type@6.0.0:
-    resolution: {integrity: sha512-Vj7sf++t5pBD637NSfkxpHSMfWaeig5+DKWLhcqIYx6mWQz5hdJTGDVMQiJcw1ZYkhs7AazKDGpRVji1LJCZUQ==}
-    engines: {node: '>=18'}
 
   pend@1.2.0:
     resolution: {integrity: sha512-F3asv42UuXchdzt+xXqfW1OGlVBe+mxa2mqI0pg5yAHZPvFmY3Y6drSf/GQ1A86WgWEN9Kzh/WrgKa6iGcHXLg==}
@@ -2547,9 +2547,9 @@ packages:
   undici-types@7.16.0:
     resolution: {integrity: sha512-Zz+aZWSj8LE6zoxD+xrjh4VfkIG8Ya6LvYkZqtUQGJPZjYl53ypCaUwWqo7eI0x66KBGeRo+mlBEkMSeSZ38Nw==}
 
-  unicorn-magic@0.3.0:
-    resolution: {integrity: sha512-+QBBXBCvifc56fsbuxZQ6Sic3wqqc3WWaqxs58gvJrcOuN83HGTCwz3oS5phzU9LthRNE9VrJCFCLUgHeeFnfA==}
-    engines: {node: '>=18'}
+  unicorn-magic@0.4.0:
+    resolution: {integrity: sha512-wH590V9VNgYH9g3lH9wWjTrUoKsjLF6sGLjhR4sH1LWpLmCOH0Zf7PukhDA8BiS7KHe4oPNkcTHqYkj7SOGUOw==}
+    engines: {node: '>=20'}
 
   unified@11.0.5:
     resolution: {integrity: sha512-xKvGhPWw3k84Qjh8bI3ZeJjqnyadK+GEFtazSfZv/rKeTkTjOJho6mFqh2SM96iIcZokxiOpg78GazTSg8+KHA==}
@@ -4051,14 +4051,14 @@ snapshots:
 
   globals@14.0.0: {}
 
-  globby@15.0.0:
+  globby@16.1.0:
     dependencies:
       '@sindresorhus/merge-streams': 4.0.0
       fast-glob: 3.3.3
       ignore: 7.0.5
-      path-type: 6.0.0
+      is-path-inside: 4.0.0
       slash: 5.1.0
-      unicorn-magic: 0.3.0
+      unicorn-magic: 0.4.0
 
   gopd@1.2.0: {}
 
@@ -4169,6 +4169,8 @@ snapshots:
   is-number@7.0.0: {}
 
   is-path-inside@3.0.3: {}
+
+  is-path-inside@4.0.0: {}
 
   is-plain-obj@4.1.0: {}
 
@@ -4325,7 +4327,7 @@ snapshots:
 
   lru-cache@7.18.3: {}
 
-  markdown-it@14.1.0:
+  markdown-it@14.1.1:
     dependencies:
       argparse: 2.0.1
       entities: 4.5.0
@@ -4336,18 +4338,18 @@ snapshots:
 
   markdown-table@3.0.4: {}
 
-  markdownlint-cli2-formatter-default@0.0.6(markdownlint-cli2@0.20.0):
+  markdownlint-cli2-formatter-default@0.0.6(markdownlint-cli2@0.21.0):
     dependencies:
-      markdownlint-cli2: 0.20.0
+      markdownlint-cli2: 0.21.0
 
-  markdownlint-cli2@0.20.0:
+  markdownlint-cli2@0.21.0:
     dependencies:
-      globby: 15.0.0
+      globby: 16.1.0
       js-yaml: 4.1.1
       jsonc-parser: 3.3.1
-      markdown-it: 14.1.0
+      markdown-it: 14.1.1
       markdownlint: 0.40.0
-      markdownlint-cli2-formatter-default: 0.0.6(markdownlint-cli2@0.20.0)
+      markdownlint-cli2-formatter-default: 0.0.6(markdownlint-cli2@0.21.0)
       micromatch: 4.0.8
     transitivePeerDependencies:
       - supports-color
@@ -4898,8 +4900,6 @@ snapshots:
 
   path-to-regexp@8.3.0: {}
 
-  path-type@6.0.0: {}
-
   pend@1.2.0: {}
 
   performance-now@2.1.0: {}
@@ -5400,7 +5400,7 @@ snapshots:
 
   undici-types@7.16.0: {}
 
-  unicorn-magic@0.3.0: {}
+  unicorn-magic@0.4.0: {}
 
   unified@11.0.5:
     dependencies:
