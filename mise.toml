@@ -1,7 +1,7 @@
 [tools]
 "github:jesseduffield/lazygit" = "0.59.0"
 lua = "5.1"
-"github:JohnnyMorganz/stylua" = "2.3.1"
+"github:JohnnyMorganz/stylua" = "2.4.0"
 
 
 [tasks]
