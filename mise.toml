@@ -1,7 +1,7 @@
 [tools]
-"ubi:jesseduffield/lazygit" = "0.59.0"
+"github:jesseduffield/lazygit" = "0.59.0"
 lua = "5.1"
-"ubi:JohnnyMorganz/stylua" = "2.3.1"
+"github:JohnnyMorganz/stylua" = "2.3.1"
 
 
 [tasks]
