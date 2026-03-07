@@ -49,7 +49,7 @@ jobs:
 
           ubi --project mikefarah/yq
 
-          VERSION=$(yq '.tools."ubi:jesseduffield/lazygit"' .mise.toml)
+          VERSION=$(yq '.tools."github:jesseduffield/lazygit"' mise.toml)
           ubi --project jesseduffield/lazygit --tag "v$VERSION"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
