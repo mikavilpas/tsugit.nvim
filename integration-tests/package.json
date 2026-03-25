@@ -10,7 +10,7 @@
     "lint": "pnpx oxlint --type-aware --deny-warnings --report-unused-disable-directives && eslint --max-warnings=0 ."
   },
   "devDependencies": {
-    "@catppuccin/palette": "1.7.1",
+    "@catppuccin/palette": "1.8.0",
     "@tui-sandbox/library": "12.3.2",
     "@types/node": "24.12.0",
     "concurrently": "9.2.1",
