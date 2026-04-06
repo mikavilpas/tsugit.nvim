@@ -1,5 +1,5 @@
 [tools]
-"github:jesseduffield/lazygit" = "0.60.0"
+"github:jesseduffield/lazygit" = "0.61.0"
 lua = "5.1"
 "github:JohnnyMorganz/stylua" = "2.4.1"
 
