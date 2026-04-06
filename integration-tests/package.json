@@ -12,7 +12,7 @@
   "devDependencies": {
     "@catppuccin/palette": "1.8.0",
     "@tui-sandbox/library": "12.3.2",
-    "@types/node": "24.12.1",
+    "@types/node": "24.12.2",
     "concurrently": "9.2.1",
     "cypress": "15.13.0",
     "eslint": "10.1.0",
