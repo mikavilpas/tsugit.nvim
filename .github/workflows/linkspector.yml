@@ -1,6 +1,0 @@
-name: Linkspector
-on: [pull_request]
-jobs:
-  check-links:
-    uses: mikavilpas/dotfiles/.github/workflows/linkspector.yml@638691ce6baf46424fba76444c530772723c272e # main
-    secrets: inherit
