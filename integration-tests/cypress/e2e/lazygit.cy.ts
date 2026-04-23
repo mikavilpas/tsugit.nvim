@@ -619,4 +619,171 @@ describe("conform integration for commit message formatting", () => {
         .should("equal", [longSubject, " ", "- list", ""].join("\n"))
     })
   })
+
+  it("preserves a long git trailer on a single line even when it exceeds the wrap width", () => {
+    // With --print-width=72 --prose-wrap=always, prettier would split a
+    // "Fixes: <long-url>" line at the space after "Fixes:", breaking
+    // GitHub's closing-keyword linking. The conform integration extracts
+    // the trailer block before prettier runs and re-appends it intact.
+    const trailerUrl =
+      "https://example.com/very-long-organization-name/some-repo/issues/12345-long-slug"
+    const trailerLine = `Fixes: ${trailerUrl}`
+    assert(trailerLine.length > 72)
+
+    cy.visit("/")
+
+    cy.startNeovim({
+      filename: "fakegitrepo/file.txt",
+      NVIM_APPNAME: "nvim_formatting",
+    }).then((nvim) => {
+      cy.contains(fakeGitRepoFileText)
+      initializeGitRepositoryInDirectory()
+      nvim.runBlockingShellCommand({
+        command: `git add .`,
+        cwdRelative: "fakegitrepo",
+      })
+      cy.typeIntoTerminal("{rightarrow}")
+      cy.contains("main")
+
+      cy.typeIntoTerminal("C") // commit
+      nvim.waitForLuaCode({
+        luaAssertion: `return vim.api.nvim_buf_get_name(0) == vim.fn.expand('%:h') .. '/.git/COMMIT_EDITMSG'`,
+      })
+      cy.contains("# Please enter the commit message for your changes.")
+
+      // Set up: subject, blank, body, blank, trailer — inserted via
+      // nvim_buf_set_lines so neovim's textwidth=72 auto-wrap doesn't split
+      // the long trailer line as we construct the test message. We want to
+      // test the prettier-wrap protection, not the typing-path wrap.
+      nvim.runLuaCode({
+        luaCode: `vim.api.nvim_buf_set_lines(0, 0, 0, false, { "test subject", "", "body text", "", ${JSON.stringify(trailerLine)} })`,
+      })
+      cy.typeIntoTerminal(":w{enter}")
+
+      waitForFormattingToHaveCompleted(nvim)
+
+      nvim.runExCommand({ command: `1,6yank` })
+      nvim.clipboard
+        .system()
+        .should(
+          "equal",
+          ["test subject", "", "body text", "", trailerLine, "", ""].join("\n"),
+        )
+    })
+  })
+
+  it("preserves a trailer block of multiple consecutive trailers", () => {
+    // Git trailer blocks can contain multiple lines (Fixes:, Signed-off-by:,
+    // Co-authored-by:, etc.). The whole last paragraph should be protected
+    // as a unit — every line must match the trailer pattern.
+    const fixesLine =
+      "Fixes: https://example.com/very-long-organization-name/some-repo/issues/12345-long-slug"
+    const coauthorLine =
+      "Co-authored-by: Alice Example <alice@very-long-organization-name.example.com>"
+    assert(fixesLine.length > 72)
+    assert(coauthorLine.length > 72)
+
+    cy.visit("/")
+
+    cy.startNeovim({
+      filename: "fakegitrepo/file.txt",
+      NVIM_APPNAME: "nvim_formatting",
+    }).then((nvim) => {
+      cy.contains(fakeGitRepoFileText)
+      initializeGitRepositoryInDirectory()
+      nvim.runBlockingShellCommand({
+        command: `git add .`,
+        cwdRelative: "fakegitrepo",
+      })
+      cy.typeIntoTerminal("{rightarrow}")
+      cy.contains("main")
+
+      cy.typeIntoTerminal("C") // commit
+      nvim.waitForLuaCode({
+        luaAssertion: `return vim.api.nvim_buf_get_name(0) == vim.fn.expand('%:h') .. '/.git/COMMIT_EDITMSG'`,
+      })
+      cy.contains("# Please enter the commit message for your changes.")
+
+      nvim.runLuaCode({
+        luaCode: `vim.api.nvim_buf_set_lines(0, 0, 0, false, { "test subject", "", "body text", "", ${JSON.stringify(fixesLine)}, ${JSON.stringify(coauthorLine)} })`,
+      })
+      cy.typeIntoTerminal(":w{enter}")
+
+      waitForFormattingToHaveCompleted(nvim)
+
+      nvim.runExCommand({ command: `1,7yank` })
+      nvim.clipboard
+        .system()
+        .should(
+          "equal",
+          [
+            "test subject",
+            "",
+            "body text",
+            "",
+            fixesLine,
+            coauthorLine,
+            "",
+            "",
+          ].join("\n"),
+        )
+    })
+  })
+
+  it("preserves a trailer that appears in the middle of the message (e.g. from a squashed commit)", () => {
+    // When a commit is squashed from several smaller commits, each of which
+    // had its own trailer, the resulting message can contain trailer lines
+    // in the middle — not just at the end. Those middle trailers should
+    // also survive prettier's prose wrap so GitHub's keyword linking works.
+    const trailerLine =
+      "Fixes: https://example.com/very-long-organization-name/some-repo/issues/12345-long-slug"
+    assert(trailerLine.length > 72)
+
+    cy.visit("/")
+
+    cy.startNeovim({
+      filename: "fakegitrepo/file.txt",
+      NVIM_APPNAME: "nvim_formatting",
+    }).then((nvim) => {
+      cy.contains(fakeGitRepoFileText)
+      initializeGitRepositoryInDirectory()
+      nvim.runBlockingShellCommand({
+        command: `git add .`,
+        cwdRelative: "fakegitrepo",
+      })
+      cy.typeIntoTerminal("{rightarrow}")
+      cy.contains("main")
+
+      cy.typeIntoTerminal("C") // commit
+      nvim.waitForLuaCode({
+        luaAssertion: `return vim.api.nvim_buf_get_name(0) == vim.fn.expand('%:h') .. '/.git/COMMIT_EDITMSG'`,
+      })
+      cy.contains("# Please enter the commit message for your changes.")
+
+      nvim.runLuaCode({
+        luaCode: `vim.api.nvim_buf_set_lines(0, 0, 0, false, { "squash subject", "", "first sub-message body", "", ${JSON.stringify(trailerLine)}, "", "second sub-message body" })`,
+      })
+      cy.typeIntoTerminal(":w{enter}")
+
+      waitForFormattingToHaveCompleted(nvim)
+
+      nvim.runExCommand({ command: `1,8yank` })
+      nvim.clipboard
+        .system()
+        .should(
+          "equal",
+          [
+            "squash subject",
+            "",
+            "first sub-message body",
+            "",
+            trailerLine,
+            "",
+            "second sub-message body",
+            "",
+            "",
+          ].join("\n"),
+        )
+    })
+  })
 })

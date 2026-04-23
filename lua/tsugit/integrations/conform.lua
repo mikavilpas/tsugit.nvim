@@ -6,6 +6,69 @@ local function is_long_mode()
   return #first_line > 72
 end
 
+local function is_trailer_line(line)
+  -- git-interpret-trailers(1): Token ": " value, Token is [A-Za-z0-9-]+
+  return line:match("^[A-Za-z][A-Za-z0-9%-]*:%s") ~= nil
+end
+
+local PRETTIER_IGNORE = "<!-- prettier-ignore -->"
+
+-- Insert a <!-- prettier-ignore --> comment above every paragraph that is
+-- entirely git trailers. Prettier treats the comment as a pragma and leaves
+-- the paragraph that follows it untouched, so long URLs in trailers don't
+-- get split across lines. After prettier runs, the markers are stripped
+-- back out, leaving the trailers intact in their original positions.
+--
+-- This handles trailer blocks anywhere in the message — including the
+-- middle, which happens when a commit is squashed from several smaller
+-- commits, each of which had its own trailer.
+---@param buf number
+local function shield_trailer_blocks_from_prettier(buf)
+  local lines = vim.api.nvim_buf_get_lines(buf, 0, -1, false)
+  local new_lines = {}
+  local i = 1
+  local n = #lines
+  while i <= n do
+    if lines[i] == "" then
+      table.insert(new_lines, "")
+      i = i + 1
+    else
+      local para_start = i
+      while i <= n and lines[i] ~= "" do
+        i = i + 1
+      end
+      local para_end = i - 1
+
+      local all_trailers = true
+      for j = para_start, para_end do
+        if not is_trailer_line(lines[j]) then
+          all_trailers = false
+          break
+        end
+      end
+
+      if all_trailers then
+        table.insert(new_lines, PRETTIER_IGNORE)
+      end
+      for j = para_start, para_end do
+        table.insert(new_lines, lines[j])
+      end
+    end
+  end
+
+  vim.api.nvim_buf_set_lines(buf, 0, -1, true, new_lines)
+end
+
+---@param buf number
+local function unshield_trailer_blocks(buf)
+  -- Pattern is coupled to PRETTIER_IGNORE — update both if that constant
+  -- ever changes. Deletes into the black-hole register (d _) so we don't
+  -- clobber any register the user relied on.
+  vim.api.nvim_buf_call(buf, function()
+    vim.cmd([[silent! g/^<!-- prettier-ignore -->$/d _]])
+  end)
+end
+
 ---@param config tsugit.Config
 function M.setup_conform_prettierd_integration(config)
   local conform = require("conform")
@@ -118,6 +181,8 @@ M.format_comfy_mode = function(config, comment_char, buf)
     end
   end
 
+  shield_trailer_blocks_from_prettier(buf)
+
   if config.debug then
     require("tsugit.debug").add_debug_message(
       string.format(
@@ -132,6 +197,8 @@ M.format_comfy_mode = function(config, comment_char, buf)
     bufnr = buf,
     formatters = { "tsugit_gitcommit" },
   })
+
+  unshield_trailer_blocks(buf)
 
   -- put the commit instructions back
   if #instructions > 0 then
@@ -163,6 +230,8 @@ M.format_long_mode = function(config, comment_char, buf)
     end
   end
 
+  shield_trailer_blocks_from_prettier(buf)
+
   if config.debug then
     require("tsugit.debug").add_debug_message(
       string.format(
@@ -177,6 +246,8 @@ M.format_long_mode = function(config, comment_char, buf)
     bufnr = buf,
     formatters = { "tsugit_gitcommit" },
   })
+
+  unshield_trailer_blocks(buf)
 
   -- add the heading lines back to the beginning
   vim.api.nvim_buf_set_lines(buf, 0, 0, false, heading_lines)
