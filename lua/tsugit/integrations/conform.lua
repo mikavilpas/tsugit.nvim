@@ -69,6 +69,26 @@ local function unshield_trailer_blocks(buf)
   end)
 end
 
+-- Remove git's instructions block (everything from the first line starting
+-- with `comment_char` onwards) from the buffer and return those lines so
+-- the caller can paste them back after formatting. Also returns the total
+-- line count as it was before stripping, for debug logging.
+---@param buf number
+---@param comment_char string
+---@return string[] instructions
+---@return number total_line_count
+local function extract_instructions(buf, comment_char)
+  local lines = vim.api.nvim_buf_get_lines(buf, 0, -1, false)
+  for i, line in ipairs(lines) do
+    if vim.startswith(line, comment_char) then
+      local instructions = vim.list_slice(lines, i, #lines)
+      vim.api.nvim_buf_set_lines(buf, i - 1, -1, true, {})
+      return instructions, #lines
+    end
+  end
+  return {}, #lines
+end
+
 ---@param config tsugit.Config
 function M.setup_conform_prettierd_integration(config)
   local conform = require("conform")
@@ -170,16 +190,7 @@ end
 ---@param comment_char string
 ---@param buf number
 M.format_comfy_mode = function(config, comment_char, buf)
-  -- get the lines before the first line starting with the comment_char
-  local instructions = {}
-  local lines = vim.api.nvim_buf_get_lines(buf, 0, -1, false)
-  for i, line in ipairs(lines) do
-    if vim.startswith(line, comment_char) then
-      instructions = vim.list_slice(lines, i, #lines)
-      vim.api.nvim_buf_set_lines(buf, i - 1, -1, true, {})
-      break
-    end
-  end
+  local instructions, total_line_count = extract_instructions(buf, comment_char)
 
   shield_trailer_blocks_from_prettier(buf)
 
@@ -187,7 +198,7 @@ M.format_comfy_mode = function(config, comment_char, buf)
     require("tsugit.debug").add_debug_message(
       string.format(
         "tsugit: Formatting %s commit message lines in comfy mode with conform using comment_char '%s'",
-        #lines,
+        total_line_count,
         vim.inspect(comment_char)
       )
     )
@@ -219,16 +230,7 @@ M.format_long_mode = function(config, comment_char, buf)
   -- remove them from the buffer temporarily
   vim.api.nvim_buf_set_lines(buf, 0, #heading_lines - 1, true, {})
 
-  -- get the lines before the first line starting with the comment_char
-  local instructions = {}
-  local lines = vim.api.nvim_buf_get_lines(buf, 0, -1, false)
-  for i, line in ipairs(lines) do
-    if vim.startswith(line, comment_char) then
-      instructions = vim.list_slice(lines, i, #lines)
-      vim.api.nvim_buf_set_lines(buf, i - 1, -1, true, {})
-      break
-    end
-  end
+  local instructions, total_line_count = extract_instructions(buf, comment_char)
 
   shield_trailer_blocks_from_prettier(buf)
 
@@ -236,7 +238,7 @@ M.format_long_mode = function(config, comment_char, buf)
     require("tsugit.debug").add_debug_message(
       string.format(
         "tsugit: Formatting %s commit message lines in long mode with conform using comment_char '%s'",
-        #lines,
+        total_line_count,
         vim.inspect(comment_char)
       )
     )
