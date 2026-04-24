@@ -786,4 +786,54 @@ describe("conform integration for commit message formatting", () => {
         )
     })
   })
+
+  it("preserves a fenced code block whose contents include lines starting with the git comment char", () => {
+    // A fenced code block in the body can contain a line starting with
+    // the git comment char (e.g. a shell comment `# foo` in a ```sh
+    // block). A naive "first `#` line from the top is the start of git
+    // instructions" scan would mistake it for the start of the
+    // instructions and snip the buffer mid-fence — prettier then sees
+    // an unclosed fence and auto-closes it, and the `#` line ends up
+    // outside any fence, rendering as a markdown heading.
+    const commitLines = [
+      "subject",
+      "",
+      "```sh",
+      "# comment inside fenced code block",
+      "```",
+    ]
+
+    cy.visit("/")
+
+    cy.startNeovim({
+      filename: "fakegitrepo/file.txt",
+      NVIM_APPNAME: "nvim_formatting",
+    }).then((nvim) => {
+      cy.contains(fakeGitRepoFileText)
+      initializeGitRepositoryInDirectory()
+      nvim.runBlockingShellCommand({
+        command: `git add .`,
+        cwdRelative: "fakegitrepo",
+      })
+      cy.typeIntoTerminal("{rightarrow}")
+      cy.contains("main")
+
+      cy.typeIntoTerminal("C") // commit
+      nvim.waitForLuaCode({
+        luaAssertion: `return vim.api.nvim_buf_get_name(0) == vim.fn.expand('%:h') .. '/.git/COMMIT_EDITMSG'`,
+      })
+      cy.contains("# Please enter the commit message for your changes.")
+
+      const luaTable = commitLines.map((l) => JSON.stringify(l)).join(", ")
+      nvim.runLuaCode({
+        luaCode: `vim.api.nvim_buf_set_lines(0, 0, 0, false, { ${luaTable} })`,
+      })
+      cy.typeIntoTerminal(":w{enter}")
+
+      waitForFormattingToHaveCompleted(nvim)
+
+      nvim.runExCommand({ command: `1,${commitLines.length}yank` })
+      nvim.clipboard.system().should("equal", [...commitLines, ""].join("\n"))
+    })
+  })
 })

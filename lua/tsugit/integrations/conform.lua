@@ -11,6 +11,43 @@ local function is_trailer_line(line)
   return line:match("^[A-Za-z][A-Za-z0-9%-]*:%s") ~= nil
 end
 
+-- Find the 1-based index of the first line of git's instructions block.
+--
+-- Strategy: anchor on the scissors line `<comment_char> ---- >8 ----` if it
+-- exists (verbose mode), otherwise anchor on EOF. Then walk backward through
+-- the contiguous block of `comment_char`- prefixed lines. Instructions start
+-- on the line after the first non- comment line we hit.
+--
+-- This is robust against `comment_char` lines inside the commit body (e.g.
+-- shell comments inside a ```sh fenced code block): those lines are separated
+-- from the real instructions by non-comment content, so the walk-back stops
+-- before reaching them. A naive "first `#` line from the top" scan would
+-- misfire on such in-body `#` lines.
+---@param lines string[]
+---@param comment_char string
+---@return number|nil
+local function find_instructions_start(lines, comment_char)
+  local scissors_pattern = "^" .. vim.pesc(comment_char) .. " %-+ >8 %-+$"
+  local anchor = nil
+  for i, line in ipairs(lines) do
+    if line:match(scissors_pattern) then
+      anchor = i
+      break
+    end
+  end
+  if anchor == nil then
+    anchor = #lines
+  end
+  local i = anchor
+  while i > 0 and vim.startswith(lines[i], comment_char) do
+    i = i - 1
+  end
+  if i < anchor then
+    return i + 1
+  end
+  return nil
+end
+
 local PRETTIER_IGNORE = "<!-- prettier-ignore -->"
 
 -- Insert a <!-- prettier-ignore --> comment above every paragraph that is
@@ -69,22 +106,21 @@ local function unshield_trailer_blocks(buf)
   end)
 end
 
--- Remove git's instructions block (everything from the first line starting
--- with `comment_char` onwards) from the buffer and return those lines so
--- the caller can paste them back after formatting. Also returns the total
--- line count as it was before stripping, for debug logging.
+-- Remove git's instructions block from the buffer and return those lines
+-- so the caller can paste them back after formatting. Also returns the
+-- total line count as it was before stripping, for debug logging.
+-- See `find_instructions_start` for how the block boundary is detected.
 ---@param buf number
 ---@param comment_char string
 ---@return string[] instructions
 ---@return number total_line_count
 local function extract_instructions(buf, comment_char)
   local lines = vim.api.nvim_buf_get_lines(buf, 0, -1, false)
-  for i, line in ipairs(lines) do
-    if vim.startswith(line, comment_char) then
-      local instructions = vim.list_slice(lines, i, #lines)
-      vim.api.nvim_buf_set_lines(buf, i - 1, -1, true, {})
-      return instructions, #lines
-    end
+  local instructions_start = find_instructions_start(lines, comment_char)
+  if instructions_start ~= nil then
+    local instructions = vim.list_slice(lines, instructions_start, #lines)
+    vim.api.nvim_buf_set_lines(buf, instructions_start - 1, -1, true, {})
+    return instructions, #lines
   end
   return {}, #lines
 end
