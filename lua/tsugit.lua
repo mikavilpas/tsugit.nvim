@@ -20,7 +20,7 @@ local M = {}
 M.last_lazygits = vim.ringbuf(5)
 
 M.max_backup_file_lines = 1000
-M.version = "7.2.0"
+M.version = "7.2.1"
 
 ---@type tsugit.Config
 M.config = {
