@@ -28,7 +28,7 @@
       "@semantic-release/git",
       {
         "assets": ["lua/tsugit.lua"],
-        "message": "chore(release): ${nextRelease.version}"
+        "message": "version: ${nextRelease.version}"
       }
     ],
     "@semantic-release/github"
