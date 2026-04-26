@@ -1,0 +1,28 @@
+[global]
+exclude = ["CHANGELOG.md"]
+disable = [
+    "MD046",
+    "blanks-around-fences",
+    "blanks-around-headings",
+    "blanks-around-lists",
+    "code-fence-style",
+    "emphasis-style",
+    "heading-start-left",
+    "hr-style",
+    "line-length",
+    "list-indent",
+    "list-marker-space",
+    "no-blanks-blockquote",
+    "no-hard-tabs",
+    "no-inline-html",
+    "no-missing-space-atx",
+    "no-missing-space-closed-atx",
+    "no-multiple-blanks",
+    "no-multiple-space-atx",
+    "no-multiple-space-blockquote",
+    "no-multiple-space-closed-atx",
+    "no-trailing-spaces",
+    "ol-prefix",
+    "strong-style",
+    "ul-indent",
+]
