@@ -210,10 +210,21 @@ function M.setup_conform_prettierd_integration(config)
       -- - the cursor can jump a round annoyingly
       -- - auto hard wrapping is disabled and it's annoying to type the commit
       --   message having to wrap manually
+      local win = vim.fn.bufwinid(buf)
+      local view = win ~= -1 and vim.api.nvim_win_call(win, vim.fn.winsaveview)
+        or nil
+
       if not is_long_mode() then
         M.format_comfy_mode(config, comment_char, buf)
       else
         M.format_long_mode(config, comment_char, buf)
+      end
+
+      if view and vim.api.nvim_win_is_valid(win) then
+        view.lnum = math.min(view.lnum, vim.api.nvim_buf_line_count(buf))
+        vim.api.nvim_win_call(win, function()
+          vim.fn.winrestview(view)
+        end)
       end
 
       -- selene: allow(global_usage)

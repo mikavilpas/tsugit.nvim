@@ -763,6 +763,13 @@ describe("conform integration for commit message formatting", () => {
       nvim.runLuaCode({
         luaCode: `vim.api.nvim_buf_set_lines(0, 0, 0, false, { "squash subject", "", "first sub-message body", "", ${JSON.stringify(trailerLine)}, "", "second sub-message body" })`,
       })
+
+      // assert the current line of the cursor
+      const expectedLine = "8" as const
+      nvim
+        .runExCommand({ command: "echo line('.')" })
+        .should("eql", { value: expectedLine })
+
       cy.typeIntoTerminal(":w{enter}")
 
       waitForFormattingToHaveCompleted(nvim)
@@ -784,6 +791,11 @@ describe("conform integration for commit message formatting", () => {
             "",
           ].join("\n"),
         )
+
+      // the cursor must be on the same line as before formatting
+      nvim
+        .runExCommand({ command: "echo line('.')" })
+        .should("eql", { value: expectedLine })
     })
   })
 
