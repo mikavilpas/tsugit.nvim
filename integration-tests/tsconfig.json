@@ -14,6 +14,7 @@
     "allowImportingTsExtensions": true,
     "outDir": "dist",
     "lib": ["ES2023", "ESNext.Disposable", "dom"],
+    "rootDir": ".",
 
     "types": ["node"],
     /* Linting */
