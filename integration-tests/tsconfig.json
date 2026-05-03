@@ -5,8 +5,8 @@
   // from the server
   "compilerOptions": {
     "skipLibCheck": true,
-    "module": "ESNext",
-    "moduleResolution": "Bundler",
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
     "target": "ESNext",
     "isolatedModules": true,
     "esModuleInterop": true,

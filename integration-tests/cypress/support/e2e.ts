@@ -15,7 +15,7 @@
 
 // Import commands.js using ES2015 syntax:
 // oxlint-disable-next-line no-unassigned-import
-import "./tui-sandbox"
+import "./tui-sandbox.js"
 
 Cypress.Keyboard.defaults({
   keystrokeDelay: 0,
