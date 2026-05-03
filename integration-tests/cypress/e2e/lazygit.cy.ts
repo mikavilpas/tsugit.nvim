@@ -4,7 +4,7 @@ import {
   assertCurrentBufferName,
   initializeGitRepositoryInDirectory,
   waitForFormattingToHaveCompleted,
-} from "./test-utils"
+} from "./test-utils.js"
 const colors = {
   selectedItem: rgbify(flavors.macchiato.colors.blue.rgb),
 }
