@@ -1,8 +1,8 @@
 [tools]
-"github:jesseduffield/lazygit" = "0.61.1"
+"github:jesseduffield/lazygit" = "0.62.0"
 lua = "5.1"
 "github:JohnnyMorganz/stylua" = "2.5.2"
-"github:rvben/rumdl" = "0.2.1"
+"github:rvben/rumdl" = "0.2.2"
 
 
 [tasks]
