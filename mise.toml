@@ -2,7 +2,7 @@
 "github:jesseduffield/lazygit" = "0.62.1"
 lua = "5.1"
 "github:JohnnyMorganz/stylua" = "2.5.2"
-"github:rvben/rumdl" = "0.2.4"
+"github:rvben/rumdl" = "0.2.5"
 
 
 [tasks]
