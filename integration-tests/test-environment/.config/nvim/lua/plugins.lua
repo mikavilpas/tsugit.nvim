@@ -17,7 +17,7 @@ local plugins = {
     -- your current neovim instance
     "https://github.com/willothy/flatten.nvim",
     -- renovate: datasource=git-refs packageName=https://github.com/willothy/flatten.nvim
-    commit = "7252779",
+    commit = "d92ca41e9c330f45c1b854a80c89c8488a9d730c",
     -- Ensure that it runs first to minimize delay when opening file from terminal
     lazy = false,
     priority = 1001,
