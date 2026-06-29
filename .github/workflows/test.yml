@@ -8,9 +8,29 @@ on:
 
 permissions:
   contents: read
+
+env:
+  # renovate: datasource=git-refs-master packageName=https://github.com/neovim/neovim
+  NEOVIM_NIGHTLY_COMMIT: 7945732ed7bb211f91112292a13b51fc3182599b
+
 jobs:
+  build-neovim-nightly:
+    name: Build pinned Neovim nightly
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          persist-credentials: false
+      - name: Build pinned Neovim nightly
+        uses: mikavilpas/neovim-action/build-nightly@ef04210e60a28317d442169fbccdaa010cf90b88 # v3.2.2
+        with:
+          commit: ${{ env.NEOVIM_NIGHTLY_COMMIT }}
+
   build:
     name: Run tests
+    needs: build-neovim-nightly
     runs-on: ubuntu-24.04
     strategy:
       matrix:
@@ -24,11 +44,21 @@ jobs:
         run: |
           echo "no dependencies to install"
 
-      - name: Run tests
-        uses: nvim-neorocks/nvim-busted-action@bbcfe82d35b8fb4660ef6ed4124e1fd9cef4688b # v1.2.0
+      - name: Download pinned Neovim nightly
+        if: matrix.neovim_version == 'nightly'
+        uses: mikavilpas/neovim-action/restore-nightly@ef04210e60a28317d442169fbccdaa010cf90b88 # v3.2.2
         with:
-          nvim_version: ${{ matrix.neovim_version }}
-          luarocks_version: "3.11.1"
+          commit: ${{ env.NEOVIM_NIGHTLY_COMMIT }}
+
+      - name: Install stable Neovim
+        if: matrix.neovim_version == 'stable'
+        uses: rhysd/action-setup-vim@febef33995d6649302e9d88dda81e071b68f16a7 # v1.6.1
+        with:
+          neovim: true
+          version: stable
+
+      - name: Run tests
+        uses: mikavilpas/neovim-action/busted@ef04210e60a28317d442169fbccdaa010cf90b88 # v3.2.2
 
       - uses: pnpm/action-setup@0ebf47130e4866e96fce0953f49152a61190b271 # v6.0.9
         with:
