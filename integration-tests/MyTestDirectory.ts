@@ -91,6 +91,10 @@ export const MyTestDirectorySchema = z.object({
           name: z.literal("map_key_to_start_lazygit_in_normal_screen_mode.lua"),
           type: z.literal("file"),
         }),
+        "use_prettierd_for_formatting.lua": z.object({
+          name: z.literal("use_prettierd_for_formatting.lua"),
+          type: z.literal("file"),
+        }),
       }),
     }),
     "dir with spaces": z.object({
@@ -206,6 +210,7 @@ export const testDirectoryFiles = z.enum([
   ".config/nvim_formatting",
   ".config",
   "config-modifications/map_key_to_start_lazygit_in_normal_screen_mode.lua",
+  "config-modifications/use_prettierd_for_formatting.lua",
   "config-modifications",
   "dir with spaces/file1.txt",
   "dir with spaces/file2.txt",
