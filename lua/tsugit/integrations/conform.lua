@@ -149,7 +149,11 @@ function M.setup_conform_prettierd_integration(config)
     )
   end
 
+  -- clear previous autocmds to avoid duplicates when called multiple times (e.g. in tests)
+  local group = vim.api.nvim_create_augroup("tsugit_conform", { clear = true })
+
   vim.api.nvim_create_autocmd("BufEnter", {
+    group = group,
     pattern = "COMMIT_EDITMSG",
     callback = function()
       if config.debug then
@@ -170,6 +174,7 @@ function M.setup_conform_prettierd_integration(config)
   })
 
   vim.api.nvim_create_autocmd("BufWritePre", {
+    group = group,
     pattern = "COMMIT_EDITMSG",
     callback = function(args)
       -- Format the commit message with prettierd, but don't format the

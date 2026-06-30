@@ -51,20 +51,6 @@ vim.list_extend(plugins, {
   -- conform.nvim is the formatter that is used to format the code.
   -- renovate: datasource=github-releases depName=stevearc/conform.nvim
   { "https://github.com/stevearc/conform.nvim", opts = {}, version = "v9.1.0" },
-
-  -- enable the conform.nvim integration that formats COMMIT_EDITMSG files in
-  -- tsugit.nvim
-  {
-    "mikavilpas/tsugit.nvim",
-    ---@type tsugit.UserConfig
-    opts = {
-      integrations = {
-        conform = {
-          formatter = "prettierd",
-        },
-      },
-    },
-  },
 })
 
 require("lazy").setup({ spec = plugins })
