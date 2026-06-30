@@ -1,5 +1,6 @@
 import { flavors } from "@catppuccin/palette"
 import { rgbify, textIsVisibleWithBackgroundColor } from "@tui-sandbox/library"
+
 import {
   assertCurrentBufferName,
   fakeGitRepoFileText,
