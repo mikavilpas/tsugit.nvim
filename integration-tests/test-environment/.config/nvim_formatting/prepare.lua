@@ -9,4 +9,7 @@
 vim.cmd("Lazy! sync")
 
 local command = require("mason.api.command")
-command.MasonInstall({ "prettierd" }, { version = "0.26.1" })
+command.MasonInstall({ "prettierd" }, {
+  -- renovate: datasource=github-releases depName=fsouza/prettierd
+  version = "0.26.1",
+})
