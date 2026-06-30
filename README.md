@@ -27,9 +27,10 @@ powerful.
 - **Autoformatting of commit messages**: If you use
   [conform.nvim](https://github.com/stevearc/conform.nvim), you can
   automatically format your commit messages as markdown on save. It uses
+  [oxfmt](https://oxc.rs/docs/guide/usage/formatter.html) or
   [prettierd](https://github.com/fsouza/prettierd) under the hood for maximum
   speed. See the instructions below:
-  [Autoformatting commit messages with prettierd](#autoformatting-commit-messages-with-prettierd).
+  [Autoformatting commit messages](#autoformatting-commit-messages).
 
 ## 📦 Installation
 
@@ -140,7 +141,9 @@ default. You can enable it with the following config:
 The documentation for this feature can be found in the git docs
 [for verbose=true](https://git-scm.com/docs/git-commit#Documentation/git-commit.txt---verbose).
 
-### Autoformatting commit messages with prettierd
+### Autoformatting commit messages
+
+Both
 
 > [!NOTE]
 >
@@ -149,7 +152,8 @@ The documentation for this feature can be found in the git docs
 
 Instructions:
 
-1. Install [prettierd](https://github.com/fsouza/prettierd) with e.g.
+1. Install [oxfmt](https://oxc.rs/docs/guide/usage/formatter.html) or
+   [prettierd](https://github.com/fsouza/prettierd) with e.g.
    [mason.nvim](https://github.com/mason-org/mason.nvim).
 2. Configure tsugit.nvim to use the conform.nvim integration
 
@@ -160,7 +164,7 @@ Instructions:
      opts = {
        integrations = {
          conform = {
-           formatter = "prettierd",
+           formatter = "prettierd", -- or "oxfmt"
          },
        },
      }
