@@ -126,27 +126,63 @@ local function extract_instructions(buf, comment_char)
 end
 
 ---@param config tsugit.Config
-function M.setup_conform_prettierd_integration(config)
+function M.setup_conform_integration(config)
   local conform = require("conform")
-  conform.setup({
-    formatters = {
-      tsugit_gitcommit = {
-        command = "prettierd",
-        args = {
-          -- provide the filename to the formatter so that it picks the
-          -- markdown language
-          "commit.md",
-          "--print-width=72",
-          "--prose-wrap=always",
+  if config.integrations.conform.formatter == "prettierd" then
+    conform.setup({
+      formatters = {
+        tsugit_gitcommit = {
+          command = "prettierd",
+          args = {
+            -- provide the filename to the formatter so that it picks the
+            -- markdown language
+            "commit.md",
+            "--print-width=72",
+            "--prose-wrap=always",
+          },
         },
       },
-    },
-  })
+    })
+    if config.debug then
+      require("tsugit.debug").add_debug_message(
+        "tsugit: Configured conform with prettierd for git commit messages"
+      )
+    end
+  elseif config.integrations.conform.formatter == "oxfmt" then
+    -- resolve the location of the oxfmt binary - adapted from
+    -- https://github.com/neovim/nvim-lspconfig/blob/master/lsp/oxfmt.lua
+    local cmd = "oxfmt" -- global default
+    local root_dir = vim.lsp.config.oxfmt or {}
+    if type(root_dir) == "string" then
+      local local_cmd = vim.fs.joinpath(root_dir, "node_modules/.bin", cmd)
+      if vim.fn.executable(local_cmd) == 1 then
+        cmd = local_cmd
+      end
+    end
 
-  if config.debug then
-    require("tsugit.debug").add_debug_message(
-      "tsugit: Configured conform with prettierd for git commit messages"
-    )
+    local this_file = vim.fs.normalize(debug.getinfo(1, "S").source:sub(2))
+    local plugin_root = vim.fn.fnamemodify(this_file, ":h:h:h:h")
+    local oxfmt_config_file =
+      vim.fs.joinpath(plugin_root, "assets", "commit.oxfmtrc.json")
+
+    conform.setup({
+      formatters = {
+        tsugit_gitcommit = {
+          command = cmd,
+          args = {
+            "--config",
+            oxfmt_config_file,
+            "--stdin-filepath",
+            "commit.md",
+          },
+        },
+      },
+    })
+    if config.debug then
+      require("tsugit.debug").add_debug_message(
+        "tsugit: Configured conform with oxfmt for git commit messages"
+      )
+    end
   end
 
   -- clear previous autocmds to avoid duplicates when called multiple times (e.g. in tests)

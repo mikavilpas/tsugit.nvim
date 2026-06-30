@@ -13,3 +13,8 @@ command.MasonInstall({ "prettierd" }, {
   -- renovate: datasource=github-releases depName=fsouza/prettierd
   version = "0.27.0",
 })
+
+command.MasonInstall({ "oxfmt" }, {
+  -- renovate: datasource=npm depName=oxfmt
+  version = "0.57.0",
+})
