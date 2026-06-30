@@ -11,7 +11,7 @@ local M = {}
 ---@field integrations? tsugit.IntegrationConfig
 
 ---@class(exact) tsugit.IntegrationConfig
----@field conform? { formatter: "prettierd" } | false # conform.nvim integration. If set to false, the integration is disabled.
+---@field conform? { formatter: "prettierd" | "oxfmt" } | false # conform.nvim integration. If set to false, the integration is disabled.
 
 ---@class(exact) tsugit.Keys
 ---@field toggle? string | false # toggle lazygit on/off without closing it
@@ -107,11 +107,9 @@ M.setup = function(config)
   if
     M.config.integrations
     and M.config.integrations.conform
-    and M.config.integrations.conform.formatter == "prettierd"
+    and M.config.integrations.conform.formatter
   then
-    require("tsugit.integrations.conform").setup_conform_prettierd_integration(
-      M.config
-    )
+    require("tsugit.integrations.conform").setup_conform_integration(M.config)
   end
 end
 
