@@ -74,8 +74,6 @@ jobs:
               https://raw.githubusercontent.com/houseabsolute/ubi/master/bootstrap/bootstrap-ubi.sh |
               TARGET="$HOME/.local/bin" sh
 
-          ubi --project mikefarah/yq
-
           VERSION=$(yq '.tools."github:jesseduffield/lazygit"' mise.toml)
           ubi --project jesseduffield/lazygit --tag "v$VERSION"
         env:
