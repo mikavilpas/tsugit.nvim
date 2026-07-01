@@ -144,3 +144,25 @@ jobs:
           path: integration-tests/cypress/screenshots
           if-no-files-found: ignore # 'warn' or 'error' are also available, defaults to `warn`
           overwrite: true # defaults to `false`, set to `true` to overwrite existing artifacts with the same name
+
+  ci:
+    name: ci
+    if: ${{ always() }}
+    needs:
+      - build-neovim-nightly
+      - busted
+      - build
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+    steps:
+      - name: Verify all required jobs succeeded
+        if: >-
+          ${{
+            contains(needs.*.result, 'failure')
+            || contains(needs.*.result, 'cancelled')
+            || contains(needs.*.result, 'skipped')
+          }}
+        run: |
+          echo "One or more required jobs did not succeed."
+          exit 1
