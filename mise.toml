@@ -2,7 +2,7 @@
 "github:jesseduffield/lazygit" = "0.63.0"
 lua = "5.1"
 "github:JohnnyMorganz/stylua" = "2.5.2"
-"github:rvben/rumdl" = "0.2.28"
+"github:rvben/rumdl" = "0.2.30"
 
 [tasks]
 test = "luarocks test --local"
