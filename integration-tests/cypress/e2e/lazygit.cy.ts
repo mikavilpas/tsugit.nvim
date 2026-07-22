@@ -20,7 +20,7 @@ const lazygit = {
 describe("testing", () => {
   it("can toggle lazygit on/off", () => {
     cy.visit("/")
-    cy.startNeovim({ filename: "fakegitrepo/file.txt" }).then((nvim) => {
+    cy.startNeovim({ filename: "fakegitrepo/file.txt" }).then(nvim => {
       // wait until text on the start screen is visible
       cy.contains(fakeGitRepoFileText)
       initializeGitRepositoryInDirectory()
@@ -46,7 +46,7 @@ describe("testing", () => {
       cy.contains(lazygit.branchesPane).should("not.exist")
 
       // it should not have been closed yet
-      nvim.runExCommand({ command: "messages" }).and((output) => {
+      nvim.runExCommand({ command: "messages" }).and(output => {
         expect(output.value).to.not.include(lazygitWasClosedMessage)
       })
 
@@ -59,7 +59,7 @@ describe("testing", () => {
       cy.typeIntoTerminal("q")
       cy.contains(lazygit.branchesPane).should("not.exist")
 
-      nvim.runExCommand({ command: "messages" }).and((output) => {
+      nvim.runExCommand({ command: "messages" }).and(output => {
         expect(output.value).to.include(lazygitWasClosedMessage)
       })
 
@@ -89,12 +89,9 @@ describe("testing", () => {
 
     cy.startNeovim({
       filename: {
-        openInVerticalSplits: [
-          "fakegitrepo/file.txt",
-          "fakegitrepo/other-file.txt",
-        ],
+        openInVerticalSplits: ["fakegitrepo/file.txt", "fakegitrepo/other-file.txt"],
       },
-    }).then((nvim) => {
+    }).then(nvim => {
       cy.contains(fakeGitRepoFileText)
       initializeGitRepositoryInDirectory()
 
@@ -117,7 +114,7 @@ describe("testing", () => {
   it("can open lazygit after COMMIT_EDITMSG is closed", () => {
     cy.visit("/")
 
-    cy.startNeovim({ filename: "fakegitrepo/file.txt" }).then((nvim) => {
+    cy.startNeovim({ filename: "fakegitrepo/file.txt" }).then(nvim => {
       cy.contains(fakeGitRepoFileText)
       initializeGitRepositoryInDirectory()
       nvim.runExCommand({ command: "e %:h/.git/COMMIT_EDITMSG" })
@@ -132,7 +129,7 @@ describe("testing", () => {
           cwdRelative: "fakegitrepo",
           command: "test -f .git/COMMIT_EDITMSG.backup",
         })
-        .then((result) => {
+        .then(result => {
           assert(result.type === "success")
         })
     })
@@ -143,7 +140,7 @@ describe("testing", () => {
 
     cy.startNeovim({
       filename: "fakegitrepo/file.txt",
-    }).then((nvim) => {
+    }).then(nvim => {
       cy.contains(fakeGitRepoFileText)
       initializeGitRepositoryInDirectory()
 
@@ -180,12 +177,11 @@ describe("testing", () => {
 
     cy.startNeovim({
       filename: "fakegitrepo/file.txt",
-    }).then((nvim) => {
+    }).then(nvim => {
       initializeGitRepositoryInDirectory()
       cy.contains(fakeGitRepoFileText)
       nvim.runBlockingShellCommand({
-        command:
-          "cd fakegitrepo && git add file.txt && git commit -a -m 'initial commit'",
+        command: "cd fakegitrepo && git add file.txt && git commit -a -m 'initial commit'",
       })
       nvim.runBlockingShellCommand({
         command: "cd $HOME/fakegitrepo && echo 'file2-contents' > file2.txt",
@@ -220,12 +216,11 @@ describe("testing", () => {
 
     cy.startNeovim({
       filename: "fakegitrepo/file.txt",
-    }).then((nvim) => {
+    }).then(nvim => {
       initializeGitRepositoryInDirectory()
       cy.contains(fakeGitRepoFileText)
       nvim.runBlockingShellCommand({
-        command:
-          "cd fakegitrepo && git add file.txt && git commit -a -m 'initial commit'",
+        command: "cd fakegitrepo && git add file.txt && git commit -a -m 'initial commit'",
       })
       nvim.runBlockingShellCommand({
         command: "cd $HOME/fakegitrepo && echo 'file2-contents' > file2.txt",
@@ -294,7 +289,7 @@ describe("testing", () => {
 
   it("can force_quit lazygit", () => {
     cy.visit("/")
-    cy.startNeovim({ filename: "fakegitrepo/file.txt" }).then((nvim) => {
+    cy.startNeovim({ filename: "fakegitrepo/file.txt" }).then(nvim => {
       // wait until text on the start screen is visible
       cy.contains(fakeGitRepoFileText)
       initializeGitRepositoryInDirectory()
@@ -334,7 +329,7 @@ describe("testing", () => {
 
       cy.typeIntoTerminal("{rightarrow}")
       cy.contains(lazygit.filesPane).should("not.exist")
-      nvim.runExCommand({ command: "messages" }).and((output) => {
+      nvim.runExCommand({ command: "messages" }).and(output => {
         expect(output.value).to.not.match(/error/i)
         expect(output.value).to.match(/force quitting lazygit/)
       })
@@ -345,7 +340,7 @@ describe("testing", () => {
 describe("toggle_for_file", () => {
   it("opens lazygit in filter mode for the given file", () => {
     cy.visit("/")
-    cy.startNeovim({ filename: "fakegitrepo/file.txt" }).then((nvim) => {
+    cy.startNeovim({ filename: "fakegitrepo/file.txt" }).then(nvim => {
       // wait until text on the start screen is visible
       cy.contains(fakeGitRepoFileText)
       initializeGitRepositoryInDirectory()
@@ -399,10 +394,8 @@ describe("toggle_for_file", () => {
 
     cy.startNeovim({
       filename: "fakegitrepo/file.txt",
-      startupScriptModifications: [
-        "map_key_to_start_lazygit_in_normal_screen_mode.lua",
-      ],
-    }).then((nvim) => {
+      startupScriptModifications: ["map_key_to_start_lazygit_in_normal_screen_mode.lua"],
+    }).then(nvim => {
       initializeGitRepositoryInDirectory()
       cy.contains(fakeGitRepoFileText)
       nvim.runBlockingShellCommand({
@@ -421,7 +414,7 @@ describe("toggle_for_file", () => {
 describe("in a git workspace", () => {
   it("by default, opens the current workspace", () => {
     cy.visit("/")
-    cy.startNeovim({}).then((nvim) => {
+    cy.startNeovim({}).then(nvim => {
       // set up a git workspace
       nvim.runBlockingShellCommand({
         command: "./create-workspaces.sh",
@@ -431,8 +424,7 @@ describe("in a git workspace", () => {
       // test: opening tsugit in a file in a workspace opens lazygit in that
       // workspace (not the workspace root)
       nvim.runExCommand({
-        command:
-          "e %:h/workspace-test/my-repo/workspaces/workspace1/workspace1.txt",
+        command: "e %:h/workspace-test/my-repo/workspaces/workspace1/workspace1.txt",
       })
       cy.contains("This is workspace 1")
       cy.typeIntoTerminal("{rightarrow}")

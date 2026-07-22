@@ -3,35 +3,26 @@ import type { RunLuaCodeOutput } from "@tui-sandbox/library/server"
 import type { MyTestDirectoryFile } from "../../MyTestDirectory.js"
 import type { NeovimContext } from "../support/tui-sandbox.js"
 
-export const fakeGitRepoFileText =
-  "fake-git-repository-file-contents-71f64aabd056"
+export const fakeGitRepoFileText = "fake-git-repository-file-contents-71f64aabd056"
 
 export const lazygitWasClosedMessage = "tsugit.nvim: lazygit closed for"
 
-export function initializeGitRepositoryInDirectory(
-  relativePath: MyTestDirectoryFile = "fakegitrepo",
-): void {
+export function initializeGitRepositoryInDirectory(relativePath: MyTestDirectoryFile = "fakegitrepo"): void {
   cy.nvim_runBlockingShellCommand({
     command: `git init`,
     cwdRelative: relativePath,
-  }).and((result) => {
+  }).and(result => {
     assert(result.type === "success", "Failed to initialize git repository")
   })
 }
 
-export function assertCurrentBufferName(
-  name: MyTestDirectoryFile,
-): Cypress.Chainable<RunLuaCodeOutput> {
-  return cy
-    .nvim_runLuaCode({ luaCode: `return vim.api.nvim_buf_get_name(0)` })
-    .then((result) => {
-      expect(result.value).to.match(new RegExp(name))
-    })
+export function assertCurrentBufferName(name: MyTestDirectoryFile): Cypress.Chainable<RunLuaCodeOutput> {
+  return cy.nvim_runLuaCode({ luaCode: `return vim.api.nvim_buf_get_name(0)` }).then(result => {
+    expect(result.value).to.match(new RegExp(name))
+  })
 }
 
-export function waitForFormattingToHaveCompleted(
-  nvim: NeovimContext,
-): Cypress.Chainable<RunLuaCodeOutput> {
+export function waitForFormattingToHaveCompleted(nvim: NeovimContext): Cypress.Chainable<RunLuaCodeOutput> {
   return nvim.waitForLuaCode({
     luaAssertion: `assert (_G.tsugit_formatting_done == true)`,
   })
