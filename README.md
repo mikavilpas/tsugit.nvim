@@ -1,8 +1,7 @@
 # ⚡ A blazingly fast [lazygit](https://github.com/jesseduffield/lazygit) + Neovim integration
 
-[Lazygit](https://github.com/jesseduffield/lazygit) is a powerful terminal UI
-for git. tsugit is a Neovim plugin I built for myself to make it even more
-powerful.
+[Lazygit](https://github.com/jesseduffield/lazygit) is a powerful terminal UI for git. tsugit is a Neovim plugin I built
+for myself to make it even more powerful.
 
 > _tsugit_ is a blend of the words tsugi (次, Japanese for "next") and git
 
@@ -13,24 +12,18 @@ powerful.
 
 ## ✨ Features
 
-- **Blazingly fast**: No more waiting for lazygit to start up. After starting it
-  once, it's always running in the background.
-  - When you quit lazygit (default lazygit key: `q`), it's automatically
-    restarted in the background.
-  - Alternatively, toggle lazygit on/off. Instantly bring it back with the same
-    key.
+- **Blazingly fast**: No more waiting for lazygit to start up. After starting it once, it's always running in the
+  background.
+  - When you quit lazygit (default lazygit key: `q`), it's automatically restarted in the background.
+  - Alternatively, toggle lazygit on/off. Instantly bring it back with the same key.
   - Kill lazygit (in case it gets stuck) with `<c-c>` by default.
-- **Seamless integration**: Use lazygit as if it's a part of Neovim. No extra
-  applications are required.
+- **Seamless integration**: Use lazygit as if it's a part of Neovim. No extra applications are required.
   - You can edit files in Neovim while lazygit is open.
   - See below for 🎁 Goodies on how to write commit messages in Neovim.
-- **Autoformatting of commit messages**: If you use
-  [conform.nvim](https://github.com/stevearc/conform.nvim), you can
+- **Autoformatting of commit messages**: If you use [conform.nvim](https://github.com/stevearc/conform.nvim), you can
   automatically format your commit messages as markdown on save. It uses
-  [oxfmt](https://oxc.rs/docs/guide/usage/formatter.html) or
-  [prettierd](https://github.com/fsouza/prettierd) under the hood for maximum
-  speed. See the instructions below:
-  [Autoformatting commit messages](#autoformatting-commit-messages).
+  [oxfmt](https://oxc.rs/docs/guide/usage/formatter.html) or [prettierd](https://github.com/fsouza/prettierd) under the
+  hood for maximum speed. See the instructions below: [Autoformatting commit messages](#autoformatting-commit-messages).
 
 ## 📦 Installation
 
@@ -95,8 +88,7 @@ return {
 
 See
 [permalink to my personal config](https://github.com/mikavilpas/dotfiles/blob/8bbd50dd96cfd891e0c1ea24c96b4270ff84cb7e/.config/nvim/lua/plugins/git.lua#L45-L48)
-or the
-[latest version](https://github.com/mikavilpas/dotfiles/blob/main/.config/nvim/lua/plugins/git.lua?plain=1)
+or the [latest version](https://github.com/mikavilpas/dotfiles/blob/main/.config/nvim/lua/plugins/git.lua?plain=1)
 
 ## 🎁 Goodies
 
@@ -104,13 +96,13 @@ These are cool features that can be enabled manually with a bit of extra work.
 
 > [!TIP]
 >
-> I'm looking for a way to make it easier to integrate these features. For now,
-> you can add these manually to your config.
+> I'm looking for a way to make it easier to integrate these features. For now, you can add these manually to your
+> config.
 
 ### Write commit messages in Neovim
 
-With the following config, lazygit uses the parent nvim to edit commit messages.
-`:bd[elete]` when you are done to return to lazygit.
+With the following config, lazygit uses the parent nvim to edit commit messages. `:bd[elete]` when you are done to
+return to lazygit.
 
 When using lazygit outside of Neovim, lazygit will open a new Neovim instance.
 
@@ -124,13 +116,11 @@ os:
 
 ### AI assisted commit messages in Neovim
 
-If you use an AI assistant that can complete text in Neovim, you can use it to
-write commit messages. It should get activated automatically when you follow
-[the previous step](#write-commit-messages-in-neovim).
+If you use an AI assistant that can complete text in Neovim, you can use it to write commit messages. It should get
+activated automatically when you follow [the previous step](#write-commit-messages-in-neovim).
 
-I also recommend giving the assistant more context by providing the full diff of
-the change as text. This feature is built-in to git, but it's not enabled by
-default. You can enable it with the following config:
+I also recommend giving the assistant more context by providing the full diff of the change as text. This feature is
+built-in to git, but it's not enabled by default. You can enable it with the following config:
 
 ```gitconfig
 # /Users/mikavilpas/.gitconfig
@@ -147,14 +137,12 @@ Both
 
 > [!NOTE]
 >
-> The first and second lines of the commit message are not formatted to make
-> sure they are always valid.
+> The first and second lines of the commit message are not formatted to make sure they are always valid.
 
 Instructions:
 
-1. Install [oxfmt](https://oxc.rs/docs/guide/usage/formatter.html) or
-   [prettierd](https://github.com/fsouza/prettierd) with e.g.
-   [mason.nvim](https://github.com/mason-org/mason.nvim).
+1. Install [oxfmt](https://oxc.rs/docs/guide/usage/formatter.html) or [prettierd](https://github.com/fsouza/prettierd)
+   with e.g. [mason.nvim](https://github.com/mason-org/mason.nvim).
 2. Configure tsugit.nvim to use the conform.nvim integration
 
    ```lua
@@ -172,13 +160,11 @@ Instructions:
 
 <https://github.com/user-attachments/assets/c00be1fd-d7f9-41d9-a2f4-ae742c3c0a87>
 
-See here how it's done in the e2e tests that use
-[tui-sandbox](https://github.com/mikavilpas/tui-sandbox):
+See here how it's done in the e2e tests that use [tui-sandbox](https://github.com/mikavilpas/tui-sandbox):
 
-- [init.lua](integration-tests/test-environment/.config/nvim_formatting/init.lua)
-  for configuring tsugit.nvim and conform.nvim
-- [prepare.lua](integration-tests/test-environment/.config/nvim_formatting/prepare.lua)
-  for installing prettierd
+- [init.lua](integration-tests/test-environment/.config/nvim_formatting/init.lua) for configuring tsugit.nvim and
+  conform.nvim
+- [prepare.lua](integration-tests/test-environment/.config/nvim_formatting/prepare.lua) for installing prettierd
 
 ### Lazygit color scheme (💤 lazygit feature)
 
@@ -186,8 +172,7 @@ See here how it's done in the e2e tests that use
 >
 > This is a lazygit feature and not related to tsugit.nvim.
 
-- Themes available on Github:
-  <https://github.com/search?q=lazygit%20theme&type=repositories>
+- Themes available on Github: <https://github.com/search?q=lazygit%20theme&type=repositories>
 - My personal favorite: <https://github.com/catppuccin/lazygit>
   ![lazygit colorscheme preview](https://raw.githubusercontent.com/catppuccin/lazygit/refs/heads/main/assets/preview.webp)
 

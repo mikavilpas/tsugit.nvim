@@ -1,17 +1,9 @@
-import type {
-  MyStartNeovimServerArguments,
-  NeovimContext,
-} from "../../support/tui-sandbox.ts"
-import {
-  initializeGitRepositoryInDirectory,
-  waitForFormattingToHaveCompleted,
-} from "../test-utils.js"
+import type { MyStartNeovimServerArguments, NeovimContext } from "../../support/tui-sandbox.ts"
+import { initializeGitRepositoryInDirectory, waitForFormattingToHaveCompleted } from "../test-utils.js"
 
 const fakeGitRepoFileText = "fake-git-repository-file-contents-71f64aabd056"
 
-const startNeovimWithPrettierd = (
-  args?: MyStartNeovimServerArguments,
-): Cypress.Chainable<NeovimContext> =>
+const startNeovimWithPrettierd = (args?: MyStartNeovimServerArguments): Cypress.Chainable<NeovimContext> =>
   cy.startNeovim({
     ...args,
     startupScriptModifications: ["use_prettierd_for_formatting.lua"],
@@ -24,7 +16,7 @@ describe("conform integration for commit message formatting", () => {
     startNeovimWithPrettierd({
       filename: "fakegitrepo/file.txt",
       NVIM_APPNAME: "nvim_formatting",
-    }).then((nvim) => {
+    }).then(nvim => {
       cy.contains(fakeGitRepoFileText)
       initializeGitRepositoryInDirectory()
       nvim.runBlockingShellCommand({
@@ -80,7 +72,7 @@ describe("conform integration for commit message formatting", () => {
     startNeovimWithPrettierd({
       filename: "fakegitrepo/file.txt",
       NVIM_APPNAME: "nvim_formatting",
-    }).then((nvim) => {
+    }).then(nvim => {
       cy.contains(fakeGitRepoFileText)
       initializeGitRepositoryInDirectory()
       nvim.runBlockingShellCommand({
@@ -118,20 +110,14 @@ describe("conform integration for commit message formatting", () => {
         .system()
         .should(
           "equal",
-          [
-            "test",
-            "",
-            "- list",
-            "",
-            "; Please enter the commit message for your changes. Lines starting",
-            "",
-          ].join("\n"),
+          ["test", "", "- list", "", "; Please enter the commit message for your changes. Lines starting", ""].join(
+            "\n",
+          ),
         )
     })
   })
 
-  const longSubject =
-    "chore: this is a very long subject line that should not be wrapped by the formatter"
+  const longSubject = "chore: this is a very long subject line that should not be wrapped by the formatter"
   assert(longSubject.length > 72)
 
   it("formats in long mode when the commit subject is long", () => {
@@ -140,7 +126,7 @@ describe("conform integration for commit message formatting", () => {
     startNeovimWithPrettierd({
       filename: "fakegitrepo/file.txt",
       NVIM_APPNAME: "nvim_formatting",
-    }).then((nvim) => {
+    }).then(nvim => {
       cy.contains(fakeGitRepoFileText)
       initializeGitRepositoryInDirectory()
       nvim.runBlockingShellCommand({
@@ -172,9 +158,7 @@ describe("conform integration for commit message formatting", () => {
       waitForFormattingToHaveCompleted(nvim)
 
       nvim.runExCommand({ command: `1,3yank` })
-      nvim.clipboard
-        .system()
-        .should("equal", [longSubject, " ", "- list", ""].join("\n"))
+      nvim.clipboard.system().should("equal", [longSubject, " ", "- list", ""].join("\n"))
     })
   })
 
@@ -183,8 +167,7 @@ describe("conform integration for commit message formatting", () => {
     // "Fixes: <long-url>" line at the space after "Fixes:", breaking
     // GitHub's closing-keyword linking. The conform integration extracts
     // the trailer block before prettier runs and re-appends it intact.
-    const trailerUrl =
-      "https://example.com/very-long-organization-name/some-repo/issues/12345-long-slug"
+    const trailerUrl = "https://example.com/very-long-organization-name/some-repo/issues/12345-long-slug"
     const trailerLine = `Fixes: ${trailerUrl}`
     assert(trailerLine.length > 72)
 
@@ -193,7 +176,7 @@ describe("conform integration for commit message formatting", () => {
     startNeovimWithPrettierd({
       filename: "fakegitrepo/file.txt",
       NVIM_APPNAME: "nvim_formatting",
-    }).then((nvim) => {
+    }).then(nvim => {
       cy.contains(fakeGitRepoFileText)
       initializeGitRepositoryInDirectory()
       nvim.runBlockingShellCommand({
@@ -221,12 +204,7 @@ describe("conform integration for commit message formatting", () => {
       waitForFormattingToHaveCompleted(nvim)
 
       nvim.runExCommand({ command: `1,6yank` })
-      nvim.clipboard
-        .system()
-        .should(
-          "equal",
-          ["test subject", "", "body text", "", trailerLine, "", ""].join("\n"),
-        )
+      nvim.clipboard.system().should("equal", ["test subject", "", "body text", "", trailerLine, "", ""].join("\n"))
     })
   })
 
@@ -234,10 +212,8 @@ describe("conform integration for commit message formatting", () => {
     // Git trailer blocks can contain multiple lines (Fixes:, Signed-off-by:,
     // Co-authored-by:, etc.). The whole last paragraph should be protected
     // as a unit — every line must match the trailer pattern.
-    const fixesLine =
-      "Fixes: https://example.com/very-long-organization-name/some-repo/issues/12345-long-slug"
-    const coauthorLine =
-      "Co-authored-by: Alice Example <alice@very-long-organization-name.example.com>"
+    const fixesLine = "Fixes: https://example.com/very-long-organization-name/some-repo/issues/12345-long-slug"
+    const coauthorLine = "Co-authored-by: Alice Example <alice@very-long-organization-name.example.com>"
     assert(fixesLine.length > 72)
     assert(coauthorLine.length > 72)
 
@@ -246,7 +222,7 @@ describe("conform integration for commit message formatting", () => {
     startNeovimWithPrettierd({
       filename: "fakegitrepo/file.txt",
       NVIM_APPNAME: "nvim_formatting",
-    }).then((nvim) => {
+    }).then(nvim => {
       cy.contains(fakeGitRepoFileText)
       initializeGitRepositoryInDirectory()
       nvim.runBlockingShellCommand({
@@ -272,19 +248,7 @@ describe("conform integration for commit message formatting", () => {
       nvim.runExCommand({ command: `1,7yank` })
       nvim.clipboard
         .system()
-        .should(
-          "equal",
-          [
-            "test subject",
-            "",
-            "body text",
-            "",
-            fixesLine,
-            coauthorLine,
-            "",
-            "",
-          ].join("\n"),
-        )
+        .should("equal", ["test subject", "", "body text", "", fixesLine, coauthorLine, "", ""].join("\n"))
     })
   })
 
@@ -293,8 +257,7 @@ describe("conform integration for commit message formatting", () => {
     // had its own trailer, the resulting message can contain trailer lines
     // in the middle — not just at the end. Those middle trailers should
     // also survive prettier's prose wrap so GitHub's keyword linking works.
-    const trailerLine =
-      "Fixes: https://example.com/very-long-organization-name/some-repo/issues/12345-long-slug"
+    const trailerLine = "Fixes: https://example.com/very-long-organization-name/some-repo/issues/12345-long-slug"
     assert(trailerLine.length > 72)
 
     cy.visit("/")
@@ -302,7 +265,7 @@ describe("conform integration for commit message formatting", () => {
     startNeovimWithPrettierd({
       filename: "fakegitrepo/file.txt",
       NVIM_APPNAME: "nvim_formatting",
-    }).then((nvim) => {
+    }).then(nvim => {
       cy.contains(fakeGitRepoFileText)
       initializeGitRepositoryInDirectory()
       nvim.runBlockingShellCommand({
@@ -324,9 +287,7 @@ describe("conform integration for commit message formatting", () => {
 
       // assert the current line of the cursor
       const expectedLine = "8" as const
-      nvim
-        .runExCommand({ command: "echo line('.')" })
-        .should("eql", { value: expectedLine })
+      nvim.runExCommand({ command: "echo line('.')" }).should("eql", { value: expectedLine })
 
       cy.typeIntoTerminal(":w{enter}")
 
@@ -337,23 +298,13 @@ describe("conform integration for commit message formatting", () => {
         .system()
         .should(
           "equal",
-          [
-            "squash subject",
-            "",
-            "first sub-message body",
-            "",
-            trailerLine,
-            "",
-            "second sub-message body",
-            "",
-            "",
-          ].join("\n"),
+          ["squash subject", "", "first sub-message body", "", trailerLine, "", "second sub-message body", "", ""].join(
+            "\n",
+          ),
         )
 
       // the cursor must be on the same line as before formatting
-      nvim
-        .runExCommand({ command: "echo line('.')" })
-        .should("eql", { value: expectedLine })
+      nvim.runExCommand({ command: "echo line('.')" }).should("eql", { value: expectedLine })
     })
   })
 
@@ -365,20 +316,14 @@ describe("conform integration for commit message formatting", () => {
     // instructions and snip the buffer mid-fence — prettier then sees
     // an unclosed fence and auto-closes it, and the `#` line ends up
     // outside any fence, rendering as a markdown heading.
-    const commitLines = [
-      "subject",
-      "",
-      "```sh",
-      "# comment inside fenced code block",
-      "```",
-    ]
+    const commitLines = ["subject", "", "```sh", "# comment inside fenced code block", "```"]
 
     cy.visit("/")
 
     startNeovimWithPrettierd({
       filename: "fakegitrepo/file.txt",
       NVIM_APPNAME: "nvim_formatting",
-    }).then((nvim) => {
+    }).then(nvim => {
       cy.contains(fakeGitRepoFileText)
       initializeGitRepositoryInDirectory()
       nvim.runBlockingShellCommand({
@@ -394,7 +339,7 @@ describe("conform integration for commit message formatting", () => {
       })
       cy.contains("# Please enter the commit message for your changes.")
 
-      const luaTable = commitLines.map((l) => JSON.stringify(l)).join(", ")
+      const luaTable = commitLines.map(l => JSON.stringify(l)).join(", ")
       nvim.runLuaCode({
         luaCode: `vim.api.nvim_buf_set_lines(0, 0, 0, false, { ${luaTable} })`,
       })
