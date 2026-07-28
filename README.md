@@ -69,7 +69,7 @@ return {
       -- when lazygit is open and focused, kill it and warm up the next
       -- instance
       force_quit = "<c-c>",
-    }
+    },
     debug = false, -- set to true to enable debug logging
 
     integrations = {
