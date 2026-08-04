@@ -1,8 +1,8 @@
 [tools]
-"github:jesseduffield/lazygit" = "0.63.1"
+"github:jesseduffield/lazygit" = "0.64.0"
 lua = "5.1"
 "github:JohnnyMorganz/stylua" = "2.5.2"
-"github:rvben/rumdl" = "0.2.49"
+"github:rvben/rumdl" = "0.2.50"
 
 [tasks]
 test = "luarocks test --local"
