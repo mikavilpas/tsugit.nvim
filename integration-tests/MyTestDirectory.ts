@@ -21,64 +21,35 @@ export const MyTestDirectorySchema = z.object({
         git: z.object({
           name: z.literal("git/"),
           type: z.literal("directory"),
-          contents: z.object({
-            config: z.object({
-              name: z.literal("config"),
-              type: z.literal("file"),
-            }),
-          }),
+          contents: z.object({ config: z.object({ name: z.literal("config"), type: z.literal("file") }) }),
         }),
         lazygit: z.object({
           name: z.literal("lazygit/"),
           type: z.literal("directory"),
-          contents: z.object({
-            "config.yml": z.object({
-              name: z.literal("config.yml"),
-              type: z.literal("file"),
-            }),
-          }),
+          contents: z.object({ "config.yml": z.object({ name: z.literal("config.yml"), type: z.literal("file") }) }),
         }),
         nvim: z.object({
           name: z.literal("nvim/"),
           type: z.literal("directory"),
           contents: z.object({
-            "init.lua": z.object({
-              name: z.literal("init.lua"),
-              type: z.literal("file"),
-            }),
+            "init.lua": z.object({ name: z.literal("init.lua"), type: z.literal("file") }),
             lua: z.object({
               name: z.literal("lua/"),
               type: z.literal("directory"),
               contents: z.object({
-                "plugins.lua": z.object({
-                  name: z.literal("plugins.lua"),
-                  type: z.literal("file"),
-                }),
+                "plugins.lua": z.object({ name: z.literal("plugins.lua"), type: z.literal("file") }),
               }),
             }),
-            "prepare.lua": z.object({
-              name: z.literal("prepare.lua"),
-              type: z.literal("file"),
-            }),
+            "prepare.lua": z.object({ name: z.literal("prepare.lua"), type: z.literal("file") }),
           }),
         }),
         nvim_formatting: z.object({
           name: z.literal("nvim_formatting/"),
           type: z.literal("directory"),
           contents: z.object({
-            "init.lua": z.object({
-              name: z.literal("init.lua"),
-              type: z.literal("file"),
-            }),
-            lua: z.object({
-              name: z.literal("lua/"),
-              type: z.literal("directory"),
-              contents: z.object({}),
-            }),
-            "prepare.lua": z.object({
-              name: z.literal("prepare.lua"),
-              type: z.literal("file"),
-            }),
+            "init.lua": z.object({ name: z.literal("init.lua"), type: z.literal("file") }),
+            lua: z.object({ name: z.literal("lua/"), type: z.literal("directory"), contents: z.object({}) }),
+            "prepare.lua": z.object({ name: z.literal("prepare.lua"), type: z.literal("file") }),
           }),
         }),
       }),
@@ -105,50 +76,26 @@ export const MyTestDirectorySchema = z.object({
       name: z.literal("dir with spaces/"),
       type: z.literal("directory"),
       contents: z.object({
-        "file1.txt": z.object({
-          name: z.literal("file1.txt"),
-          type: z.literal("file"),
-        }),
-        "file2.txt": z.object({
-          name: z.literal("file2.txt"),
-          type: z.literal("file"),
-        }),
+        "file1.txt": z.object({ name: z.literal("file1.txt"), type: z.literal("file") }),
+        "file2.txt": z.object({ name: z.literal("file2.txt"), type: z.literal("file") }),
       }),
     }),
     fakegitrepo: z.object({
       name: z.literal("fakegitrepo/"),
       type: z.literal("directory"),
       contents: z.object({
-        "file.txt": z.object({
-          name: z.literal("file.txt"),
-          type: z.literal("file"),
-        }),
-        "other-file.txt": z.object({
-          name: z.literal("other-file.txt"),
-          type: z.literal("file"),
-        }),
+        "file.txt": z.object({ name: z.literal("file.txt"), type: z.literal("file") }),
+        "other-file.txt": z.object({ name: z.literal("other-file.txt"), type: z.literal("file") }),
       }),
     }),
-    "file.txt": z.object({
-      name: z.literal("file.txt"),
-      type: z.literal("file"),
-    }),
-    "initial-file.txt": z.object({
-      name: z.literal("initial-file.txt"),
-      type: z.literal("file"),
-    }),
-    "integration-tests.log": z.object({
-      name: z.literal("integration-tests.log"),
-      type: z.literal("file"),
-    }),
+    "file.txt": z.object({ name: z.literal("file.txt"), type: z.literal("file") }),
+    "initial-file.txt": z.object({ name: z.literal("initial-file.txt"), type: z.literal("file") }),
+    "integration-tests.log": z.object({ name: z.literal("integration-tests.log"), type: z.literal("file") }),
     "other-subdirectory": z.object({
       name: z.literal("other-subdirectory/"),
       type: z.literal("directory"),
       contents: z.object({
-        "other-sub-file.txt": z.object({
-          name: z.literal("other-sub-file.txt"),
-          type: z.literal("file"),
-        }),
+        "other-sub-file.txt": z.object({ name: z.literal("other-sub-file.txt"), type: z.literal("file") }),
       }),
     }),
     routes: z.object({
@@ -159,10 +106,7 @@ export const MyTestDirectorySchema = z.object({
           name: z.literal("posts.$postId/"),
           type: z.literal("directory"),
           contents: z.object({
-            "adjacent-file.txt": z.object({
-              name: z.literal("adjacent-file.txt"),
-              type: z.literal("file"),
-            }),
+            "adjacent-file.txt": z.object({ name: z.literal("adjacent-file.txt"), type: z.literal("file") }),
           }),
         }),
       }),
@@ -171,20 +115,14 @@ export const MyTestDirectorySchema = z.object({
       name: z.literal("subdirectory/"),
       type: z.literal("directory"),
       contents: z.object({
-        "subdirectory-file.txt": z.object({
-          name: z.literal("subdirectory-file.txt"),
-          type: z.literal("file"),
-        }),
+        "subdirectory-file.txt": z.object({ name: z.literal("subdirectory-file.txt"), type: z.literal("file") }),
       }),
     }),
     "workspace-test": z.object({
       name: z.literal("workspace-test/"),
       type: z.literal("directory"),
       contents: z.object({
-        "create-workspaces.sh": z.object({
-          name: z.literal("create-workspaces.sh"),
-          type: z.literal("file"),
-        }),
+        "create-workspaces.sh": z.object({ name: z.literal("create-workspaces.sh"), type: z.literal("file") }),
       }),
     }),
   }),
