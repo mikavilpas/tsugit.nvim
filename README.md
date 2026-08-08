@@ -191,5 +191,5 @@ You can see it being used in the main demo.
 
 - Delta documentation: <https://github.com/dandavison/delta>
 - Lazygit documentation for Custom_Pagers:
-  <https://github.com/jesseduffield/lazygit/blob/master/docs/Custom_Pagers.md#delta>
+  <https://github.com/jesseduffield/lazygit/blob/master/docs/Custom_DiffRenderers.md#delta>
 - Catppuccin delta colorscheme: <https://github.com/catppuccin/delta>
