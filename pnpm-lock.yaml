@@ -45,8 +45,8 @@ importers:
         specifier: 7.0.2001
         version: 7.0.2001
       tsx:
-        specifier: 4.23.6
-        version: 4.23.6
+        specifier: 4.23.7
+        version: 4.23.7
       type-fest:
         specifier: 5.8.0
         version: 5.8.0
@@ -1539,8 +1539,8 @@ packages:
     engines: {node: '>=18.0.0'}
     hasBin: true
 
-  tsx@4.23.6:
-    resolution: {integrity: sha512-D/YYGUDqKlLvXhM5fBBbiENaGICxLfU4viHnZEkgmgplnDFa+Kczy34VV7AmLJgdzisv0I/J3zitfC26JH3GXg==}
+  tsx@4.23.7:
+    resolution: {integrity: sha512-3f/u/+UDCNQ7iwUZW9FCMnNGIHzElGJYh0S/yy8IvWSsn5O7fEO/897FaG7FA2W8yryiRyuwXZ1PYLAKYaqSuQ==}
     engines: {node: '>=18.0.0'}
     hasBin: true
 
@@ -2909,7 +2909,7 @@ snapshots:
     optionalDependencies:
       fsevents: 2.3.3
 
-  tsx@4.23.6:
+  tsx@4.23.7:
     dependencies:
       esbuild: 0.28.1
     optionalDependencies:
