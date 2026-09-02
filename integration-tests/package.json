@@ -19,7 +19,7 @@
     "eslint-plugin-no-only-tests": "3.4.0",
     "oxlint": "1.80.0",
     "oxlint-tsgolint": "7.0.2001",
-    "tsx": "4.23.12",
+    "tsx": "4.23.13",
     "type-fest": "5.8.0",
     "typescript": "7.0.2",
     "wait-on": "9.1.0",
