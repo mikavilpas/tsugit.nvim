@@ -15,7 +15,7 @@ env:
 
 jobs:
   build-neovim-nightly:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     steps:
       - uses: mikavilpas/neovim-action/build-nightly@4f1c9a2235ee7428930602c0ba3e4f20377b61d8 # v3.3.0
         with:
@@ -23,7 +23,7 @@ jobs:
 
   busted:
     name: "Busted / ${{ matrix.neovim_version }}"
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     needs: build-neovim-nightly
     strategy:
       fail-fast: false
@@ -67,7 +67,7 @@ jobs:
   build:
     name: e2e / ${{ matrix.neovim_version }}
     needs: build-neovim-nightly
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     strategy:
       matrix:
         neovim_version: ["nightly", "stable"]
@@ -152,7 +152,7 @@ jobs:
       - build-neovim-nightly
       - busted
       - build
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
     steps:
