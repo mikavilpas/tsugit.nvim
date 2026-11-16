@@ -17,7 +17,7 @@
   },
   "devDependencies": {
     "@mikavilpas/oxfmt-config": "3.0.3",
-    "oxfmt": "0.75.0"
+    "oxfmt": "0.78.0"
   },
-  "packageManager": "pnpm@12.16.1"
+  "packageManager": "pnpm@12.20.0"
 }
