@@ -7,7 +7,7 @@ on:
 
 env:
   # renovate: datasource=npm depName=semantic-release
-  SEMANTIC_RELEASE_VERSION: 25.0.9
+  SEMANTIC_RELEASE_VERSION: 26.0.1
 
 permissions:
   contents: write
