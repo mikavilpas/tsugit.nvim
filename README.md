@@ -143,6 +143,7 @@ Instructions:
 
 1. Install [oxfmt](https://oxc.rs/docs/guide/usage/formatter.html) or [prettierd](https://github.com/fsouza/prettierd)
    with e.g. [mason.nvim](https://github.com/mason-org/mason.nvim).
+
 2. Configure tsugit.nvim to use the conform.nvim integration
 
    ```lua
