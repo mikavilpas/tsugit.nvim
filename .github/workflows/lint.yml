@@ -34,7 +34,7 @@ jobs:
         run: |
           version=$(yq '.tools."github:rvben/rumdl"' mise.toml)
           echo "version=$version" >> "$GITHUB_OUTPUT"
-      - uses: rvben/rumdl@0d3d6e4f07c585a9433df162949ca0fe280a40dd # v0
+      - uses: rvben/rumdl@ba563d6780c6119bd526c869a730b492c1ad54e5 # v0
         with:
           version: ${{  steps.read-rumdl-version.outputs.version }}
 
